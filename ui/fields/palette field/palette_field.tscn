@@ -1,0 +1,93 @@
+[gd_scene load_steps=8 format=3 uid="uid://btjotc720lyxd"]
+
+[ext_resource type="PackedScene" uid="uid://xa6av42x8erd" path="res://ui/fields/base field/field.tscn" id="1_x23c8"]
+[ext_resource type="Script" path="res://ui/fields/palette field/palette_field.gd" id="2_560la"]
+[ext_resource type="PackedScene" uid="uid://dv5u2gutb4uqn" path="res://ui/fields/palette field color block/palette_field_color_block.tscn" id="2_k2iqx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnd2h"]
+bg_color = Color(0.0807833, 0.0807834, 0.0807832, 1)
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="Gradient" id="Gradient_j113o"]
+colors = PackedColorArray(0, 0, 0, 1, 1, 0.497615, 0.300867, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_w6i2o"]
+gradient = SubResource("Gradient_j113o")
+width = 129
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ptrqr"]
+
+[node name="PaletteField" instance=ExtResource("1_x23c8")]
+anchor_right = 0.43
+anchor_bottom = 0.032
+offset_right = -0.600037
+offset_bottom = 0.440002
+script = ExtResource("2_560la")
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Panel" type="Panel" parent="MarginContainer" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mnd2h")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("GradientTexture1D_w6i2o")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer" index="2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer2" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ptrqr")
+flat = true
+
+[node name="Blocks" type="Control" parent="MarginContainer" index="3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="PaletteFieldColorBlock" parent="MarginContainer/Blocks" index="0" instance=ExtResource("2_k2iqx")]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 400.0
+offset_right = 412.0
+offset_bottom = 24.0
+offset = 0.357
+color = Color(0.521569, 0.603922, 0.807843, 1)
+
+[node name="PaletteFieldColorBlock2" parent="MarginContainer/Blocks" index="1" instance=ExtResource("2_k2iqx")]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 400.0
+offset_right = 412.0
+offset_bottom = 24.0
+color = Color(0.360784, 0.556863, 1, 1)
+
+[node name="Label" type="Label" parent="MarginContainer" index="4"]
+layout_mode = 2
+text = "
+"
+
+[connection signal="button_down" from="MarginContainer/HBoxContainer2/Button" to="." method="_on_button_button_down"]
+[connection signal="mouse_entered" from="MarginContainer/Blocks" to="." method="_on_blocks_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/Blocks" to="." method="_on_blocks_mouse_exited"]

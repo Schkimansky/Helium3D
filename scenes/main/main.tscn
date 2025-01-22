@@ -1,66 +1,325 @@
-[gd_scene load_steps=8 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=22 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
+[ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
 [ext_resource type="Shader" path="res://renderer/renderer.gdshader" id="3_4yvvm"]
 [ext_resource type="Script" path="res://scenes/main/player.gd" id="3_rtqen"]
+[ext_resource type="Theme" uid="uid://cl7n6of7jbsko" path="res://ui/themes/main.tres" id="4_0xw5m"]
+[ext_resource type="Script" path="res://scenes/main/menu_buttons.gd" id="7_4ecmg"]
+[ext_resource type="Texture2D" uid="uid://vaxw4knbtw13" path="res://resources/icons/globe.svg" id="8_m5roq"]
+[ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="8_rhsly"]
+[ext_resource type="PackedScene" uid="uid://cm48vjc7rstpn" path="res://ui/fields/int field/int_field.tscn" id="9_0ej1w"]
+[ext_resource type="Script" path="res://scenes/main/menus_tab_container.gd" id="9_7154d"]
+[ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="9_d1f4f"]
+[ext_resource type="PackedScene" uid="uid://btjotc720lyxd" path="res://ui/fields/palette field/palette_field.tscn" id="11_ynfe2"]
+[ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="12_jiauy"]
 
-[sub_resource type="Gradient" id="Gradient_85xvs"]
-offsets = PackedFloat32Array(0.00414938, 1)
-colors = PackedColorArray(0.637843, 0.637843, 0.637843, 1, 1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_s6aip"]
+colors = PackedColorArray(0.516484, 0.810587, 0.995636, 1, 0.344203, 0.655628, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ifj47"]
-gradient = SubResource("Gradient_85xvs")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ggjc2"]
+gradient = SubResource("Gradient_s6aip")
+
+[sub_resource type="Gradient" id="Gradient_m5ook"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nref8"]
+gradient = SubResource("Gradient_m5ook")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
 render_priority = 0
 shader = ExtResource("3_4yvvm")
-shader_parameter/light1_position = Vector3(1.3, 1.6, -1)
-shader_parameter/light2_position = Vector3(-1.3, -1.6, 1)
-shader_parameter/light1_color = Color(1, 1, 1, 1)
-shader_parameter/light2_color = Color(0, 0.544879, 0.929413, 1)
-shader_parameter/iterations = 12
-shader_parameter/max_steps = 100
-shader_parameter/ambient_light = 2.02
+shader_parameter/light1_position = Vector3(10.3, 10.6, -10)
+shader_parameter/light2_position = Vector3(-10.3, -10.6, 10)
+shader_parameter/light1_color = Color(0.703808, 0.703808, 0.703808, 1)
+shader_parameter/light2_color = Color(0.300477, 0.834981, 0.992184, 1)
+shader_parameter/iterations = 8
+shader_parameter/max_steps = 82
+shader_parameter/ambient_light = 2.0
 shader_parameter/max_distance = 10.0
 shader_parameter/surface_distance = 1e-05
 shader_parameter/raystep_multiplier = 1.0
-shader_parameter/palette = SubResource("GradientTexture1D_ifj47")
-shader_parameter/color = null
+shader_parameter/palette = SubResource("GradientTexture1D_nref8")
 shader_parameter/size = 1.0
-shader_parameter/power = 6.0
+shader_parameter/formula = 4
+shader_parameter/power = 2.0
 shader_parameter/escape_radius = 2.0
-shader_parameter/z_constant = Vector3(1, 0.455, 1)
-shader_parameter/c_constant = Vector3(0, 0, 0)
-shader_parameter/is_c_dynamic = true
-shader_parameter/is_z_dynamic = true
-shader_parameter/zabs = true
-shader_parameter/ao_steps = 6
-shader_parameter/ao_radius = 0.037
+shader_parameter/fjuliabulb_c = Vector3(0.35, 0.35, 0.35)
+shader_parameter/bg_color = SubResource("GradientTexture1D_ggjc2")
+shader_parameter/ambient_occlusion_steps = 6
+shader_parameter/ambient_occlusion_radius = 0.035
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
 shader_parameter/jitter_steps = 1
-shader_parameter/jitter_offset_base = Vector2(0, 0)
+shader_parameter/jitter_offset_base = 0.001
 shader_parameter/frame_offset = Vector2(0, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_qn1xg"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0eucc"]
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
-rotate_speed = 0.0
 
-[node name="GpuFractal" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.754512, 0.589958, -0.287508, 0.559278, -0.807224, -0.188672, -0.343392, -0.0184417, -0.939011, 0.0212185, -0.189857, 0.338328)
+[node name="Fractal" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_pfrgc")
 mesh = SubResource("BoxMesh_bajpv")
 
-[node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(0.344444, 0.334876, -0.87705, 0, 0.934217, 0.356703, 0.938806, -0.122864, 0.321785, -1.94235, 0.440528, 1.57225)
+[node name="SubViewport" type="SubViewport" parent="."]
+unique_name_in_owner = true
+own_world_3d = true
+size = Vector2i(640, 360)
+render_target_clear_mode = 1
+render_target_update_mode = 0
+script = ExtResource("2_2kstx")
+
+[node name="Player" type="CharacterBody3D" parent="SubViewport"]
+transform = Transform3D(-0.937578, 0.024535, 0.346905, 0, 0.997508, -0.0705492, -0.347772, -0.0661454, -0.935242, 0.287967, 0.159045, 0.133954)
 script = ExtResource("3_rtqen")
 
-[node name="Head" type="Node3D" parent="Player"]
+[node name="Head" type="Node3D" parent="SubViewport/Player"]
 
-[node name="Camera" type="Camera3D" parent="Player/Head"]
-transform = Transform3D(0.410705, 0.250622, 0.876652, 0.325231, 0.857967, -0.39765, -0.851792, 0.448431, 0.270861, 0.629779, 0.13678, -1.8759)
+[node name="Camera" type="Camera3D" parent="SubViewport/Player/Head"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="UI" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI"]
+visible = false
+layout_mode = 2
+
+[node name="Save" type="Button" parent="UI/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("4_0xw5m")
+text = "Save"
+
+[node name="Load" type="Button" parent="UI/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("4_0xw5m")
+text = "Load"
+
+[node name="SavePicture" type="Button" parent="UI/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("4_0xw5m")
+text = "Save Picture"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.55
+theme_override_constants/margin_top = 30
+
+[node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("ViewportTexture_qn1xg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="UI/HBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MenuButtons" type="VBoxContainer" parent="UI/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("7_4ecmg")
+
+[node name="PostProcessing" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
+layout_mode = 2
+icon = ExtResource("8_m5roq")
+flat = true
+
+[node name="Button2" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
+layout_mode = 2
+icon = ExtResource("8_m5roq")
+flat = true
+
+[node name="Button3" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
+layout_mode = 2
+icon = ExtResource("8_m5roq")
+flat = true
+
+[node name="Button4" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
+layout_mode = 2
+icon = ExtResource("8_m5roq")
+flat = true
+
+[node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
+current_tab = 0
+drag_to_rearrange_enabled = true
+script = ExtResource("9_7154d")
+
+[node name="Post Processing" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+metadata/_tab_index = 0
+
+[node name="Fields" type="HBoxContainer" parent="UI/HBoxContainer/TabContainer/Post Processing"]
+layout_mode = 2
+
+[node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields"]
+layout_mode = 2
+
+[node name="AmbientOcclusionSteps" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Ambient Occlusion Steps: 
+
+"
+vertical_alignment = 1
+
+[node name="AmbientOcclusionRadius" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Ambient Occlusion Radius:
+
+"
+vertical_alignment = 1
+
+[node name="VignetteStrength" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Vignette Strength:
+
+"
+
+[node name="VignetteRadius" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Vignette Radius:
+
+"
+
+[node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AmbientOcclusionSteps" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_0ej1w")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+range = Vector2i(0, 12)
+value = 4
+
+[node name="AmbientOcclusionRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(0.001, 2)
+value = 0.035
+
+[node name="VignetteStrength" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(0, 1)
+value = 0.7
+
+[node name="VignetteRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(0, 1)
+value = 0.8
+
+[node name="Fractal" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+metadata/_tab_index = 1
+
+[node name="Fields" type="HBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal"]
+layout_mode = 2
+
+[node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields"]
+layout_mode = 2
+
+[node name="Background" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -11
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Background: 
+
+"
+vertical_alignment = 1
+
+[node name="Formula" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -11
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Formula: 
+
+"
+vertical_alignment = 1
+
+[node name="FormulaFields" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Background" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("11_ynfe2")]
+layout_mode = 2
+
+[node name="Formula" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("12_jiauy")]
+layout_mode = 2
+options = Array[String](["Mandelbulb", "Juliabulb", "Burning Ship", "Log(z)", "Sin(z)", "Cos(z)"])
+
+[node name="FormulaValues" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="button_down" from="UI/HBoxContainer/HBoxContainer/MenuButtons/PostProcessing" to="UI/HBoxContainer/HBoxContainer/MenuButtons" method="_on_post_processing_button_down"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionSteps" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_steps_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionRadius" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_radius_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteStrength" to="UI/HBoxContainer/TabContainer" method="_on_vignette_strength_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteRadius" to="UI/HBoxContainer/TabContainer" method="_on_vignette_radius_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_background_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Formula" to="UI/HBoxContainer/TabContainer" method="_on_formula_value_changed"]

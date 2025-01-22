@@ -11,8 +11,8 @@ const BOB_AMPLITUDE := 0.08
 @onready var head := $Head
 @onready var camera := $Head/Camera
 
-func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+#func _ready() -> void:
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:

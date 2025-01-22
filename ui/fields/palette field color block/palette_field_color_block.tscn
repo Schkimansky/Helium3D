@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://dv5u2gutb4uqn"]
+
+[ext_resource type="Script" path="res://ui/fields/palette field color block/palette_field_color_block.gd" id="1_skj65"]
+[ext_resource type="Texture2D" uid="uid://em4me5v5s48x" path="res://resources/icons/circle.svg" id="2_74ubm"]
+[ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="3_dkean"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_4twqb"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_27klw"]
+events = [SubResource("InputEventKey_4twqb")]
+
+[node name="PaletteFieldColorBlock" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1911.0
+offset_bottom = -1018.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1
+alignment = 1
+script = ExtResource("1_skj65")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="CircleOutline" type="TextureRect" parent="Control"]
+layout_mode = 2
+offset_left = -0.5
+offset_top = 0.999999
+offset_right = 11.5
+offset_bottom = 13.0
+scale = Vector2(1.33, 1.33)
+pivot_offset = Vector2(6, 6)
+texture = ExtResource("2_74ubm")
+
+[node name="Circle" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_74ubm")
+
+[node name="CloseColorPickerButton" type="Button" parent="Circle"]
+visible = false
+layout_mode = 2
+offset_left = -5014.0
+offset_top = -4297.0
+offset_right = 5643.0
+offset_bottom = 4342.0
+theme_override_fonts/font = ExtResource("3_dkean")
+theme_override_font_sizes/font_size = 16
+action_mode = 0
+shortcut = SubResource("Shortcut_27klw")
+text = "X"
+flat = true
+
+[node name="ColorPicker" type="ColorPicker" parent="Circle"]
+visible = false
+layout_mode = 2
+offset_left = 33.5
+offset_top = 35.0
+offset_right = 331.5
+offset_bottom = 611.0
+
+[connection signal="mouse_entered" from="Circle" to="." method="_on_circle_mouse_entered"]
+[connection signal="mouse_exited" from="Circle" to="." method="_on_circle_mouse_exited"]
+[connection signal="pressed" from="Circle/CloseColorPickerButton" to="." method="_on_close_color_picker_button_button_down"]
+[connection signal="color_changed" from="Circle/ColorPicker" to="." method="_on_color_picker_color_changed"]

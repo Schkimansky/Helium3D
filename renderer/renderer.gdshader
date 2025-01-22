@@ -15,25 +15,23 @@ uniform float raystep_multiplier = 1.0;
 uniform sampler2D palette;
 
 group_uniforms fractal;
-uniform vec3 color: source_color;
+uniform sampler2D bg_color;
 uniform float size = 1.0;
-uniform float power = 6.0;
-uniform float escape_radius = 100.0;
-uniform vec3 z_constant = vec3(0.0, 0.0, 0.0);
-uniform vec3 c_constant = vec3(0.0, 0.0, 0.0);
-uniform bool is_c_dynamic = true;
-uniform bool is_z_dynamic = false;
-uniform bool zabs = false;
+uniform int formula = 1;
+uniform float power = 2.0;
+uniform float escape_radius = 2.0;
 
-group_uniforms other;
-uniform int ao_steps = 6;
-uniform float ao_radius = 0.5;
+uniform vec3 fjuliabulb_c = vec3(0.35, 0.35, 0.35);
+
+group_uniforms post_processing;
+uniform int ambient_occlusion_steps = 6;
+uniform float ambient_occlusion_radius = 0.5;
 uniform float vignette_strength = 0.7;
 uniform float vignette_radius = 0.8;
 
 group_uniforms taa;
 uniform int jitter_steps = 8;
-uniform vec2 jitter_offset_base = vec2(0.2);
+uniform float jitter_offset_base = 0.2;
 uniform vec2 frame_offset = vec2(0.01);
 
 #include "mathapprox.gdshaderinc"
@@ -82,9 +80,9 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	float iterations_to_escape = data.x;
 	float dfo = data.y;
 	vec3 palette_color = texture(palette, vec2(iterations_to_escape / float(iterations), 0.0)).xyz * 3.0;
-	
+
 	if (dfo >= max_distance) {
-		return color;
+		return texture(bg_color, vec2(screen_uv.y, 0.0)).xyz;
 	} else {
 		vec3 p = ray_origin + ray_dir * dfo;
 		vec3 normal = calculate_normal(p);
@@ -108,20 +106,20 @@ void vertex() { vertex_ls = VERTEX; }
 
 vec3 accumulate_taa(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	vec3 accumulated_albedo = vec3(0.0);
-	
+
 	for (int i = 0; i < jitter_steps; i++) {
 		vec2 jitter_offset = jitter_offset_base * float(i) + frame_offset;
 		vec3 jittered_ray_origin = ray_origin + vec3(jitter_offset, 0.0);
 		accumulated_albedo += calculate_albedo(jittered_ray_origin, ray_dir, screen_uv);
 	}
-	
+
 	return accumulated_albedo / float(jitter_steps);
 }
 
 void fragment() {
 	vec3 ray_origin = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION_WORLD, 1)).xyz;
 	vec3 ray_dir = normalize(vertex_ls - ray_origin);
-	
+
 	vec3 final_albedo = accumulate_taa(ray_origin, ray_dir, SCREEN_UV);
 	ALBEDO = final_albedo;
 }

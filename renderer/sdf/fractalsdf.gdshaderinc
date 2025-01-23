@@ -4,21 +4,21 @@ vec3 complexPow(vec3 z, float to_power) {
 	float r = length(z); // Magnitude of z
 	float theta = fast_acos(z.z / r); // Polar angle (theta)
 	float phi = atan(z.y, z.x); // Azimuthal angle (phi)
-	
+
 	// Raise the magnitude to the power
 	float r_pow = pow(r, to_power);
-	
+
 	// Multiply the angles by the power
 	float theta_pow = to_power * theta;
 	float phi_pow = to_power * phi;
-	
+
 	// Convert back to Cartesian coordinates
 	vec3 result = r_pow * vec3(
 		sin(theta_pow) * cos(phi_pow),
 		sin(theta_pow) * sin(phi_pow),
 		cos(theta_pow)
 	);
-	
+
 	return result;
 }
 
@@ -62,7 +62,7 @@ vec2 mandelbulb_sdf(vec3 p, out vec3 final_z) {
 
     for (int i = 0; i < int(iterations); i++) {
         dz = power * pow(r, powercache1) * dz + 1.0;
-        float th = power * acos(z.z / r);
+        float th = power * fast_acos(z.z / r);
         float ph = power * atan(z.y, z.x);
         z = complexPow(z, power);
 		z += c;
@@ -91,7 +91,7 @@ vec2 juliabulb_sdf(vec3 p, out vec3 final_z) {
 
     for (int i = 0; i < int(iterations); i++) {
         dz = power * pow(r, powercache1) * dz + 1.0;
-        float th = power * acos(z.z / r);
+        float th = power * fast_acos(z.z / r);
         float ph = power * atan(z.y, z.x);
         z = complexPow(z, power);
 		z += c;
@@ -161,12 +161,12 @@ vec2 mandleBox(vec3 pos) {
     p *= 4.;
     vec4 o = p;
     for (int i = 0; i < iterations; ++i) {
-        boxFold(p, vec3(1., 1., 1.0));
-        p *= sphereFold(p, 0., 1., 1.0) * power;
-        p += o;
-    }
+		boxFold(p, vec3(1.0, 1.0, 1.0));
+		p *= sphereFold(p, 0.0, 1.0, 1.0) * power;
+		p += o;
+	}
 
-    return vec2(de_box(p, vec3(10, 10, 10)), float(iterations));
+	return vec2(de_box(p, vec3(10, 10, 10)), float(iterations));
 }
 
 ///////////////

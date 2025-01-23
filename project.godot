@@ -86,3 +86,4 @@ shader_compiler/shader_cache/use_zstd_compression=false
 anti_aliasing/screen_space_roughness_limiter/amount=4.0
 anti_aliasing/screen_space_roughness_limiter/limit=1.0
 environment/defaults/default_clear_color=Color(0.113725, 0.113725, 0.113725, 1)
+anti_aliasing/quality/use_taa=true

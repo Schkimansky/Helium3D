@@ -1,16 +1,23 @@
 shader_type spatial;
 render_mode unshaded;
 
+group_uniforms shadows;
+uniform float self_shadow_bias = 0.01;
+uniform float shadow_darkness = 0.7;
+uniform int shadow_steps = 4;
+uniform float shadow_softness = 64.0;
+
 group_uniforms rendering;
 uniform vec3 light1_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light2_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light1_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light2_color: source_color = vec3(1.0, 1.0, 1.0);
+
 uniform int iterations = 8;
 uniform int max_steps = 120;
 uniform float ambient_light = 0.5;
 uniform float max_distance = 10.0;
-uniform float surface_distance = 0.00001;
+uniform float surface_distance = 0.000003;
 uniform float raystep_multiplier = 1.0;
 uniform sampler2D palette;
 
@@ -30,9 +37,9 @@ uniform float vignette_strength = 0.7;
 uniform float vignette_radius = 0.8;
 
 group_uniforms taa;
-uniform int jitter_steps = 8;
-uniform float jitter_offset_base = 0.2;
-uniform vec2 frame_offset = vec2(0.01);
+uniform int jitter_steps = 1;
+uniform float jitter_offset_base = 0.0001;
+uniform vec2 frame_offset = vec2(0.0);
 
 #include "mathapprox.gdshaderinc"
 #include "sdf/fractalsdf.gdshaderinc"
@@ -59,8 +66,8 @@ vec2 ray_marcher(vec3 ro, vec3 rd) {
         };
     }
 
-    float smooth_i = smooth_iter(float(iterations_to_escape), final_z);
-    return vec2(smooth_i, dfo);
+    //float smooth_i = smooth_iter(float(iterations_to_escape), final_z);
+    return vec2(iterations_to_escape, dfo);
 }
 
 #include "lighting/lighting.gdshaderinc"

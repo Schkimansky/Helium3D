@@ -1,8 +1,30 @@
 extends SubViewport
 
-func update() -> void:
-	render_target_update_mode = UPDATE_ALWAYS
-	set_deferred('render_target_update_mode', UPDATE_ONCE)
+# scaling template fast: 0.55, 0.8
+# scaling template medium: 0.7, 1.0
+# scaling template heavy: 0.9, 1.5
 
-func _ready() -> void:
-	update()
+var low_scaling := 0.8
+var high_scaling := 0.9
+var since_last_dynamic_update := 0.0
+
+func _process(delta: float) -> void:
+	since_last_dynamic_update += delta
+	
+	if %TextureRect.is_holding and since_last_dynamic_update <= 0.25:
+		scaling_3d_scale = low_scaling
+	elif scaling_3d_scale != high_scaling:
+		scaling_3d_scale = high_scaling
+	
+	if since_last_dynamic_update >= 2.5:
+		render_target_update_mode = UPDATE_DISABLED
+	else:
+		render_target_update_mode = UPDATE_WHEN_VISIBLE
+
+func refresh_taa() -> void:
+	since_last_dynamic_update = 0.0
+	
+	var old_scaling_3d_scale := scaling_3d_scale
+	scaling_3d_scale = old_scaling_3d_scale - 0.001
+	await get_tree().process_frame
+	scaling_3d_scale = old_scaling_3d_scale

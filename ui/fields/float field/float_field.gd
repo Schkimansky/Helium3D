@@ -8,7 +8,7 @@ signal value_changed(to: float)
 	set(v):
 		value = v
 		$HSlider.value = v
-		$LineEdit.text = "%0.4f" % v
+		$LineEdit.text = "%0.3f" % v
 
 func _ready() -> void:
 	$HSlider.step = 0.0000001
@@ -18,7 +18,7 @@ func _ready() -> void:
 	value_changed.emit(value)
 
 func _on_h_slider_value_changed(v: float) -> void:
-	$LineEdit.text = "%0.4f" % v
+	$LineEdit.text = "%0.3f" % v
 	value_changed.emit(v)
 
 func _on_line_edit_text_changed(new_text: String) -> void:

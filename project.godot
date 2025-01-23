@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="3D Fractal Test"
+config/name="Helium3D"
 run/main_scene="res://scenes/main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -77,6 +77,16 @@ delete={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(289, 6),"global_position":Vector2(298, 52),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+"mouse wheel up"={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":8,"position":Vector2(348, 25),"global_position":Vector2(357, 71),"factor":1.0,"button_index":4,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+"mouse wheel down"={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(394, 14),"global_position":Vector2(403, 60),"factor":1.0,"button_index":5,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
 
 [rendering]
 
@@ -86,4 +96,3 @@ shader_compiler/shader_cache/use_zstd_compression=false
 anti_aliasing/screen_space_roughness_limiter/amount=4.0
 anti_aliasing/screen_space_roughness_limiter/limit=1.0
 environment/defaults/default_clear_color=Color(0.113725, 0.113725, 0.113725, 1)
-anti_aliasing/quality/use_taa=true

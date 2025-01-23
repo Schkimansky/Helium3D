@@ -4,15 +4,14 @@
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
 [ext_resource type="Shader" path="res://renderer/renderer.gdshader" id="3_4yvvm"]
 [ext_resource type="Script" path="res://scenes/main/player.gd" id="3_rtqen"]
-[ext_resource type="Theme" uid="uid://cl7n6of7jbsko" path="res://ui/themes/main.tres" id="4_0xw5m"]
-[ext_resource type="Script" path="res://scenes/main/menu_buttons.gd" id="7_4ecmg"]
-[ext_resource type="Texture2D" uid="uid://vaxw4knbtw13" path="res://resources/icons/globe.svg" id="8_m5roq"]
+[ext_resource type="Script" path="res://scenes/main/texture_rect.gd" id="6_dbdf5"]
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="8_rhsly"]
 [ext_resource type="PackedScene" uid="uid://cm48vjc7rstpn" path="res://ui/fields/int field/int_field.tscn" id="9_0ej1w"]
 [ext_resource type="Script" path="res://scenes/main/menus_tab_container.gd" id="9_7154d"]
 [ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="9_d1f4f"]
 [ext_resource type="PackedScene" uid="uid://btjotc720lyxd" path="res://ui/fields/palette field/palette_field.tscn" id="11_ynfe2"]
 [ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="12_jiauy"]
+[ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
 
 [sub_resource type="Gradient" id="Gradient_s6aip"]
 colors = PackedColorArray(0.516484, 0.810587, 0.995636, 1, 0.344203, 0.655628, 1, 1)
@@ -33,20 +32,20 @@ shader_parameter/self_shadow_bias = 0.01
 shader_parameter/shadow_darkness = 0.085
 shader_parameter/shadow_steps = 72
 shader_parameter/shadow_softness = 64.0
-shader_parameter/light1_position = Vector3(-17.32, 10.6, -10)
+shader_parameter/light1_position = Vector3(9.075, 10.6, -10)
 shader_parameter/light2_position = Vector3(-10.3, -10.6, 10)
-shader_parameter/light1_color = Color(1, 0.421295, 0.160998, 1)
-shader_parameter/light2_color = Color(0.945427, 0.43575, 0, 1)
-shader_parameter/iterations = 15
+shader_parameter/light1_color = Color(1, 1, 1, 1)
+shader_parameter/light2_color = Color(1, 1, 1, 1)
+shader_parameter/iterations = 10
 shader_parameter/max_steps = 150
 shader_parameter/ambient_light = 2.0
 shader_parameter/max_distance = 10.0
 shader_parameter/surface_distance = 1e-05
-shader_parameter/raystep_multiplier = 2.0
+shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_nref8")
 shader_parameter/size = 1.0
-shader_parameter/formula = 4
-shader_parameter/power = 2.36
+shader_parameter/formula = 1
+shader_parameter/power = 2.0
 shader_parameter/escape_radius = 2.0
 shader_parameter/fjuliabulb_c = Vector3(0, 0, 0.685)
 shader_parameter/bg_color = SubResource("GradientTexture1D_ggjc2")
@@ -55,7 +54,7 @@ shader_parameter/ambient_occlusion_radius = 0.035
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
 shader_parameter/jitter_steps = 1
-shader_parameter/jitter_offset_base = 0.0001
+shader_parameter/jitter_offset_base = 0.0
 shader_parameter/frame_offset = Vector2(0, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
@@ -66,36 +65,47 @@ viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0eucc"]
 
+[sub_resource type="FontVariation" id="FontVariation_uuept"]
+base_font = ExtResource("8_rhsly")
+spacing_top = 1
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 unique_name_in_owner = true
 own_world_3d = true
-scaling_3d_scale = 2.0
+scaling_3d_mode = 2
+scaling_3d_scale = 0.65
+texture_mipmap_bias = -2.0
 fsr_sharpness = 2.0
-size = Vector2i(1920, 1080)
-render_target_clear_mode = 1
-render_target_update_mode = 1
+size = Vector2i(600, 600)
 script = ExtResource("2_2kstx")
 
 [node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521775, 0.270679, -0.0960679)
 material_override = SubResource("ShaderMaterial_pfrgc")
 mesh = SubResource("BoxMesh_bajpv")
 skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
+unique_name_in_owner = true
 transform = Transform3D(-0.999878, 0.00295227, -0.0152529, 0, 0.981778, 0.190028, 0.0155359, 0.190005, -0.981659, -0.753641, 0.705123, -1.49166)
 script = ExtResource("3_rtqen")
 
 [node name="Head" type="Node3D" parent="SubViewport/Player"]
 
 [node name="Camera" type="Camera3D" parent="SubViewport/Player/Head"]
-transform = Transform3D(-0.0174796, -0.266432, 0.963698, 0.189999, 0.945396, 0.264818, -0.981631, 0.18773, 0.0340965, 1.89228, 0.267739, -1.38183)
+current = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="DummyFocusButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = -383.0
+offset_top = 136.0
+offset_right = -59.0
+offset_bottom = 279.0
+text = "e"
 
 [node name="UI" type="VBoxContainer" parent="."]
 anchors_preset = 15
@@ -103,25 +113,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI"]
-visible = false
-layout_mode = 2
-
-[node name="Save" type="Button" parent="UI/HBoxContainer2"]
-layout_mode = 2
-theme = ExtResource("4_0xw5m")
-text = "Save"
-
-[node name="Load" type="Button" parent="UI/HBoxContainer2"]
-layout_mode = 2
-theme = ExtResource("4_0xw5m")
-text = "Load"
-
-[node name="SavePicture" type="Button" parent="UI/HBoxContainer2"]
-layout_mode = 2
-theme = ExtResource("4_0xw5m")
-text = "Save Picture"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 layout_mode = 2
@@ -135,58 +126,25 @@ size_flags_stretch_ratio = 2.55
 theme_override_constants/margin_top = 30
 
 [node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = SubResource("ViewportTexture_qn1xg")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Panel" type="Panel" parent="UI/HBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="MenuButtons" type="VBoxContainer" parent="UI/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-script = ExtResource("7_4ecmg")
-
-[node name="PostProcessing" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
-layout_mode = 2
-icon = ExtResource("8_m5roq")
-flat = true
-
-[node name="Button2" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
-layout_mode = 2
-icon = ExtResource("8_m5roq")
-flat = true
-
-[node name="Button3" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
-layout_mode = 2
-icon = ExtResource("8_m5roq")
-flat = true
-
-[node name="Button4" type="Button" parent="UI/HBoxContainer/HBoxContainer/MenuButtons"]
-layout_mode = 2
-icon = ExtResource("8_m5roq")
-flat = true
+script = ExtResource("6_dbdf5")
 
 [node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.1
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
-current_tab = 0
+current_tab = 1
 drag_to_rearrange_enabled = true
 script = ExtResource("9_7154d")
 
 [node name="Post Processing" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -261,15 +219,14 @@ value = 0.035
 [node name="VignetteStrength" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
 range = Vector2(0, 1)
-value = 0.7
+value = 0.8
 
 [node name="VignetteRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
 range = Vector2(0, 1)
-value = 0.8
+value = 0.878
 
 [node name="Fractal" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -286,10 +243,43 @@ layout_mode = 2
 [node name="Background" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/line_spacing = -11
-theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
 text = "
 Background: 
+
+"
+vertical_alignment = 1
+
+[node name="Iterations" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Iterations: 
+
+"
+vertical_alignment = 1
+
+[node name="Power" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Power: 
+
+"
+vertical_alignment = 1
+
+[node name="SurfaceDistance" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Surface Distance: 
 
 "
 vertical_alignment = 1
@@ -297,10 +287,40 @@ vertical_alignment = 1
 [node name="Formula" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/line_spacing = -11
-theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
 text = "
 Formula: 
+
+"
+vertical_alignment = 1
+
+[node name="FJuliabulbC" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -14
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "FJuliabulb C: 
+
+
+
+
+
+
+
+
+
+
+
+"
+vertical_alignment = 1
+
+[node name="MaxSteps" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -12
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "Max Steps:
 
 "
 vertical_alignment = 1
@@ -316,18 +336,50 @@ size_flags_horizontal = 3
 [node name="Background" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("11_ynfe2")]
 layout_mode = 2
 
+[node name="Iterations" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_0ej1w")]
+layout_mode = 2
+range = Vector2i(1, 40)
+value = 10
+
+[node name="Power" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(1, 8)
+value = 2.0
+
+[node name="SurfaceDistance" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(0, 0.001)
+value = 0.001
+
 [node name="Formula" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("12_jiauy")]
 layout_mode = 2
-options = Array[String](["Mandelbulb", "Juliabulb", "Burning Ship", "Log(z)", "Sin(z)", "Cos(z)"])
+options = Array[String](["Mandelbulb", "Juliabulb", "Burning Ship", "Mandelbox"])
+
+[node name="FJuliabulbC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0, 0, -0.5)
+
+[node name="MaxSteps" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_0ej1w")]
+layout_mode = 2
+range = Vector2i(20, 1000)
+value = 100
 
 [node name="FormulaValues" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[connection signal="button_down" from="UI/HBoxContainer/HBoxContainer/MenuButtons/PostProcessing" to="UI/HBoxContainer/HBoxContainer/MenuButtons" method="_on_post_processing_button_down"]
+[connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/TextureRect" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/TextureRect" method="_on_mouse_exited"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionSteps" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_steps_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionRadius" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_radius_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteStrength" to="UI/HBoxContainer/TabContainer" method="_on_vignette_strength_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteRadius" to="UI/HBoxContainer/TabContainer" method="_on_vignette_radius_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_background_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Iterations" to="UI/HBoxContainer/TabContainer" method="_on_iterations_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/SurfaceDistance" to="UI/HBoxContainer/TabContainer" method="_on_surface_distance_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Formula" to="UI/HBoxContainer/TabContainer" method="_on_formula_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/FJuliabulbC" to="UI/HBoxContainer/TabContainer" method="_on_f_juliabulb_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/MaxSteps" to="UI/HBoxContainer/TabContainer" method="_on_max_steps_value_changed"]

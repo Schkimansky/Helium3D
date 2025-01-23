@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-signal value_changed(to: float)
+signal value_changed(to: int)
 
 @export var range: Vector2i = Vector2i(-20, 20)
 

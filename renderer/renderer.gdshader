@@ -89,7 +89,8 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	vec3 palette_color = texture(palette, vec2(iterations_to_escape / float(iterations), 0.0)).xyz * 3.0;
 
 	if (dfo >= max_distance) {
-		return texture(bg_color, vec2(screen_uv.y, 0.0)).xyz;
+		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
+		return texture(bg_color, vec2(screen_uv.y, 0.0)).xyz * vignette;
 	} else {
 		vec3 p = ray_origin + ray_dir * dfo;
 		vec3 normal = calculate_normal(p);

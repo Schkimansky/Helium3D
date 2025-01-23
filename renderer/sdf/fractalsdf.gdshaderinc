@@ -22,7 +22,7 @@ vec3 complexPow(vec3 z, float to_power) {
 	return result;
 }
 
-#include "formulae/mandelbulb.gdshaderinc"
+//#include "formulae/mandelbulb.gdshaderinc"
 
 //vec3 iterate(vec3 z, vec3 p) {
 	//if (formula == 1) return fmandelbulb(z, p, power);
@@ -51,90 +51,94 @@ vec3 complexPow(vec3 z, float to_power) {
 	//return vec2(0.8 * log(r) * sqrt(r) / dz, float(iterations));
 //}
 
+////////////////
+// Mandelbulb //
+////////////////
+
 vec2 mandelbulb_sdf(vec3 p, out vec3 final_z) {
-    vec3 scaled_p = p * size;
-    vec3 z = vec3(0.00001, 0.0, 0.0);
-    vec3 c = scaled_p;
-
-    float r = length(z);
-    float dz = 1.0;
+	vec3 scaled_p = p * size;
+	vec3 z = vec3(0.00001, 0.0, 0.0);
+	vec3 c = scaled_p;
+	
+	float r = length(z);
+	float dz = 1.0;
 	float powercache1 = (power - 1.0) * 0.5;
-
-    for (int i = 0; i < int(iterations); i++) {
-        dz = power * pow(r, powercache1) * dz + 1.0;
-        float th = power * fast_acos(z.z / r);
-        float ph = power * atan(z.y, z.x);
-        z = complexPow(z, power);
+	
+	for (int i = 0; i < int(iterations); i++) {
+		dz = power * pow(r, powercache1) * dz + 1.0;
+		float th = power * fast_acos(z.z / r);
+		float ph = power * atan(z.y, z.x);
+		z = complexPow(z, power);
 		z += c;
-
+		
 		// Break condition
-        r = length(z);
-
-        if (r > 2.0) {
+		r = length(z);
+		
+		if (r > 2.0) {
 			final_z = z;
-		    return vec2(0.8 * log(r) * sqrt(r) / dz, float(i));
-        };
-    }
-
+			return vec2(0.8 * log(r) * sqrt(r) / dz, float(i));
+		};
+	}
+	
 	final_z = z;
-    return vec2(0.8 * log(r) * sqrt(r) / dz, float(iterations));
+	return vec2(0.8 * log(r) * sqrt(r) / dz, float(iterations));
 }
 
 vec2 juliabulb_sdf(vec3 p, out vec3 final_z) {
-    vec3 scaled_p = p * size;
-    vec3 z = scaled_p;
-    vec3 c = fjuliabulb_c;
-
-    float r = length(z);
-    float dz = 1.0;
+	vec3 scaled_p = p * size;
+	vec3 z = scaled_p;
+	vec3 c = fjuliabulb_c;
+	
+	float r = length(z);
+	float dz = 1.0;
 	float powercache1 = (power - 1.0) * 0.5;
-
-    for (int i = 0; i < int(iterations); i++) {
-        dz = power * pow(r, powercache1) * dz + 1.0;
-        float th = power * fast_acos(z.z / r);
-        float ph = power * atan(z.y, z.x);
-        z = complexPow(z, power);
+	
+	for (int i = 0; i < int(iterations); i++) {
+		dz = power * pow(r, powercache1) * dz + 1.0;
+		float th = power * fast_acos(z.z / r);
+		float ph = power * atan(z.y, z.x);
+		z = complexPow(z, power);
 		z += c;
-
+		
 		// Break condition
-        r = length(z);
-
-        if (r > 2.0) {
+		r = length(z);
+		
+		if (r > 2.0) {
 			final_z = z;
-		    return vec2(0.8 * log(r) * sqrt(r) / dz, float(i));
-        };
-    }
-
+			return vec2(0.8 * log(r) * sqrt(r) / dz, float(i));
+		};
+	}
+	
 	final_z = z;
     return vec2(0.8 * log(r) * sqrt(r) / dz, float(iterations));
 }
 
 vec2 burning_ship_sdf(vec3 p, out vec3 final_z) {
-    vec3 scaled_p = p * size;
-    vec3 z = vec3(0.00001, 0.0, 0.0);
-    vec3 c = scaled_p;
-
-    float r = length(z);
-    float dz = 1.0;
+	vec3 scaled_p = p * size;
+	vec3 z = vec3(0.00001, 0.0, 0.0);
+	vec3 c = scaled_p;
+	
+	float r = length(z);
+	float dz = 1.0;
 	float powercache1 = (power - 1.0) * 0.5;
-
-    for (int i = 0; i < int(iterations); i++) {
-        dz = power * pow(r, powercache1) * dz + 1.0;
-        float th = power * acos(z.z / r);
-        float ph = power * atan(z.y, z.x);
+	
+	for (int i = 0; i < int(iterations); i++) {
+		dz = power * pow(r, powercache1) * dz + 1.0;
+		float th = power * acos(z.z / r);
+		float ph = power * atan(z.y, z.x);
 		z = abs(z);
-        z = complexPow(z, power);
+		z = complexPow(z, power);
 		z += c;
-
+		
 		// Break condition
-        r = length(z);
-
-        if (r > 2.0) {
+		r = length(z);
+		
+		if (r > 2.0) {
 			final_z = z;
-		    return vec2(0.5 * log(r) * sqrt(r) / dz, float(i));
-        };
-    }
-
+			return vec2(0.5 * log(r) * sqrt(r) / dz, float(i));
+		};
+	}
+	
 	final_z = z;
     return vec2(0.5 * log(r) * sqrt(r) / dz, float(iterations));
 }
@@ -144,28 +148,28 @@ vec2 burning_ship_sdf(vec3 p, out vec3 final_z) {
 ///////////////
 
 float sphereFold(vec4 z, float minR, float maxR, float bloatFactor) { // bloat = 1 will not change size.
-    float r2 = dot(z.xyz, z.xyz);
-    return max(maxR / max(minR, r2), bloatFactor);
+	float r2 = dot(z.xyz, z.xyz);
+	return max(maxR / max(minR, r2), bloatFactor);
 }
 void boxFold(inout vec4 z, vec3 r) {
-    z.xyz = clamp(z.xyz, -r, r) * 2.0 - z.xyz;
+	z.xyz = clamp(z.xyz, -r, r) * 2.0 - z.xyz;
 }
 
 float de_box(vec4 p, vec3 s) {
-    vec3 a = abs(p.xyz) - s;
-    return (min(max(max(a.x, a.y), a.z), 0.0) + length(max(a, 0.0))) / p.w;
+	vec3 a = abs(p.xyz) - s;
+	return (min(max(max(a.x, a.y), a.z), 0.0) + length(max(a, 0.0))) / p.w;
 }
 
 vec2 mandleBox(vec3 pos) {
-    vec4 p = vec4(pos, 1);
-    p *= 4.;
-    vec4 o = p;
-    for (int i = 0; i < iterations; ++i) {
+	vec4 p = vec4(pos, 1);
+	p *= 4.;
+	vec4 o = p;
+	for (int i = 0; i < iterations; ++i) {
 		boxFold(p, vec3(1.0, 1.0, 1.0));
 		p *= sphereFold(p, 0.0, 1.0, 1.0) * power;
 		p += o;
 	}
-
+	
 	return vec2(de_box(p, vec3(10, 10, 10)), float(iterations));
 }
 
@@ -181,6 +185,6 @@ vec2 scene_sdf(vec3 p, out vec3 z) {
 	else if (formula == 4) data = mandleBox(p / size);
 	float signed_distance = data.x;
 	float iterations_to_escape = data.y;
-
+	
 	return vec2(iterations_to_escape, signed_distance);
 }

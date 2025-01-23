@@ -36,38 +36,32 @@ uniform float ambient_occlusion_radius = 0.5;
 uniform float vignette_strength = 0.7;
 uniform float vignette_radius = 0.8;
 
-group_uniforms taa;
-uniform int jitter_steps = 1;
-uniform float jitter_offset_base = 0.0001;
-uniform vec2 frame_offset = vec2(0.0);
-
 #include "mathapprox.gdshaderinc"
 #include "sdf/fractalsdf.gdshaderinc"
 #include "lighting/ambient_occlusion.gdshaderinc"
 
 float smooth_iter(float n, vec3 z) {
-    float log_zn = log(length(z));
-    return n + 1.0 - log(log_zn) / log(2.0);
+	float log_zn = log(length(z));
+	return n + 1.0 - log(log_zn) / log(2.0);
 }
 
 vec2 ray_marcher(vec3 ro, vec3 rd) {
-    float dfo = 0.0;
-    float iterations_to_escape;
-    vec3 final_z;
-
-    for (int i = 0; i < int(max_steps); i++) {
-        vec2 data = scene_sdf(ro + rd * dfo, final_z);
-        float point_distance = data.y;
-        dfo += point_distance * raystep_multiplier;
-
-        if (point_distance < surface_distance || dfo > max_distance) {
-            iterations_to_escape = data.x;
-            break;
-        };
-    }
-
-    //float smooth_i = smooth_iter(float(iterations_to_escape), final_z);
-    return vec2(iterations_to_escape, dfo);
+	float dfo = 0.0;
+	float iterations_to_escape;
+	vec3 final_z;
+	
+	for (int i = 0; i < int(max_steps); i++) {
+		vec2 data = scene_sdf(ro + rd * dfo, final_z);
+		float point_distance = data.y;
+		dfo += point_distance * raystep_multiplier;
+	
+	if (point_distance < surface_distance || dfo > max_distance) {
+			iterations_to_escape = data.x;
+			break;
+		};
+	}
+	
+	return vec2(iterations_to_escape, dfo);
 }
 
 #include "lighting/lighting.gdshaderinc"
@@ -102,32 +96,32 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	}
 }
 
-vec2 random_jitter(vec2 uv, float seed) {
-	return vec2(
-		fract(sin(dot(uv.xy, vec2(12.9898, 78.233)) + seed) * 43758.5453),
-		fract(cos(dot(uv.xy, vec2(26.7898, 45.345)) + seed) * 43758.5453)
-	) * 2.0 - 1.0;
-}
+//vec2 random_jitter(vec2 uv, float seed) {
+	//return vec2(
+		//fract(sin(dot(uv.xy, vec2(12.9898, 78.233)) + seed) * 43758.5453),
+		//fract(cos(dot(uv.xy, vec2(26.7898, 45.345)) + seed) * 43758.5453)
+	//) * 2.0 - 1.0;
+//}
 
 varying vec3 vertex_ls;
 void vertex() { vertex_ls = VERTEX; }
 
-vec3 accumulate_taa(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
-	vec3 accumulated_albedo = vec3(0.0);
-
-	for (int i = 0; i < jitter_steps; i++) {
-		vec2 jitter_offset = jitter_offset_base * float(i) + frame_offset;
-		vec3 jittered_ray_origin = ray_origin + vec3(jitter_offset, 0.0);
-		accumulated_albedo += calculate_albedo(jittered_ray_origin, ray_dir, screen_uv);
-	}
-
-	return accumulated_albedo / float(jitter_steps);
-}
+//vec3 accumulate_taa(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
+	//vec3 accumulated_albedo = vec3(0.0);
+//
+	//for (int i = 0; i < jitter_steps; i++) {
+		//vec2 jitter_offset = jitter_offset_base * float(i) + frame_offset;
+		//vec3 jittered_ray_origin = ray_origin + vec3(jitter_offset, 0.0);
+		//accumulated_albedo += calculate_albedo(jittered_ray_origin, ray_dir, screen_uv);
+	//}
+//
+	//return accumulated_albedo / float(jitter_steps);
+//}
 
 void fragment() {
 	vec3 ray_origin = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION_WORLD, 1)).xyz;
 	vec3 ray_dir = normalize(vertex_ls - ray_origin);
 
-	vec3 final_albedo = accumulate_taa(ray_origin, ray_dir, SCREEN_UV);
+	vec3 final_albedo = calculate_albedo(ray_origin, ray_dir, SCREEN_UV);
 	ALBEDO = final_albedo;
 }

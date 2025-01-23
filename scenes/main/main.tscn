@@ -53,9 +53,6 @@ shader_parameter/ambient_occlusion_steps = 6
 shader_parameter/ambient_occlusion_radius = 0.035
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
-shader_parameter/jitter_steps = 1
-shader_parameter/jitter_offset_base = 0.0
-shader_parameter/frame_offset = Vector2(0, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
@@ -101,11 +98,10 @@ current = true
 
 [node name="DummyFocusButton" type="Button" parent="."]
 unique_name_in_owner = true
-offset_left = -383.0
+offset_left = -67.0
 offset_top = 136.0
 offset_right = -59.0
-offset_bottom = 279.0
-text = "e"
+offset_bottom = 144.0
 
 [node name="UI" type="VBoxContainer" parent="."]
 anchors_preset = 15

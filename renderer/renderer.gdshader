@@ -30,6 +30,12 @@ uniform float escape_radius = 2.0;
 
 uniform vec3 fjuliabulb_c = vec3(0.35, 0.35, 0.35);
 
+uniform vec3 fmandelbox_sphere_fold = vec3(0.0, 1.0, 1.0);
+uniform vec3 fmandelbox_box_size = vec3(1.0, 1.0, 1.0);
+uniform float fmandelbox_spread = 1.0;
+uniform float fmandelbox_stoneness = 0.0;
+uniform float fmandelbox_divisions = 0.0;
+
 group_uniforms post_processing;
 uniform int ambient_occlusion_steps = 6;
 uniform float ambient_occlusion_radius = 0.5;
@@ -49,19 +55,19 @@ vec2 ray_marcher(vec3 ro, vec3 rd) {
 	float dfo = 0.0;
 	float iterations_to_escape;
 	vec3 final_z;
-	
+
 	for (int i = 0; i < int(max_steps); i++) {
 		vec2 data = scene_sdf(ro + rd * dfo, final_z);
 		float point_distance = data.y;
 		dfo += point_distance * raystep_multiplier;
-	
-	if (point_distance < surface_distance || dfo > max_distance) {
+
+		if (point_distance < surface_distance || dfo > max_distance) {
 			iterations_to_escape = data.x;
 			break;
 		};
 	}
-	
-	return vec2(iterations_to_escape, dfo);
+	float smooth_iterations = smooth_iter(iterations_to_escape, final_z);
+	return vec2(smooth_iterations, dfo);
 }
 
 #include "lighting/lighting.gdshaderinc"
@@ -80,7 +86,7 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	vec2 data = ray_marcher(ray_origin, ray_dir);
 	float iterations_to_escape = data.x;
 	float dfo = data.y;
-	vec3 palette_color = texture(palette, vec2(iterations_to_escape / float(iterations), 0.0)).xyz * 3.0;
+	vec3 palette_color = texture(palette, vec2((iterations_to_escape / float(iterations)) * 256.0, 0.0)).xyz * 3.0;
 
 	if (dfo >= max_distance) {
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));

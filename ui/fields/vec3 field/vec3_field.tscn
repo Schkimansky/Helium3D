@@ -9,11 +9,12 @@
 anchor_right = 0.192
 anchor_bottom = 0.092
 offset_right = 0.359985
-offset_bottom = -0.360008
+offset_bottom = -18.36
 script = ExtResource("2_axr7v")
 
 [node name="ComponentLabels" type="VBoxContainer" parent="." index="0"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="X" type="Label" parent="ComponentLabels" index="0"]
 layout_mode = 2
@@ -39,6 +40,7 @@ text = " Z: "
 [node name="Components" type="VBoxContainer" parent="." index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="X" parent="Components" index="0" instance=ExtResource("2_j3xdo")]
 unique_name_in_owner = true

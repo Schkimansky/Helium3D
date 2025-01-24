@@ -13,6 +13,7 @@ signal value_changed(to: int)
 func _ready() -> void:
 	$HSlider.min_value = range.x
 	$HSlider.max_value = range.y
+	$HSlider.set_value_no_signal(value)
 	
 	# Call for initial value.
 	value_changed.emit(value)

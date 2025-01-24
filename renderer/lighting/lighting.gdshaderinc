@@ -5,14 +5,16 @@ float soft_shadow(vec3 p, vec3 light_pos, float k) {
     vec3 rd = normalize(light_pos - p);
     float res = 1.0;
     float ph = 1e20; // Previous hit distance
-	float t = self_shadow_bias;
+    float t = surface_distance + self_shadow_bias;
+    float min_step_size = 0.1; // Minimum step size to avoid tiny steps
 
     for (int i = 0; i < shadow_steps; i++) {
         vec3 final_z;
         float h = scene_sdf(p + rd * t, final_z).y;
 
+        // Early exit for hard shadows
         if (h < surface_distance) {
-            return 0.0; // Hard shadow
+            return 0.0;
         }
 
         // Soft shadow calculation
@@ -21,8 +23,10 @@ float soft_shadow(vec3 p, vec3 light_pos, float k) {
         res = min(res, k * d / max(0.0, t - y));
         ph = h;
 
-        t += h;
+        // Sphere tracing: take larger steps
+        t += max(h, min_step_size);
 
+        // Early exit if the ray goes too far
         if (t >= max_distance) {
             break;
         }

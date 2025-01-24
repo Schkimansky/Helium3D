@@ -4,14 +4,17 @@ extends SubViewport
 # scaling template medium: 0.7, 1.0
 # scaling template heavy: 0.9, 1.5
 
-var low_scaling := 0.8
+var low_scaling := 0.45
 var high_scaling := 0.9
 var since_last_dynamic_update := 0.0
+
+func _ready() -> void:
+	render_target_update_mode = UPDATE_WHEN_VISIBLE
 
 func _process(delta: float) -> void:
 	since_last_dynamic_update += delta
 	
-	if %TextureRect.is_holding and since_last_dynamic_update <= 0.25:
+	if %TextureRect.is_holding and since_last_dynamic_update <= 0.1:
 		scaling_3d_scale = low_scaling
 	elif scaling_3d_scale != high_scaling:
 		scaling_3d_scale = high_scaling

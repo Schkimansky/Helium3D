@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=23 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cm48vjc7rstpn" path="res://ui/fields/int field/int_field.tscn" id="9_0ej1w"]
 [ext_resource type="Script" path="res://scenes/main/menus_tab_container.gd" id="9_7154d"]
 [ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="9_d1f4f"]
+[ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec_3_label.tscn" id="10_3cnnu"]
 [ext_resource type="PackedScene" uid="uid://btjotc720lyxd" path="res://ui/fields/palette field/palette_field.tscn" id="11_ynfe2"]
 [ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="12_jiauy"]
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
@@ -20,7 +21,9 @@ colors = PackedColorArray(0.516484, 0.810587, 0.995636, 1, 0.344203, 0.655628, 1
 gradient = SubResource("Gradient_s6aip")
 
 [sub_resource type="Gradient" id="Gradient_m5ook"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+interpolation_mode = 1
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_nref8"]
 gradient = SubResource("Gradient_m5ook")
@@ -30,24 +33,29 @@ render_priority = 0
 shader = ExtResource("3_4yvvm")
 shader_parameter/self_shadow_bias = 0.01
 shader_parameter/shadow_darkness = 0.085
-shader_parameter/shadow_steps = 72
+shader_parameter/shadow_steps = 20
 shader_parameter/shadow_softness = 64.0
-shader_parameter/light1_position = Vector3(9.075, 10.6, -10)
-shader_parameter/light2_position = Vector3(-10.3, -10.6, 10)
+shader_parameter/light1_position = Vector3(10, 10, -10)
+shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 10
-shader_parameter/max_steps = 150
+shader_parameter/iterations = 11
+shader_parameter/max_steps = 190
 shader_parameter/ambient_light = 2.0
 shader_parameter/max_distance = 10.0
-shader_parameter/surface_distance = 1e-05
+shader_parameter/surface_distance = 0.0001
 shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_nref8")
 shader_parameter/size = 1.0
 shader_parameter/formula = 1
 shader_parameter/power = 2.0
 shader_parameter/escape_radius = 2.0
-shader_parameter/fjuliabulb_c = Vector3(0, 0, 0.685)
+shader_parameter/fjuliabulb_c = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
+shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
+shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
+shader_parameter/fmandelbox_spread = 1.0
+shader_parameter/fmandelbox_stoneness = 0.0
+shader_parameter/fmandelbox_divisions = 0.0
 shader_parameter/bg_color = SubResource("GradientTexture1D_ggjc2")
 shader_parameter/ambient_occlusion_steps = 6
 shader_parameter/ambient_occlusion_radius = 0.035
@@ -74,9 +82,10 @@ unique_name_in_owner = true
 own_world_3d = true
 scaling_3d_mode = 2
 scaling_3d_scale = 0.65
-texture_mipmap_bias = -2.0
+texture_mipmap_bias = 2.0
 fsr_sharpness = 2.0
 size = Vector2i(600, 600)
+render_target_update_mode = 1
 script = ExtResource("2_2kstx")
 
 [node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
@@ -88,7 +97,7 @@ skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(-0.999878, 0.00295227, -0.0152529, 0, 0.981778, 0.190028, 0.0155359, 0.190005, -0.981659, -0.753641, 0.705123, -1.49166)
+transform = Transform3D(0.627854, 0.444154, -0.639159, 0, 0.821192, 0.57065, 0.778329, -0.358285, 0.515589, -0.866501, 1.29745, 0.673599)
 script = ExtResource("3_rtqen")
 
 [node name="Head" type="Node3D" parent="SubViewport/Player"]
@@ -222,13 +231,81 @@ layout_mode = 2
 range = Vector2(0, 1)
 value = 0.878
 
-[node name="Fractal" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+[node name="Rendering" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 metadata/_tab_index = 1
+
+[node name="Fields" type="HBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering"]
+layout_mode = 2
+
+[node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
+layout_mode = 2
+
+[node name="SurfaceDistance" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -18
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Surface Distance: 
+
+"
+vertical_alignment = 1
+
+[node name="MaxSteps" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Max Steps:
+
+"
+vertical_alignment = 1
+
+[node name="RaystepMultiplier" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -17
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Raystep Multiplier:
+
+"
+vertical_alignment = 1
+
+[node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SurfaceDistance" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+precision = 6
+range = Vector2(0, 0.001)
+value = 0.001
+
+[node name="MaxSteps" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_0ej1w")]
+layout_mode = 2
+range = Vector2i(20, 1000)
+value = 100
+
+[node name="RaystepMultiplier" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(-3, 3)
+value = 1.0
+
+[node name="Fractal" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+metadata/_tab_index = 2
 
 [node name="Fields" type="HBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal"]
 layout_mode = 2
@@ -269,17 +346,6 @@ Power:
 "
 vertical_alignment = 1
 
-[node name="SurfaceDistance" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Surface Distance: 
-
-"
-vertical_alignment = 1
-
 [node name="Formula" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
@@ -291,39 +357,65 @@ Formula:
 "
 vertical_alignment = 1
 
-[node name="FJuliabulbC" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+[node name="Fjuliabulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="FJuliabulbC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names/Fjuliabulb" instance=ExtResource("10_3cnnu")]
+layout_mode = 2
+text = "C: "
+
+[node name="Fmandelbulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fmandelbox" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="FmandelboxSphereFold" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names/Fmandelbox" instance=ExtResource("10_3cnnu")]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Sphere Fold: "
+
+[node name="FmandelboxBoxSize" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names/Fmandelbox" instance=ExtResource("10_3cnnu")]
+layout_mode = 2
+text = "Box Size: "
+
+[node name="FmandelboxSpread" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names/Fmandelbox"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/line_spacing = -14
+theme_override_constants/line_spacing = -15
 theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "FJuliabulb C: 
+text = "Spread:
+"
+vertical_alignment = 1
 
-
-
-
-
-
-
-
-
-
+[node name="FmandelboxStoneness" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names/Fmandelbox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Stoneness:
 
 "
 vertical_alignment = 1
 
-[node name="MaxSteps" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+[node name="FmandelboxDivisions" type="Label" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names/Fmandelbox"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
+theme_override_constants/line_spacing = -15
 theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "Max Steps:
+text = "
+Divisions:
 
 "
 vertical_alignment = 1
 
-[node name="FormulaFields" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+[node name="Fburning ship" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
 layout_mode = 2
-size_flags_vertical = 3
 
 [node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields"]
 layout_mode = 2
@@ -342,29 +434,54 @@ layout_mode = 2
 range = Vector2(1, 8)
 value = 2.0
 
-[node name="SurfaceDistance" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(0, 0.001)
-value = 0.001
-
 [node name="Formula" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("12_jiauy")]
 layout_mode = 2
 options = Array[String](["Mandelbulb", "Juliabulb", "Burning Ship", "Mandelbox"])
 
-[node name="FJuliabulbC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("15_0onbf")]
+[node name="Fjuliabulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliabulbC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabulb" instance=ExtResource("15_0onbf")]
 layout_mode = 2
 range_min = Vector3(-2, -2, -2)
 range_max = Vector3(2, 2, 2)
-value = Vector3(0, 0, -0.5)
+value = Vector3(0.35, 0.35, 0.35)
 
-[node name="MaxSteps" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_0ej1w")]
+[node name="Fmandelbulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
 layout_mode = 2
-range = Vector2i(20, 1000)
-value = 100
 
-[node name="FormulaValues" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+[node name="Fmandelbox" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
 layout_mode = 2
-size_flags_vertical = 3
+
+[node name="FmandelboxSphereFold" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.45519e-11, 1, 1)
+
+[node name="FmandelboxBoxSize" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-5, -5, -5)
+range_max = Vector3(5, 5, 5)
+value = Vector3(1, 1, 1)
+
+[node name="FmandelboxSpread" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(-4, 4)
+value = 1.0
+
+[node name="FmandelboxStoneness" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(-2, 2)
+
+[node name="FmandelboxDivisions" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(-2, 2)
+
+[node name="Fburning ship" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+layout_mode = 2
 
 [connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/TextureRect" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/TextureRect" method="_on_mouse_exited"]
@@ -372,10 +489,16 @@ size_flags_vertical = 3
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionRadius" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_radius_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteStrength" to="UI/HBoxContainer/TabContainer" method="_on_vignette_strength_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteRadius" to="UI/HBoxContainer/TabContainer" method="_on_vignette_radius_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/SurfaceDistance" to="UI/HBoxContainer/TabContainer" method="_on_surface_distance_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/MaxSteps" to="UI/HBoxContainer/TabContainer" method="_on_max_steps_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/RaystepMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_raystep_multiplier_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_background_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Iterations" to="UI/HBoxContainer/TabContainer" method="_on_iterations_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/SurfaceDistance" to="UI/HBoxContainer/TabContainer" method="_on_surface_distance_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Formula" to="UI/HBoxContainer/TabContainer" method="_on_formula_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/FJuliabulbC" to="UI/HBoxContainer/TabContainer" method="_on_f_juliabulb_c_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/MaxSteps" to="UI/HBoxContainer/TabContainer" method="_on_max_steps_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabulb/FjuliabulbC" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabulb_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxSphereFold" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_sphere_fold_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxBoxSize" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_box_size_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxSpread" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_spread_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxStoneness" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_stoneness_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxDivisions" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_divisions_value_changed"]

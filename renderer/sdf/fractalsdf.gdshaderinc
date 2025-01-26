@@ -53,11 +53,15 @@ vec4 complexPow4(vec4 z, float to_power) {
 // Mandelbulb //
 ////////////////
 
-vec2 mandelbulb_sdf(vec3 p, out vec3 final_z) {
+// 0 = Mandelbulb, 1 = Juliabulb, 2 = Burning ship
+vec2 mandelfractal(int fractal_id, vec3 p) {
 	vec3 scaled_p = p * size;
-	vec3 z = vec3(0.00001, 0.0, 0.0);
-	vec3 c = scaled_p;
+	vec3 z;
+	vec3 c;
+	if (fractal_id == 1 || fractal_id == 3) { z = vec3(0.00001, 0.0, 0.0); c = scaled_p; } 
+	else { z = scaled_p; c = fjuliabulb_c; }
 	
+	float min_dist = 10000000.0;
 	float r = length(z);
 	float dz = 1.0;
 	float powercache1 = (power - 1.0) * 0.5;
@@ -66,119 +70,35 @@ vec2 mandelbulb_sdf(vec3 p, out vec3 final_z) {
 		dz = power * pow(r, powercache1) * dz + 1.0;
 		float th = power * fast_acos(z.z / r);
 		float ph = power * atan(z.y, z.x);
-		z = complexPow(z, power);
-		z += c;
-		
-		// Break condition
-		r = length(z);
-		
-		if (r > 2.0) {
-			final_z = z;
-			return vec2(0.8 * log(r) * sqrt(r) / dz, float(i));
-		};
-	}
-	
-	final_z = z;
-	return vec2(0.8 * log(r) * sqrt(r) / dz, float(iterations));
-}
-
-///////////////
-// Juliabulb //
-///////////////
-
-vec2 juliabulb_sdf(vec3 p, out vec3 final_z) {
-	vec3 scaled_p = p * size;
-	vec3 z = scaled_p;
-	vec3 c = fjuliabulb_c;
-	
-	float r = length(z);
-	float dz = 1.0;
-	float powercache1 = (power - 1.0) * 0.5;
-	
-	for (int i = 0; i < int(iterations); i++) {
-		dz = power * pow(r, powercache1) * dz + 1.0;
-		float th = power * fast_acos(z.z / r);
-		float ph = power * atan(z.y, z.x);
+		if (fractal_id == 3) z = abs(z);
 		
 		z = complexPow(z, power);
 		z += c;
 		
-		// Break condition
 		r = length(z);
+		float new_dist = distance(z, vec3(0.0, 0.0, 0.0));
+		if (new_dist < min_dist) min_dist = new_dist;
 		
-		if (r > 2.0) {
-			final_z = z;
-			return vec2(0.8 * log(r) * sqrt(r) / dz, float(i));
-		};
+		if (r > escape_radius) break;
 	}
 	
-	final_z = z;
-	return vec2(0.8 * log(r) * sqrt(r) / dz, float(iterations));
-}
-
-//////////////////
-// Burning ship //
-//////////////////
-
-vec2 burning_ship_sdf(vec3 p, out vec3 final_z) {
-	vec3 scaled_p = p * size;
-	vec3 z = vec3(0.00001, 0.0, 0.0);
-	vec3 c = scaled_p;
-	
-	float r = length(z);
-	float dz = 1.0;
-	float powercache1 = (power - 1.0) * 0.5;
-	
-	for (int i = 0; i < int(iterations); i++) {
-		dz = power * pow(r, powercache1) * dz + 1.0;
-		float th = power * acos(z.z / r);
-		float ph = power * atan(z.y, z.x);
-		z = abs(z);
-		z = complexPow(z, power);
-		z += c;
-		
-		// Break condition
-		r = length(z);
-		
-		if (r > 2.0) {
-			final_z = z;
-			return vec2(0.5 * log(r) * sqrt(r) / dz, float(i));
-		};
-	}
-	
-	final_z = z;
-	return vec2(0.5 * log(r) * sqrt(r) / dz, float(iterations));
+	return vec2(0.5 * log(r) * sqrt(r) / dz, min_dist);
 }
 
 ///////////////
 // Mandelbox //
 ///////////////
 
-float sphereFold(vec4 z, float minR, float maxR, float bloatFactor) { // bloat = 1 will not change size.
-	float r2 = dot(z.xyz, z.xyz);
-	return max(maxR / max(minR, r2), bloatFactor);
-}
-void boxFold(inout vec4 z, vec3 r) {
-	z.xyz = clamp(z.xyz, -r, r) * 2.0 - z.xyz;
-}
-
-float de_box(vec4 p, vec3 s) {
-	vec3 a = abs(p.xyz) - s;
-	return (min(max(max(a.x, a.y), a.z), 0.0) + length(max(a, 0.0))) / p.w;
-}
-
-float sineWave(float x, float from, float to) {
-    float amplitude = (to - from) / 2.0; // Amplitude
-    float offset = (to + from) / 2.0;    // Vertical offset
-    float frequency = 1.0;               // Default frequency
-    float phase = 0.0;                   // Default phase
-    return amplitude * sin(2.0 * 3.14159 * frequency * x + phase) + offset;
-}
+// Some algorithms
+float sphereFold(vec4 z, float minR, float maxR, float bloatFactor) { float r2 = dot(z.xyz, z.xyz); return max(maxR / max(minR, r2), bloatFactor); }
+void boxFold(inout vec4 z, vec3 r) { z.xyz = clamp(z.xyz, -r, r) * 2.0 - z.xyz; }
+float de_box(vec4 p, vec3 s) { vec3 a = abs(p.xyz) - s; return (min(max(max(a.x, a.y), a.z), 0.0) + length(max(a, 0.0))) / p.w; }
 
 vec2 mandelbox_sdf(vec3 pos) {
 	vec4 p = vec4(pos, 1);
 	p *= 4.0;
 	vec4 o = p;
+	float min_dist = 100000000.0;
 	
 	for (int i = 0; i < iterations; i++) {
 		boxFold(p, fmandelbox_box_size);
@@ -186,22 +106,20 @@ vec2 mandelbox_sdf(vec3 pos) {
 		p += o * fmandelbox_spread;
 		p += sin(o) * fmandelbox_stoneness;
 		p += sin(o - p) * fmandelbox_divisions;
-		//o = complexPow4(o, fmandelbox_stoneness);
-		//o += sin(o * (sin(p) * fmandelbox_stoneness));
+		
+		if (distance(p, vec4(0.0, 0.0, 0.0, 0.0)) < min_dist) min_dist = distance(p, vec4(0.0, 0.0, 0.0, 0.0));
 	}
 	
-	return vec2(de_box(p, vec3(10, 10, 10)), float(iterations));
+	return vec2(de_box(p, vec3(10, 10, 10)), float(min_dist));
 }
 
 ///////////////
 // Scene SDF //
 ///////////////
 
-vec2 scene_sdf(vec3 p, out vec3 z) {
+vec2 scene_sdf(vec3 p) {
 	vec2 data;
-	if (formula == 1) data = mandelbulb_sdf(p, z);
-	else if (formula == 2) data = juliabulb_sdf(p, z);
-	else if (formula == 3) data = burning_ship_sdf(p, z);
+	if (formula == 1 || formula == 2 || formula == 3) data = mandelfractal(formula, p);
 	else if (formula == 4) data = mandelbox_sdf(p / size);
 	
 	return vec2(data.y, data.x);

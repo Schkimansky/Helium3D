@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=24 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
@@ -10,57 +10,61 @@
 [ext_resource type="Script" path="res://scenes/main/menus_tab_container.gd" id="9_7154d"]
 [ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="9_d1f4f"]
 [ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec_3_label.tscn" id="10_3cnnu"]
+[ext_resource type="PackedScene" uid="uid://3bm0lhhd8bm0" path="res://ui/fields/color field/color_field.tscn" id="10_to5n1"]
 [ext_resource type="PackedScene" uid="uid://btjotc720lyxd" path="res://ui/fields/palette field/palette_field.tscn" id="11_ynfe2"]
 [ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="12_jiauy"]
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
 
-[sub_resource type="Gradient" id="Gradient_s6aip"]
-colors = PackedColorArray(0.516484, 0.810587, 0.995636, 1, 0.344203, 0.655628, 1, 1)
+[sub_resource type="Gradient" id="Gradient_7w6g2"]
+offsets = PackedFloat32Array(0.393443, 1)
+colors = PackedColorArray(0.420165, 0.7145, 1, 1, 0.434144, 0.610843, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ggjc2"]
-gradient = SubResource("Gradient_s6aip")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_585rg"]
+gradient = SubResource("Gradient_7w6g2")
 
-[sub_resource type="Gradient" id="Gradient_m5ook"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_617fk"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.295082, 0.672131, 1)
+colors = PackedColorArray(0.568998, 0.774327, 1, 1, 3.08037e-06, 0.827385, 0.434606, 1, 0.645486, 0.65378, 0.843946, 1, 1, 0.0950595, 0.120653, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_nref8"]
-gradient = SubResource("Gradient_m5ook")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_es10n"]
+gradient = SubResource("Gradient_617fk")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
 render_priority = 0
 shader = ExtResource("3_4yvvm")
 shader_parameter/self_shadow_bias = 0.01
-shader_parameter/shadow_darkness = 0.085
-shader_parameter/shadow_steps = 20
+shader_parameter/shadow_darkness = 0.338
+shader_parameter/shadow_steps = 16
 shader_parameter/shadow_softness = 64.0
 shader_parameter/light1_position = Vector3(10, 10, -10)
 shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 11
-shader_parameter/max_steps = 190
+shader_parameter/iterations = 8
+shader_parameter/max_steps = 120
 shader_parameter/ambient_light = 2.0
 shader_parameter/max_distance = 10.0
-shader_parameter/surface_distance = 0.0001
+shader_parameter/surface_distance = 3e-06
 shader_parameter/raystep_multiplier = 1.0
-shader_parameter/palette = SubResource("GradientTexture1D_nref8")
+shader_parameter/palette = SubResource("GradientTexture1D_es10n")
 shader_parameter/size = 1.0
 shader_parameter/formula = 1
-shader_parameter/power = 2.0
+shader_parameter/power = 6.0
 shader_parameter/escape_radius = 2.0
-shader_parameter/fjuliabulb_c = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
+shader_parameter/fjuliabulb_c = Vector3(0.35, 0.35, 0.35)
 shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
 shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
 shader_parameter/fmandelbox_spread = 1.0
 shader_parameter/fmandelbox_stoneness = 0.0
 shader_parameter/fmandelbox_divisions = 0.0
-shader_parameter/bg_color = SubResource("GradientTexture1D_ggjc2")
+shader_parameter/bg_color = SubResource("GradientTexture1D_585rg")
 shader_parameter/ambient_occlusion_steps = 6
 shader_parameter/ambient_occlusion_radius = 0.035
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
+shader_parameter/metallicness = 1.161
+shader_parameter/metallic_darkness = 0.351
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
@@ -97,7 +101,7 @@ skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(0.627854, 0.444154, -0.639159, 0, 0.821192, 0.57065, 0.778329, -0.358285, 0.515589, -0.866501, 1.29745, 0.673599)
+transform = Transform3D(0.999998, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 2.6)
 script = ExtResource("3_rtqen")
 
 [node name="Head" type="Node3D" parent="SubViewport/Player"]
@@ -144,7 +148,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.1
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
-current_tab = 1
+current_tab = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("9_7154d")
 
@@ -232,6 +236,7 @@ range = Vector2(0, 1)
 value = 0.878
 
 [node name="Rendering" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -247,36 +252,61 @@ layout_mode = 2
 
 [node name="SurfaceDistance" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
 layout_mode = 2
-size_flags_horizontal = 0
 theme_override_constants/line_spacing = -18
 theme_override_fonts/font = SubResource("FontVariation_uuept")
 text = "
 Surface Distance: 
 
+
+
 "
-vertical_alignment = 1
 
 [node name="MaxSteps" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Max Steps:
-
-"
-vertical_alignment = 1
-
-[node name="RaystepMultiplier" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/line_spacing = -17
 theme_override_fonts/font = SubResource("FontVariation_uuept")
 text = "
+Max Steps: 
+
+"
+
+[node name="RaystepMultiplier" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -16
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
 Raystep Multiplier:
 
 "
-vertical_alignment = 1
+
+[node name="Light1Color" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -14
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Light 1 Color:
+
+"
+
+[node name="Light2Color" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "Light 2 Color:
+
+"
+
+[node name="Light1Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names" instance=ExtResource("10_3cnnu")]
+layout_mode = 2
+text = "Light 1 Position: "
+
+[node name="Light2Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names" instance=ExtResource("10_3cnnu")]
+layout_mode = 2
+text = "Light 2 Position: "
 
 [node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
 layout_mode = 2
@@ -298,8 +328,23 @@ layout_mode = 2
 range = Vector2(-3, 3)
 value = 1.0
 
+[node name="Light1Color" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("10_to5n1")]
+layout_mode = 2
+value = Color(1, 1, 1, 1)
+
+[node name="Light2Color" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("10_to5n1")]
+layout_mode = 2
+value = Color(1, 1, 1, 1)
+
+[node name="Light1Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+value = Vector3(10, 10, -10)
+
+[node name="Light2Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+value = Vector3(-10, -10, 10)
+
 [node name="Fractal" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -492,6 +537,10 @@ layout_mode = 2
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/SurfaceDistance" to="UI/HBoxContainer/TabContainer" method="_on_surface_distance_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/MaxSteps" to="UI/HBoxContainer/TabContainer" method="_on_max_steps_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/RaystepMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_raystep_multiplier_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Color" to="UI/HBoxContainer/TabContainer" method="_on_light_1_color_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Color" to="UI/HBoxContainer/TabContainer" method="_on_light_2_color_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Position" to="UI/HBoxContainer/TabContainer" method="_on_light_1_position_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Position" to="UI/HBoxContainer/TabContainer" method="_on_light_2_position_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_background_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Iterations" to="UI/HBoxContainer/TabContainer" method="_on_iterations_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]

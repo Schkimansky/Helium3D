@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-signal value_changed(to: Gradient)
+signal value_changed(to: GradientTexture1D)
 
 func changed_gradient() -> void:
 	var offsets := PackedFloat32Array()
@@ -14,7 +14,9 @@ func changed_gradient() -> void:
 	gradient.offsets = offsets
 	gradient.colors = colors
 	
-	value_changed.emit(gradient)
+	var gradient_texture: GradientTexture1D = GradientTexture1D.new()
+	gradient_texture.gradient = gradient
+	value_changed.emit(gradient_texture)
 
 func _on_button_button_down() -> void:
 	for block in %Blocks.get_children():

@@ -42,43 +42,40 @@ uniform float ambient_occlusion_radius = 0.5;
 uniform float vignette_strength = 0.7;
 uniform float vignette_radius = 0.8;
 
+group_uniforms pbr;
+uniform float metallicness = 0.5;
+uniform float metallic_darkness = 0.3;
+
 #include "mathapprox.gdshaderinc"
 #include "sdf/fractalsdf.gdshaderinc"
 #include "lighting/ambient_occlusion.gdshaderinc"
 
-float smooth_iter(float n, vec3 z) {
-	float log_zn = log(length(z));
-	return n + 1.0 - log(log_zn) / log(2.0);
-}
-
 vec2 ray_marcher(vec3 ro, vec3 rd) {
 	float dfo = 0.0;
-	float iterations_to_escape;
-	vec3 final_z;
-
+	float orbit_trap_distance;
+	
 	for (int i = 0; i < int(max_steps); i++) {
-		vec2 data = scene_sdf(ro + rd * dfo, final_z);
+		vec2 data = scene_sdf(ro + rd * dfo);
 		float point_distance = data.y;
 		dfo += point_distance * raystep_multiplier;
-
+		
 		if (point_distance < surface_distance || dfo > max_distance) {
-			iterations_to_escape = data.x;
+			orbit_trap_distance = data.x;
 			break;
 		};
 	}
-	float smooth_iterations = smooth_iter(iterations_to_escape, final_z);
-	return vec2(smooth_iterations, dfo);
+	
+	return vec2(orbit_trap_distance, dfo);
 }
 
 #include "lighting/lighting.gdshaderinc"
 
 vec3 calculate_normal(vec3 p) {
 	float h = 0.000001;
-	vec3 final_z;
 	return normalize(vec3(
-		scene_sdf(p + vec3(h, 0.0, 0.0), final_z).y - scene_sdf(p - vec3(h, 0.0, 0.0), final_z).y,
-		scene_sdf(p + vec3(0.0, h, 0.0), final_z).y - scene_sdf(p - vec3(0.0, h, 0.0), final_z).y,
-		scene_sdf(p + vec3(0.0, 0.0, h), final_z).y - scene_sdf(p - vec3(0.0, 0.0, h), final_z).y
+		scene_sdf(p + vec3(h, 0.0, 0.0)).y - scene_sdf(p - vec3(h, 0.0, 0.0)).y,
+		scene_sdf(p + vec3(0.0, h, 0.0)).y - scene_sdf(p - vec3(0.0, h, 0.0)).y,
+		scene_sdf(p + vec3(0.0, 0.0, h)).y - scene_sdf(p - vec3(0.0, 0.0, h)).y
 	));
 }
 
@@ -86,7 +83,7 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	vec2 data = ray_marcher(ray_origin, ray_dir);
 	float iterations_to_escape = data.x;
 	float dfo = data.y;
-	vec3 palette_color = texture(palette, vec2((iterations_to_escape / float(iterations)) * 256.0, 0.0)).xyz * 3.0;
+	vec3 palette_color = texture(palette, vec2((iterations_to_escape) * 3.0, 0.0)).xyz * 3.0;
 
 	if (dfo >= max_distance) {
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
@@ -94,9 +91,11 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	} else {
 		vec3 p = ray_origin + ray_dir * dfo;
 		vec3 normal = calculate_normal(p);
+		
 		float ao = calculate_ambient_occlusion(p, normal);
-		float light1 = get_light(p, light1_position, normal);
-		float light2 = get_light(p, light2_position, normal);
+		float light1 = get_light(p, ray_dir, ray_origin, light1_position, normal);
+		float light2 = get_light(p, ray_dir, ray_origin, light2_position, normal);
+		
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
 		return palette_color * ao * ((light1 * light1_color) + (light2 * light2_color)) * ambient_light * vignette;
 	}

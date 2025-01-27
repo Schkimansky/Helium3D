@@ -46,10 +46,9 @@ shader_parameter/iterations = 15
 shader_parameter/max_steps = 150
 shader_parameter/ambient_light = 2.0
 shader_parameter/max_distance = 10.0
-shader_parameter/surface_distance = 0.0002
-shader_parameter/raystep_multiplier = 2.0
+shader_parameter/surface_distance = 0.0041
+shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_es10n")
-shader_parameter/size = 1.0
 shader_parameter/formula = 4
 shader_parameter/power = 2.2
 shader_parameter/escape_radius = 2.0
@@ -64,8 +63,8 @@ shader_parameter/ambient_occlusion_steps = 6
 shader_parameter/ambient_occlusion_radius = 0.035
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
-shader_parameter/metallicness = 1.45519e-11
-shader_parameter/metallic_darkness = 1.0
+shader_parameter/metallicness = 0.542
+shader_parameter/metallic_darkness = 0.204
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
@@ -81,6 +80,12 @@ spacing_top = 1
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
+
+[node name="Fractal" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521775, 0.270679, -0.0960679)
+material_override = SubResource("ShaderMaterial_pfrgc")
+mesh = SubResource("BoxMesh_bajpv")
 
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
@@ -102,13 +107,6 @@ fsr_sharpness = 2.0
 size = Vector2i(600, 600)
 render_target_update_mode = 1
 script = ExtResource("2_2kstx")
-
-[node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
-unique_name_in_owner = true
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521775, 0.270679, -0.0960679)
-material_override = SubResource("ShaderMaterial_pfrgc")
-mesh = SubResource("BoxMesh_bajpv")
-skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true

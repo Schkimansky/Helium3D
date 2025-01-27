@@ -55,7 +55,7 @@ vec4 complexPow4(vec4 z, float to_power) {
 
 // 0 = Mandelbulb, 1 = Juliabulb, 2 = Burning ship
 vec2 mandelfractal(int fractal_id, vec3 p) {
-	vec3 scaled_p = p * size;
+	vec3 scaled_p = p;
 	vec3 z;
 	vec3 c;
 	if (fractal_id == 1 || fractal_id == 3) { z = vec3(0.00001, 0.0, 0.0); c = scaled_p; } 
@@ -120,7 +120,7 @@ vec2 mandelbox_sdf(vec3 pos) {
 vec2 scene_sdf(vec3 p) {
 	vec2 data;
 	if (formula == 1 || formula == 2 || formula == 3) data = mandelfractal(formula, p);
-	else if (formula == 4) data = mandelbox_sdf(p / size);
+	else if (formula == 4) data = mandelbox_sdf(p);
 	
 	return vec2(data.y, data.x);
 }

@@ -23,7 +23,6 @@ uniform sampler2D palette;
 
 group_uniforms fractal;
 uniform sampler2D bg_color;
-uniform float size = 1.0;
 uniform int formula = 1;
 uniform float power = 2.0;
 uniform float escape_radius = 2.0;

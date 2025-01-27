@@ -1,19 +1,21 @@
 extends HBoxContainer
 
 func _on_save_picture_pressed() -> void:
+	%FileDialog.ok_button_text = 'Save Picture'
 	%FileDialog.title = "Save Picture"
 	%FileDialog.clear_filters()
 	%FileDialog.add_filter('*.png, *.jpg, *.jpeg, *.webp', 'Images')
 	%FileDialog.show()
 
 func _on_load_pressed() -> void:
+	%FileDialog.ok_button_text = 'Load'
 	%FileDialog.title = "Load Project"
 	%FileDialog.clear_filters()
 	%FileDialog.add_filter('*.hlm', 'Helium3D Files')
 	%FileDialog.show()
 
 func _on_save_pressed() -> void:
-	%FileDialog.file_mode = 0
+	%FileDialog.ok_button_text = 'Save'
 	%FileDialog.title = "Save Project"
 	%FileDialog.clear_filters()
 	%FileDialog.add_filter('*.hlm', 'Helium3D Files')

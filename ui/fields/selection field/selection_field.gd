@@ -6,8 +6,11 @@ signal value_changed(option: String)
 @export var index: int = 0:
 	set(value):
 		index = value
+		$HBoxContainer/Label.text = options[index]
+		value_changed.emit(options[index])
 
 func _ready() -> void:
+	Global.value_nodes.append(self)
 	$HBoxContainer/Label.text = options[index]
 
 func _on_left_pressed() -> void:

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://xa6av42x8erd" path="res://ui/fields/base field/field.tscn" id="1_dylg4"]
 [ext_resource type="Script" path="res://ui/fields/selection field/selection_field.gd" id="2_xel7h"]
-[ext_resource type="FontFile" path="res://resources/font/Rubik-SemiBold.ttf" id="3_xqcdh"]
+[ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="3_xqcdh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q7glo"]
 bg_color = Color(0.0807833, 0.0807834, 0.0807832, 1)

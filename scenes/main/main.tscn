@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=25 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
 [ext_resource type="Shader" path="res://renderer/renderer.gdshader" id="3_4yvvm"]
 [ext_resource type="Script" path="res://scenes/main/player.gd" id="3_rtqen"]
+[ext_resource type="Script" path="res://scenes/main/tool_bar.gd" id="5_og0rs"]
 [ext_resource type="Script" path="res://scenes/main/texture_rect.gd" id="6_dbdf5"]
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="8_rhsly"]
 [ext_resource type="PackedScene" uid="uid://cm48vjc7rstpn" path="res://ui/fields/int field/int_field.tscn" id="9_0ej1w"]
@@ -16,16 +17,16 @@
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
 
 [sub_resource type="Gradient" id="Gradient_7w6g2"]
-offsets = PackedFloat32Array(0.393443, 1)
-colors = PackedColorArray(0.420165, 0.7145, 1, 1, 0.434144, 0.610843, 1, 1)
+offsets = PackedFloat32Array(0, 0.766393)
+colors = PackedColorArray(1, 0.769624, 0.491186, 1, 0.978542, 0.668863, 0.236873, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_585rg"]
 gradient = SubResource("Gradient_7w6g2")
 
 [sub_resource type="Gradient" id="Gradient_617fk"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.295082, 0.672131, 1)
-colors = PackedColorArray(0.568998, 0.774327, 1, 1, 3.08037e-06, 0.827385, 0.434606, 1, 0.645486, 0.65378, 0.843946, 1, 1, 0.0950595, 0.120653, 1)
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_es10n"]
 gradient = SubResource("Gradient_617fk")
@@ -41,16 +42,16 @@ shader_parameter/light1_position = Vector3(10, 10, -10)
 shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 8
-shader_parameter/max_steps = 120
+shader_parameter/iterations = 15
+shader_parameter/max_steps = 150
 shader_parameter/ambient_light = 2.0
 shader_parameter/max_distance = 10.0
-shader_parameter/surface_distance = 3e-06
-shader_parameter/raystep_multiplier = 1.0
+shader_parameter/surface_distance = 0.0002
+shader_parameter/raystep_multiplier = 2.0
 shader_parameter/palette = SubResource("GradientTexture1D_es10n")
 shader_parameter/size = 1.0
-shader_parameter/formula = 1
-shader_parameter/power = 6.0
+shader_parameter/formula = 4
+shader_parameter/power = 2.2
 shader_parameter/escape_radius = 2.0
 shader_parameter/fjuliabulb_c = Vector3(0.35, 0.35, 0.35)
 shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
@@ -63,8 +64,8 @@ shader_parameter/ambient_occlusion_steps = 6
 shader_parameter/ambient_occlusion_radius = 0.035
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
-shader_parameter/metallicness = 1.161
-shader_parameter/metallic_darkness = 0.351
+shader_parameter/metallicness = 1.45519e-11
+shader_parameter/metallic_darkness = 1.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
@@ -80,6 +81,14 @@ spacing_top = 1
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+initial_position = 1
+size = Vector2i(1333, 760)
+file_mode = 0
+access = 2
 
 [node name="SubViewport" type="SubViewport" parent="."]
 unique_name_in_owner = true
@@ -128,21 +137,42 @@ layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/HBoxContainer"]
+[node name="MarginContainer" type="VBoxContainer" parent="UI/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.55
-theme_override_constants/margin_top = 30
 
-[node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer/MarginContainer"]
+[node name="ToolBar" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("5_og0rs")
+
+[node name="Save" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+layout_mode = 2
+text = "Save"
+
+[node name="Load" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+layout_mode = 2
+text = "Load"
+
+[node name="SavePicture" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+layout_mode = 2
+text = "Save Picture"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
 texture = SubResource("ViewportTexture_qn1xg")
 script = ExtResource("6_dbdf5")
 
 [node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.1
@@ -528,8 +558,12 @@ range = Vector2(-2, 2)
 [node name="Fburning ship" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
 layout_mode = 2
 
-[connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/TextureRect" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/TextureRect" method="_on_mouse_exited"]
+[connection signal="confirmed" from="FileDialog" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_file_dialog_confirmed"]
+[connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Save" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Load" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_load_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/SavePicture" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_picture_pressed"]
+[connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" method="_on_mouse_exited"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionSteps" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_steps_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionRadius" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_radius_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteStrength" to="UI/HBoxContainer/TabContainer" method="_on_vignette_strength_value_changed"]
@@ -537,11 +571,11 @@ layout_mode = 2
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/SurfaceDistance" to="UI/HBoxContainer/TabContainer" method="_on_surface_distance_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/MaxSteps" to="UI/HBoxContainer/TabContainer" method="_on_max_steps_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/RaystepMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_raystep_multiplier_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Color" to="UI/HBoxContainer/TabContainer" method="_on_light_1_color_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Color" to="UI/HBoxContainer/TabContainer" method="_on_light_2_color_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Position" to="UI/HBoxContainer/TabContainer" method="_on_light_1_position_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Position" to="UI/HBoxContainer/TabContainer" method="_on_light_2_position_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_background_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Color" to="UI/HBoxContainer/TabContainer" method="_on_light1_color_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Color" to="UI/HBoxContainer/TabContainer" method="_on_light2_color_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Position" to="UI/HBoxContainer/TabContainer" method="_on_light1_position_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Position" to="UI/HBoxContainer/TabContainer" method="_on_light2_position_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_bg_color_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Iterations" to="UI/HBoxContainer/TabContainer" method="_on_iterations_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Formula" to="UI/HBoxContainer/TabContainer" method="_on_formula_value_changed"]

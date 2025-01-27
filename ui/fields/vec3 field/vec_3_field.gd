@@ -13,7 +13,7 @@ signal value_changed(to: Vector3)
 		%Z.value = value.z
 
 func _ready() -> void:
-	print(value)
+	Global.value_nodes.append(self)
 	%X.range = Vector2(range_min.x, range_max.x)
 	%Y.range = Vector2(range_min.y, range_max.y)
 	%Z.range = Vector2(range_min.z, range_max.z)

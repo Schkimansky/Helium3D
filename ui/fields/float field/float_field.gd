@@ -19,6 +19,7 @@ func format_float(float_value: float) -> String:
 	return ("%0." + str(precision) + "f") % float_value
 
 func _ready() -> void:
+	Global.value_nodes.append(self)
 	$LineEdit.text = format_float(value)
 	$HSlider.step = 0.0000001
 	$HSlider.min_value = range.x

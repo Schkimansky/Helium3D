@@ -35,7 +35,6 @@ func _process(delta: float) -> void:
 		$"../../..".call_deferred('changed_gradient')
 		free()
 	
-	#print(is_mouse_inside)
 	if is_mouse_inside and Input.is_action_just_pressed("mouse click"):
 		is_dragging = true
 		drag_start_x = get_global_mouse_position().x

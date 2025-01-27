@@ -11,6 +11,7 @@ signal value_changed(to: int)
 		$LineEdit.text = str(v)
 
 func _ready() -> void:
+	Global.value_nodes.append(self)
 	$HSlider.min_value = range.x
 	$HSlider.max_value = range.y
 	$HSlider.set_value_no_signal(value)

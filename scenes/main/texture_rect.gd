@@ -15,10 +15,11 @@ var is_hovering := false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and is_holding:
-		head.rotate_y(-event.relative.x * SENSITIVITY)
+		var input: Vector2 = Vector2(event.relative.x, event.relative.y)
+		var adjusted_input: Vector2 = input.rotated(-camera.rotation.z)
 		
-		var new_pitch: float = camera.rotation.x - event.relative.y * SENSITIVITY
-		camera.rotation.x = clamp(new_pitch, deg_to_rad(-80), deg_to_rad(80))
+		head.rotate_y(-adjusted_input.x * SENSITIVITY)
+		camera.rotation.x = clamp(camera.rotation.x - adjusted_input.y * SENSITIVITY, deg_to_rad(-80), deg_to_rad(80))
 		
 		%SubViewport.refresh_taa()
 
@@ -32,16 +33,16 @@ func _physics_process(delta: float) -> void:
 		is_holding = false
 	
 	if Input.is_action_pressed('rotate left'):
-		%Player.get_node('Head/Camera').rotation_degrees.z += 20 * delta
+		camera.rotation_degrees.z += 20 * delta
 		%SubViewport.since_last_dynamic_update = 0.0
 	if Input.is_action_pressed('rotate right'):
-		%Player.get_node('Head/Camera').rotation_degrees.z -= 20 * delta
+		camera.rotation_degrees.z -= 20 * delta
 		%SubViewport.since_last_dynamic_update = 0.0
 	
 	if is_holding and Input.is_action_just_released('mouse wheel up'):
-		speed = clamp(speed + delta, 0.001, 100.0)
+		speed = clamp(speed * 1.1, 0.0, 100.0)
 	if is_holding and Input.is_action_just_released('mouse wheel down'):
-		speed = clamp(speed - delta, 0.001, 100.0)
+		speed = clamp(speed / 1.1, 0.0, 100.0)
 	
 	if is_holding:
 		var direction := Input.get_vector("a", "d", "s", "w")
@@ -49,21 +50,19 @@ func _physics_process(delta: float) -> void:
 		if direction:
 			%SubViewport.refresh_taa()
 		
-		var forward: Vector3 = -%Player.get_node('Head/Camera').global_transform.basis.z.normalized()
-		var right: Vector3 = %Player.get_node('Head/Camera').global_transform.basis.x.normalized()
-		var up: Vector3 = %Player.get_node('Head/Camera').global_transform.basis.y.normalized()
+		var forward: Vector3 = -camera.global_transform.basis.z.normalized()
+		var right: Vector3 = camera.global_transform.basis.x.normalized()
+		var up: Vector3 = camera.global_transform.basis.y.normalized()
 		var movement_direction := (right * direction.x + forward * direction.y).normalized()
 		
-		head.global_transform.origin += movement_direction * speed * delta
+		%Player.global_transform.origin += movement_direction * speed * delta
 		
 		if Input.is_action_pressed('up'):
-			head.global_transform.origin += up * speed * delta
+			%Player.global_transform.origin += up * speed * delta
 			%SubViewport.refresh_taa()
 		elif Input.is_action_pressed('down'):
-			head.global_transform.origin -= up * speed * delta
+			%Player.global_transform.origin -= up * speed * delta
 			%SubViewport.refresh_taa()
-	
-	%Player.move_and_slide()
 
 func _on_mouse_entered() -> void: is_hovering = true
 func _on_mouse_exited() -> void: is_hovering = false

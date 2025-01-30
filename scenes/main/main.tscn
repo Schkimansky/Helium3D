@@ -18,15 +18,14 @@
 
 [sub_resource type="Gradient" id="Gradient_7w6g2"]
 offsets = PackedFloat32Array(0, 0.766393)
-colors = PackedColorArray(1, 0.769624, 0.491186, 1, 0.978542, 0.668863, 0.236873, 1)
+colors = PackedColorArray(0.679304, 0.835563, 1, 1, 0.554142, 0.68827, 0.967115, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_585rg"]
 gradient = SubResource("Gradient_7w6g2")
 
 [sub_resource type="Gradient" id="Gradient_617fk"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.760984)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0.0210896, 0.0755712)
+colors = PackedColorArray(0.195957, 0.356849, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_es10n"]
 gradient = SubResource("Gradient_617fk")
@@ -42,23 +41,25 @@ shader_parameter/light1_position = Vector3(10, 10, -10)
 shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 9
-shader_parameter/max_steps = 230
-shader_parameter/ambient_light = 2.0
-shader_parameter/max_distance = 50.0
-shader_parameter/surface_distance = 3e-06
+shader_parameter/iterations = 6
+shader_parameter/max_steps = 60
+shader_parameter/ambient_light = 2.053
+shader_parameter/max_distance = 37.0
+shader_parameter/surface_distance = 0.0042
 shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_es10n")
-shader_parameter/formula = 16
+shader_parameter/formula = 3
 shader_parameter/power = 2.0
 shader_parameter/escape_radius = 8.0
 shader_parameter/bg_color = SubResource("GradientTexture1D_585rg")
-shader_parameter/fjuliabulb_c = Vector3(0.108, 1.055, 0.673)
+shader_parameter/fjuliabulb_c = Vector3(-0.198, 0.113, -0.828)
 shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
 shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
+shader_parameter/fmandelbox_sphere_reflection = 0.0
 shader_parameter/fmandelbox_spread = 1.0
 shader_parameter/fmandelbox_stoneness = 0.0
 shader_parameter/fmandelbox_divisions = 0.0
+shader_parameter/fmandelbox_sphere_reflection_position = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
 shader_parameter/fhedgebulb_cosine_offset = 0.0
 shader_parameter/fhedgebulb_cosine_multiplier = 1.0
 shader_parameter/fhedgebulb_sine_multiplier = 0.0
@@ -67,40 +68,11 @@ shader_parameter/fboxbloat_abs_multiplier = 1.0
 shader_parameter/ftrenchbloat_cosine_multiplier1 = -0.26
 shader_parameter/ftrenchbloat_cosine_multiplier2in = 2.355
 shader_parameter/ftrenchbloat_cosine_multiplier2out = 0.843
-shader_parameter/fbasebox_tan_multiplier = 1.0
-shader_parameter/fbasebox_abs_multiplier = 1.0
-shader_parameter/fbasebox_cosine_multiplier1 = 1.0
-shader_parameter/fbasebox_cosine_multiplier2 = 1.0
-shader_parameter/fstarbulb_adder = Vector3(1.913, 1.109, 1.45519e-11)
-shader_parameter/fstarbulb_multiplier = Vector3(1.723, 4.381, 2.223)
-shader_parameter/fwingtail_adder = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
-shader_parameter/fwingtail_multiplier = Vector3(1.5, 1, 1)
-shader_parameter/ftribulb_multiplier1 = Vector3(5.347, 0.019, 1)
-shader_parameter/ftribulb_multiplier2 = Vector3(0.247, 1, 1)
-shader_parameter/fjuliaswirl_c = Vector3(1.45519e-11, -0.043, -0.007)
-shader_parameter/fjuliaswirl_csqrt_multiplier = Vector3(1, 1, 1)
-shader_parameter/ftrijulia_c = Vector3(0.774, 0.738, 1.29)
-shader_parameter/ftrijulia_sine_multiplier1 = Vector3(-0.363, 2.748, 2.648)
-shader_parameter/ftrijulia_sine_multiplier2 = Vector3(1, 1, 1)
-shader_parameter/ftrijulia_cosine_multiplier = Vector3(1, 1, 1)
-shader_parameter/ftangentjulia_c = Vector3(-1, -0.816, -0.057)
-shader_parameter/ftangentjulia_sine_multiplier1 = Vector3(1.814, 1.495, -2.246)
-shader_parameter/ftangentjulia_sine_multiplier2 = Vector3(1.466, 0.014, 1.746)
-shader_parameter/ftangentjulia_cosine_multiplier = Vector3(1, 1, 1)
-shader_parameter/fjuliaisland_c = Vector3(1.059, 2.06, 1.606)
-shader_parameter/fjuliaisland_abs_multiplier = Vector3(1.45519e-11, 0.276, -0.003)
-shader_parameter/fjuliaisland_cosine_multiplier = Vector3(0.847, 1.19, 2.073)
-shader_parameter/fjuliabloat_c = Vector3(0.25, -0.353, 1.45519e-11)
-shader_parameter/fjuliabloat_abs_multiplier = Vector3(-0.077, -0.035, 1.571)
-shader_parameter/fjuliabloat_cosine_multiplier1 = Vector3(1.807, 2.882, 0.2)
-shader_parameter/fjuliabloat_cosine_multiplier2 = Vector3(-0.544, -1.425, 2.272)
-shader_parameter/fjuliabloat_sine_multiplier1 = Vector3(-0.367, 0.102, 1.377)
-shader_parameter/fjuliabloat_sine_multiplier2 = Vector3(-6.158, 1, 1)
 shader_parameter/ambient_occlusion_steps = 7
 shader_parameter/ambient_occlusion_radius = 0.165
 shader_parameter/ambient_occlusion_darkness = 0.0376
 shader_parameter/vignette_strength = 0.7
-shader_parameter/vignette_radius = 0.8
+shader_parameter/vignette_radius = 0.91
 shader_parameter/metallicness = 1.45519e-11
 shader_parameter/metallic_darkness = 0.204
 
@@ -140,6 +112,12 @@ viewport_path = NodePath("SubViewport")
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
 
+[node name="Fractal" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521775, 0.270679, -0.0960677)
+material_override = SubResource("ShaderMaterial_pfrgc")
+mesh = SubResource("BoxMesh_bajpv")
+
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
 title = "Open a File"
@@ -161,13 +139,6 @@ fsr_sharpness = 2.0
 size = Vector2i(600, 600)
 render_target_update_mode = 1
 script = ExtResource("2_2kstx")
-
-[node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
-unique_name_in_owner = true
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521775, 0.270679, -0.0960677)
-material_override = SubResource("ShaderMaterial_pfrgc")
-mesh = SubResource("BoxMesh_bajpv")
-skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true
@@ -384,22 +355,22 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 range = Vector2i(0, 12)
-value = 4
+value = 7
 
 [node name="AmbientOcclusionRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
 range = Vector2(0.001, 2)
-value = 0.035
+value = 0.165
 
 [node name="VignetteStrength" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
 range = Vector2(0, 1)
-value = 0.8
+value = 0.7
 
 [node name="VignetteRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
 range = Vector2(0, 1)
-value = 0.878
+value = 0.91
 
 [node name="Rendering" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
 layout_mode = 2
@@ -485,8 +456,8 @@ value = 0.001
 
 [node name="MaxSteps" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_0ej1w")]
 layout_mode = 2
-range = Vector2i(20, 1000)
-value = 100
+range = Vector2i(10, 1000)
+value = 350
 
 [node name="RaystepMultiplier" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
@@ -686,7 +657,7 @@ layout_mode = 2
 [node name="Iterations" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_0ej1w")]
 layout_mode = 2
 range = Vector2i(1, 40)
-value = 10
+value = 9
 
 [node name="Power" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2

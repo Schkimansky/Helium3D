@@ -34,9 +34,11 @@ uniform vec3 fjuliabulb_c = vec3(0.35, 0.35, 0.35);
 group_uniforms mandelbox;
 uniform vec3 fmandelbox_sphere_fold = vec3(0.0, 1.0, 1.0);
 uniform vec3 fmandelbox_box_size = vec3(1.0, 1.0, 1.0);
+uniform float fmandelbox_sphere_reflection = 0.0;
 uniform float fmandelbox_spread = 1.0;
 uniform float fmandelbox_stoneness = 0.0;
 uniform float fmandelbox_divisions = 0.0;
+uniform vec3 fmandelbox_sphere_reflection_position = vec3(0.0, 0.0, 0.0);
 // Hedgebulb
 group_uniforms hedgebulb;
 uniform float fhedgebulb_cosine_offset = 0.0;
@@ -51,53 +53,53 @@ group_uniforms trenchbloat;
 uniform float ftrenchbloat_cosine_multiplier1 = 1.0;
 uniform float ftrenchbloat_cosine_multiplier2in = 1.0;
 uniform float ftrenchbloat_cosine_multiplier2out = 1.0;
-// Basebox
-group_uniforms basebox;
-uniform float fbasebox_tan_multiplier = 1.0;
-uniform float fbasebox_abs_multiplier = 1.0;
-uniform float fbasebox_cosine_multiplier1 = 1.0;
-uniform float fbasebox_cosine_multiplier2 = 1.0;
-// Starbloat
-group_uniforms starbloat;
-uniform vec3 fstarbulb_adder = vec3(1.0, 1.0, 1.0);
-uniform vec3 fstarbulb_multiplier = vec3(1.0, 1.0, 1.0);
-// Wingtail
-group_uniforms wingtail;
-uniform vec3 fwingtail_adder = vec3(0.0, 0.0, 1.0);
-uniform vec3 fwingtail_multiplier = vec3(1.5, 1.0, 1.0);
-// Tribulb
-group_uniforms tribulb;
-uniform vec3 ftribulb_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftribulb_multiplier2 = vec3(1.0, 1.0, 1.0);
-// Juliaswirl
-group_uniforms juliaswirl;
-uniform vec3 fjuliaswirl_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliaswirl_csqrt_multiplier = vec3(1.0, 1.0, 1.0);
-// Trijulia
-group_uniforms trijulia;
-uniform vec3 ftrijulia_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftrijulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftrijulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftrijulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
-// Tangentjulia
-group_uniforms tangentjulia;
-uniform vec3 ftangentjulia_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftangentjulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftangentjulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftangentjulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
-// Juliaisland
-group_uniforms juliaisland;
-uniform vec3 fjuliaisland_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliaisland_abs_multiplier = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliaisland_cosine_multiplier = vec3(1.0, 1.0, 1.0);
-// Juliabloat
-group_uniforms juliabloat;
-uniform vec3 fjuliabloat_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_abs_multiplier = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_cosine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_cosine_multiplier2 = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
+//// Basebox
+//group_uniforms basebox;
+//uniform float fbasebox_tan_multiplier = 1.0;
+//uniform float fbasebox_abs_multiplier = 1.0;
+//uniform float fbasebox_cosine_multiplier1 = 1.0;
+//uniform float fbasebox_cosine_multiplier2 = 1.0;
+//// Starbloat
+//group_uniforms starbloat;
+//uniform vec3 fstarbulb_adder = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fstarbulb_multiplier = vec3(1.0, 1.0, 1.0);
+//// Wingtail
+//group_uniforms wingtail;
+//uniform vec3 fwingtail_adder = vec3(0.0, 0.0, 1.0);
+//uniform vec3 fwingtail_multiplier = vec3(1.5, 1.0, 1.0);
+//// Tribulb
+//group_uniforms tribulb;
+//uniform vec3 ftribulb_multiplier1 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 ftribulb_multiplier2 = vec3(1.0, 1.0, 1.0);
+//// Juliaswirl
+//group_uniforms juliaswirl;
+//uniform vec3 fjuliaswirl_c = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliaswirl_csqrt_multiplier = vec3(1.0, 1.0, 1.0);
+//// Trijulia
+//group_uniforms trijulia;
+//uniform vec3 ftrijulia_c = vec3(1.0, 1.0, 1.0);
+//uniform vec3 ftrijulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 ftrijulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 ftrijulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
+//// Tangentjulia
+//group_uniforms tangentjulia;
+//uniform vec3 ftangentjulia_c = vec3(1.0, 1.0, 1.0);
+//uniform vec3 ftangentjulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 ftangentjulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 ftangentjulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
+//// Juliaisland
+//group_uniforms juliaisland;
+//uniform vec3 fjuliaisland_c = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliaisland_abs_multiplier = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliaisland_cosine_multiplier = vec3(1.0, 1.0, 1.0);
+//// Juliabloat
+//group_uniforms juliabloat;
+//uniform vec3 fjuliabloat_c = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliabloat_abs_multiplier = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliabloat_cosine_multiplier1 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliabloat_cosine_multiplier2 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliabloat_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
+//uniform vec3 fjuliabloat_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
 
 group_uniforms post_processing;
 uniform int ambient_occlusion_steps = 6;

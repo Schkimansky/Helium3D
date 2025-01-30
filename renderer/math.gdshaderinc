@@ -56,6 +56,10 @@ vec4 complexPow4(vec4 z, float to_power) {
 
 float sphere_sdf3d(vec3 p, vec3 sphere_position, float radius) { return length(p - sphere_position) - radius; }
 float sphere_sdf4d(vec4 p, vec4 sphere_position, float radius) { return length(p - sphere_position) - radius; }
+float cube_sdf3d(vec3 p, vec3 s) {
+	vec3 q = abs(p) - s;
+	return length(max(q, 0.0));
+}
 
 vec3 negative_sqrt(vec3 v) {
 	vec3 square_root = sqrt(abs(v));
@@ -96,48 +100,48 @@ vec3 sphereInversion(vec3 p, vec3 center, float radius) {
     return center + (radius * radius / distSq) * delta;
 }
 
-float fast_atan(float y, float x) {
-    float a = y / (x + 0.00001);  // To avoid division by zero
-    return a / (1.0 + 0.28 * a * a);
-}
-
-float fast_sin(float x) {
-    float x2 = x * x;
-    float x3 = x2 * x;
-    float x5 = x3 * x2;
-    float x7 = x5 * x2;
-
-    return x - (x3 / 6.0) + (x5 / 120.0) - (x7 / 5040.0);
-}
-
-float fast_cos(float x) {
-    float x2 = x * x;
-    float x4 = x2 * x2;
-    float x6 = x4 * x2;
-
-    return 1.0 - (x2 / 2.0) + (x4 / 24.0) - (x6 / 720.0);
-}
-
-float fast_pow(float base, float exponent) {
-    return exp(exponent * log(base));
-}
-
-float fast_sqrt(float value) {
-    float guess = value * 0.5; // Initial guess
-    float tolerance = 0.0001;
-    float diff = 1.0;
-
-    while (diff > tolerance) {
-        float newGuess = 0.5 * (guess + value / guess);
-        diff = abs(newGuess - guess);
-        guess = newGuess;
-    }
-
-    return guess;
-}
-
-float fast_log(float x) {
-    x = (x - 1.0) / (x + 1.0);
-    float x2 = x * x;
-    return 2.0 * (x + x2 * (1.0 / 3.0 + x2 * (1.0 / 5.0 + x2 * (1.0 / 7.0))));
-}
+//float fast_atan(float y, float x) {
+    //float a = y / (x + 0.00001);  // To avoid division by zero
+    //return a / (1.0 + 0.28 * a * a);
+//}
+//
+//float fast_sin(float x) {
+    //float x2 = x * x;
+    //float x3 = x2 * x;
+    //float x5 = x3 * x2;
+    //float x7 = x5 * x2;
+//
+    //return x - (x3 / 6.0) + (x5 / 120.0) - (x7 / 5040.0);
+//}
+//
+//float fast_cos(float x) {
+    //float x2 = x * x;
+    //float x4 = x2 * x2;
+    //float x6 = x4 * x2;
+//
+    //return 1.0 - (x2 / 2.0) + (x4 / 24.0) - (x6 / 720.0);
+//}
+//
+//float fast_pow(float base, float exponent) {
+    //return exp(exponent * log(base));
+//}
+//
+//float fast_sqrt(float value) {
+    //float guess = value * 0.5; // Initial guess
+    //float tolerance = 0.0001;
+    //float diff = 1.0;
+//
+    //while (diff > tolerance) {
+        //float newGuess = 0.5 * (guess + value / guess);
+        //diff = abs(newGuess - guess);
+        //guess = newGuess;
+    //}
+//
+    //return guess;
+//}
+//
+//float fast_log(float x) {
+    //x = (x - 1.0) / (x + 1.0);
+    //float x2 = x * x;
+    //return 2.0 * (x + x2 * (1.0 / 3.0 + x2 * (1.0 / 5.0 + x2 * (1.0 / 7.0))));
+//}

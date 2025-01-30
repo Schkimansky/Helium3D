@@ -11,12 +11,12 @@ expand_margin_top = 6.0
 expand_margin_right = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="Gradient" id="Gradient_j113o"]
-colors = PackedColorArray(0, 0, 0, 1, 1, 0.497615, 0.300867, 1)
+[sub_resource type="Gradient" id="Gradient_7w6g2"]
+offsets = PackedFloat32Array(0, 0.766393)
+colors = PackedColorArray(0.679304, 0.835563, 1, 1, 0.554142, 0.68827, 0.967115, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_w6i2o"]
-gradient = SubResource("Gradient_j113o")
-width = 129
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qoncu"]
+gradient = SubResource("Gradient_7w6g2")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ptrqr"]
 
@@ -48,7 +48,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource("GradientTexture1D_w6i2o")
+texture = SubResource("GradientTexture1D_qoncu")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer" index="2"]
 layout_mode = 2
@@ -73,8 +73,8 @@ anchors_preset = 0
 offset_left = 400.0
 offset_right = 412.0
 offset_bottom = 24.0
-offset = 0.357
-color = Color(0.521569, 0.603922, 0.807843, 1)
+offset = 1.45519e-11
+color = Color(0.678431, 0.835294, 1, 1)
 
 [node name="PaletteFieldColorBlock2" parent="MarginContainer/Blocks" index="1" instance=ExtResource("2_k2iqx")]
 layout_mode = 2
@@ -82,7 +82,8 @@ anchors_preset = 0
 offset_left = 400.0
 offset_right = 412.0
 offset_bottom = 24.0
-color = Color(0.360784, 0.556863, 1, 1)
+offset = 0.76639
+color = Color(0.552941, 0.690196, 0.968627, 1)
 
 [node name="Label" type="Label" parent="MarginContainer" index="4"]
 layout_mode = 2

@@ -33,7 +33,7 @@ func _on_file_dialog_confirmed() -> void:
 	elif %FileDialog.title == "Save Project":
 		var file: FileAccess = FileAccess.open(%FileDialog.current_path, FileAccess.WRITE)
 		var data: Dictionary = get_tree().current_scene.fields
-		data['other'] = {'player_position': %Player.global_position, 'head_rotation': %Player.get_node('Head').global_rotation_degrees, 'camera_rotation': %Player.get_node('Head/Camera').global_rotation_degrees}
+		data['other'] = {'player_position': %Player.global_position, 'head_rotation': %Player.get_node('Head').global_rotation_degrees, 'camera_rotation': %Player.get_node('Head/Camera').global_rotation_degrees, 'bgcoloroffsets': data['bg_color'].gradient.offsets, 'bgcolorcolors': data['bg_color'].gradient.colors}
 		file.store_var(data)
 		print('saving: ', data)
 		file.close()
@@ -48,6 +48,8 @@ func _on_file_dialog_confirmed() -> void:
 		%Player.global_position = other_data['player_position']
 		%Player.get_node('Head').global_rotation_degrees = other_data['head_rotation']
 		%Player.get_node('Head/Camera').global_rotation_degrees = other_data['camera_rotation']
+		%UI.get_node('HBoxContainer/TabContainer/Fractal/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
+		
 		%SubViewport.refresh_taa()
 		
 		file.close()

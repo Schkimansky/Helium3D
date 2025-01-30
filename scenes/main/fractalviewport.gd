@@ -3,9 +3,10 @@ extends SubViewport
 # scaling template fast: 0.55, 0.8
 # scaling template medium: 0.7, 1.0
 # scaling template heavy: 0.9, 1.5
+# scaling template responsive: 0.45, 0.9
 
-var low_scaling := 0.45
-var high_scaling := 0.9
+var low_scaling := 0.3
+var high_scaling := 0.77
 var since_last_dynamic_update := 0.0
 
 func _ready() -> void:

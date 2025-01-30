@@ -27,17 +27,82 @@ uniform int formula = 1;
 uniform float power = 2.0;
 uniform float escape_radius = 2.0;
 
+// Juliabulb
+group_uniforms juliabulb;
 uniform vec3 fjuliabulb_c = vec3(0.35, 0.35, 0.35);
-
+// Mandelbox
+group_uniforms mandelbox;
 uniform vec3 fmandelbox_sphere_fold = vec3(0.0, 1.0, 1.0);
 uniform vec3 fmandelbox_box_size = vec3(1.0, 1.0, 1.0);
 uniform float fmandelbox_spread = 1.0;
 uniform float fmandelbox_stoneness = 0.0;
 uniform float fmandelbox_divisions = 0.0;
+// Hedgebulb
+group_uniforms hedgebulb;
+uniform float fhedgebulb_cosine_offset = 0.0;
+uniform float fhedgebulb_cosine_multiplier = 1.0;
+uniform float fhedgebulb_sine_multiplier = 0.0;
+// Boxbloat
+group_uniforms boxbloat;
+uniform float fboxbloat_cosine_multiplier = 1.0;
+uniform float fboxbloat_abs_multiplier = 1.0;
+// Trenchbloat
+group_uniforms trenchbloat;
+uniform float ftrenchbloat_cosine_multiplier1 = 1.0;
+uniform float ftrenchbloat_cosine_multiplier2in = 1.0;
+uniform float ftrenchbloat_cosine_multiplier2out = 1.0;
+// Basebox
+group_uniforms basebox;
+uniform float fbasebox_tan_multiplier = 1.0;
+uniform float fbasebox_abs_multiplier = 1.0;
+uniform float fbasebox_cosine_multiplier1 = 1.0;
+uniform float fbasebox_cosine_multiplier2 = 1.0;
+// Starbloat
+group_uniforms starbloat;
+uniform vec3 fstarbulb_adder = vec3(1.0, 1.0, 1.0);
+uniform vec3 fstarbulb_multiplier = vec3(1.0, 1.0, 1.0);
+// Wingtail
+group_uniforms wingtail;
+uniform vec3 fwingtail_adder = vec3(0.0, 0.0, 1.0);
+uniform vec3 fwingtail_multiplier = vec3(1.5, 1.0, 1.0);
+// Tribulb
+group_uniforms tribulb;
+uniform vec3 ftribulb_multiplier1 = vec3(1.0, 1.0, 1.0);
+uniform vec3 ftribulb_multiplier2 = vec3(1.0, 1.0, 1.0);
+// Juliaswirl
+group_uniforms juliaswirl;
+uniform vec3 fjuliaswirl_c = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliaswirl_csqrt_multiplier = vec3(1.0, 1.0, 1.0);
+// Trijulia
+group_uniforms trijulia;
+uniform vec3 ftrijulia_c = vec3(1.0, 1.0, 1.0);
+uniform vec3 ftrijulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
+uniform vec3 ftrijulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
+uniform vec3 ftrijulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
+// Tangentjulia
+group_uniforms tangentjulia;
+uniform vec3 ftangentjulia_c = vec3(1.0, 1.0, 1.0);
+uniform vec3 ftangentjulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
+uniform vec3 ftangentjulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
+uniform vec3 ftangentjulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
+// Juliaisland
+group_uniforms juliaisland;
+uniform vec3 fjuliaisland_c = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliaisland_abs_multiplier = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliaisland_cosine_multiplier = vec3(1.0, 1.0, 1.0);
+// Juliabloat
+group_uniforms juliabloat;
+uniform vec3 fjuliabloat_c = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliabloat_abs_multiplier = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliabloat_cosine_multiplier1 = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliabloat_cosine_multiplier2 = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliabloat_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
+uniform vec3 fjuliabloat_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
 
 group_uniforms post_processing;
 uniform int ambient_occlusion_steps = 6;
 uniform float ambient_occlusion_radius = 0.5;
+uniform float ambient_occlusion_darkness = 0.7;
 uniform float vignette_strength = 0.7;
 uniform float vignette_radius = 0.8;
 
@@ -45,25 +110,25 @@ group_uniforms pbr;
 uniform float metallicness = 0.5;
 uniform float metallic_darkness = 0.3;
 
-#include "mathapprox.gdshaderinc"
+#include "math.gdshaderinc"
 #include "sdf/fractalsdf.gdshaderinc"
 #include "lighting/ambient_occlusion.gdshaderinc"
 
 vec2 ray_marcher(vec3 ro, vec3 rd) {
 	float dfo = 0.0;
 	float orbit_trap_distance;
-	
+
 	for (int i = 0; i < int(max_steps); i++) {
 		vec2 data = scene_sdf(ro + rd * dfo);
 		float point_distance = data.y;
 		dfo += point_distance * raystep_multiplier;
-		
+
 		if (point_distance < surface_distance || dfo > max_distance) {
 			orbit_trap_distance = data.x;
 			break;
 		};
 	}
-	
+
 	return vec2(orbit_trap_distance, dfo);
 }
 
@@ -90,11 +155,11 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	} else {
 		vec3 p = ray_origin + ray_dir * dfo;
 		vec3 normal = calculate_normal(p);
-		
-		float ao = calculate_ambient_occlusion(p, normal);
+
+		float ao = max(calculate_ambient_occlusion(p, normal), ambient_occlusion_darkness);
 		float light1 = get_light(p, ray_dir, ray_origin, light1_position, normal);
 		float light2 = get_light(p, ray_dir, ray_origin, light2_position, normal);
-		
+
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
 		return palette_color * ao * ((light1 * light1_color) + (light2 * light2_color)) * ambient_light * vignette;
 	}
@@ -126,6 +191,5 @@ void fragment() {
 	vec3 ray_origin = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION_WORLD, 1)).xyz;
 	vec3 ray_dir = normalize(vertex_ls - ray_origin);
 
-	vec3 final_albedo = calculate_albedo(ray_origin, ray_dir, SCREEN_UV);
-	ALBEDO = final_albedo;
+	ALBEDO = calculate_albedo(ray_origin, ray_dir, SCREEN_UV);
 }

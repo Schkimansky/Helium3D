@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=29 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
@@ -25,8 +25,8 @@ gradient = SubResource("Gradient_7w6g2")
 
 [sub_resource type="Gradient" id="Gradient_617fk"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(1, 1, 1, 1)
+offsets = PackedFloat32Array(0, 0.760984)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_es10n"]
 gradient = SubResource("Gradient_617fk")
@@ -35,63 +35,117 @@ gradient = SubResource("Gradient_617fk")
 render_priority = 0
 shader = ExtResource("3_4yvvm")
 shader_parameter/self_shadow_bias = 0.01
-shader_parameter/shadow_darkness = 0.338
-shader_parameter/shadow_steps = 16
+shader_parameter/shadow_darkness = 0.7
+shader_parameter/shadow_steps = 12
 shader_parameter/shadow_softness = 64.0
 shader_parameter/light1_position = Vector3(10, 10, -10)
 shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 15
-shader_parameter/max_steps = 150
+shader_parameter/iterations = 9
+shader_parameter/max_steps = 230
 shader_parameter/ambient_light = 2.0
-shader_parameter/max_distance = 10.0
-shader_parameter/surface_distance = 0.0041
+shader_parameter/max_distance = 50.0
+shader_parameter/surface_distance = 3e-06
 shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_es10n")
-shader_parameter/formula = 4
-shader_parameter/power = 2.2
-shader_parameter/escape_radius = 2.0
-shader_parameter/fjuliabulb_c = Vector3(0.35, 0.35, 0.35)
+shader_parameter/formula = 16
+shader_parameter/power = 2.0
+shader_parameter/escape_radius = 8.0
+shader_parameter/bg_color = SubResource("GradientTexture1D_585rg")
+shader_parameter/fjuliabulb_c = Vector3(0.108, 1.055, 0.673)
 shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
 shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
 shader_parameter/fmandelbox_spread = 1.0
 shader_parameter/fmandelbox_stoneness = 0.0
 shader_parameter/fmandelbox_divisions = 0.0
-shader_parameter/bg_color = SubResource("GradientTexture1D_585rg")
-shader_parameter/ambient_occlusion_steps = 6
-shader_parameter/ambient_occlusion_radius = 0.035
+shader_parameter/fhedgebulb_cosine_offset = 0.0
+shader_parameter/fhedgebulb_cosine_multiplier = 1.0
+shader_parameter/fhedgebulb_sine_multiplier = 0.0
+shader_parameter/fboxbloat_cosine_multiplier = 1.0
+shader_parameter/fboxbloat_abs_multiplier = 1.0
+shader_parameter/ftrenchbloat_cosine_multiplier1 = -0.26
+shader_parameter/ftrenchbloat_cosine_multiplier2in = 2.355
+shader_parameter/ftrenchbloat_cosine_multiplier2out = 0.843
+shader_parameter/fbasebox_tan_multiplier = 1.0
+shader_parameter/fbasebox_abs_multiplier = 1.0
+shader_parameter/fbasebox_cosine_multiplier1 = 1.0
+shader_parameter/fbasebox_cosine_multiplier2 = 1.0
+shader_parameter/fstarbulb_adder = Vector3(1.913, 1.109, 1.45519e-11)
+shader_parameter/fstarbulb_multiplier = Vector3(1.723, 4.381, 2.223)
+shader_parameter/fwingtail_adder = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
+shader_parameter/fwingtail_multiplier = Vector3(1.5, 1, 1)
+shader_parameter/ftribulb_multiplier1 = Vector3(5.347, 0.019, 1)
+shader_parameter/ftribulb_multiplier2 = Vector3(0.247, 1, 1)
+shader_parameter/fjuliaswirl_c = Vector3(1.45519e-11, -0.043, -0.007)
+shader_parameter/fjuliaswirl_csqrt_multiplier = Vector3(1, 1, 1)
+shader_parameter/ftrijulia_c = Vector3(0.774, 0.738, 1.29)
+shader_parameter/ftrijulia_sine_multiplier1 = Vector3(-0.363, 2.748, 2.648)
+shader_parameter/ftrijulia_sine_multiplier2 = Vector3(1, 1, 1)
+shader_parameter/ftrijulia_cosine_multiplier = Vector3(1, 1, 1)
+shader_parameter/ftangentjulia_c = Vector3(-1, -0.816, -0.057)
+shader_parameter/ftangentjulia_sine_multiplier1 = Vector3(1.814, 1.495, -2.246)
+shader_parameter/ftangentjulia_sine_multiplier2 = Vector3(1.466, 0.014, 1.746)
+shader_parameter/ftangentjulia_cosine_multiplier = Vector3(1, 1, 1)
+shader_parameter/fjuliaisland_c = Vector3(1.059, 2.06, 1.606)
+shader_parameter/fjuliaisland_abs_multiplier = Vector3(1.45519e-11, 0.276, -0.003)
+shader_parameter/fjuliaisland_cosine_multiplier = Vector3(0.847, 1.19, 2.073)
+shader_parameter/fjuliabloat_c = Vector3(0.25, -0.353, 1.45519e-11)
+shader_parameter/fjuliabloat_abs_multiplier = Vector3(-0.077, -0.035, 1.571)
+shader_parameter/fjuliabloat_cosine_multiplier1 = Vector3(1.807, 2.882, 0.2)
+shader_parameter/fjuliabloat_cosine_multiplier2 = Vector3(-0.544, -1.425, 2.272)
+shader_parameter/fjuliabloat_sine_multiplier1 = Vector3(-0.367, 0.102, 1.377)
+shader_parameter/fjuliabloat_sine_multiplier2 = Vector3(-6.158, 1, 1)
+shader_parameter/ambient_occlusion_steps = 7
+shader_parameter/ambient_occlusion_radius = 0.165
+shader_parameter/ambient_occlusion_darkness = 0.0376
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
-shader_parameter/metallicness = 0.542
+shader_parameter/metallicness = 1.45519e-11
 shader_parameter/metallic_darkness = 0.204
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
+
+[sub_resource type="FontVariation" id="FontVariation_uuept"]
+base_font = ExtResource("8_rhsly")
+spacing_top = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p0jhq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vjvc1"]
+bg_color = Color(0.355314, 0.355314, 0.355314, 0.0313726)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.356863, 0.356863, 0.356863, 0.0313726)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dw2n5"]
+bg_color = Color(0, 0, 0, 0.207843)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 0.207843)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2tj6"]
+bg_color = Color(0, 0, 0, 0.207843)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_qn1xg"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0eucc"]
 
-[sub_resource type="FontVariation" id="FontVariation_uuept"]
-base_font = ExtResource("8_rhsly")
-spacing_top = 1
-
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
-
-[node name="Fractal" type="MeshInstance3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521775, 0.270679, -0.0960679)
-material_override = SubResource("ShaderMaterial_pfrgc")
-mesh = SubResource("BoxMesh_bajpv")
 
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
 title = "Open a File"
-initial_position = 1
+initial_position = 2
 size = Vector2i(1152, 648)
+ok_button_text = "Open"
 dialog_hide_on_ok = true
 cancel_button_text = "Close"
 file_mode = 0
@@ -107,6 +161,13 @@ fsr_sharpness = 2.0
 size = Vector2i(600, 600)
 render_target_update_mode = 1
 script = ExtResource("2_2kstx")
+
+[node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
+unique_name_in_owner = true
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521775, 0.270679, -0.0960677)
+material_override = SubResource("ShaderMaterial_pfrgc")
+mesh = SubResource("BoxMesh_bajpv")
+skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true
@@ -125,7 +186,59 @@ offset_top = 136.0
 offset_right = -59.0
 offset_bottom = 144.0
 
+[node name="Coloring" type="MarginContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1052.0
+offset_top = 27.0
+offset_right = 1052.0
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="Fields" type="HBoxContainer" parent="Coloring"]
+layout_mode = 2
+
+[node name="Names" type="VBoxContainer" parent="Coloring/Fields"]
+layout_mode = 2
+
+[node name="ColorShape" type="Label" parent="Coloring/Fields/Names"]
+layout_mode = 2
+theme_override_constants/line_spacing = -18
+theme_override_fonts/font = SubResource("FontVariation_uuept")
+text = "
+Color Shape: 
+
+
+
+"
+
+[node name="PointShapeFieldNames" type="VBoxContainer" parent="Coloring/Fields/Names"]
+layout_mode = 2
+
+[node name="Point" parent="Coloring/Fields/Names/PointShapeFieldNames" instance=ExtResource("10_3cnnu")]
+layout_mode = 2
+text = "Point: "
+
+[node name="Values" type="VBoxContainer" parent="Coloring/Fields"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorShape" parent="Coloring/Fields/Values" instance=ExtResource("12_jiauy")]
+layout_mode = 2
+options = Array[String](["Point"])
+
+[node name="PointShapeFieldValues" type="VBoxContainer" parent="Coloring/Fields/Values"]
+layout_mode = 2
+
+[node name="Point" parent="Coloring/Fields/Values/PointShapeFieldValues" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+
 [node name="UI" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -135,6 +248,7 @@ grow_vertical = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="MarginContainer" type="VBoxContainer" parent="UI/HBoxContainer"]
@@ -145,19 +259,40 @@ size_flags_stretch_ratio = 2.55
 [node name="ToolBar" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_constants/separation = 0
 script = ExtResource("5_og0rs")
 
 [node name="Save" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
 layout_mode = 2
-text = "Save"
+theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p0jhq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vjvc1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dw2n5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
+text = " Save "
 
 [node name="Load" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
 layout_mode = 2
-text = "Load"
+theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p0jhq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vjvc1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dw2n5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
+text = " Load "
 
 [node name="SavePicture" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
 layout_mode = 2
-text = "Save Picture"
+theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p0jhq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vjvc1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dw2n5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
+text = " Save Picture "
+
+[node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -176,9 +311,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.1
+theme_override_constants/side_margin = 0
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
-current_tab = 2
+current_tab = 1
 drag_to_rearrange_enabled = true
 script = ExtResource("9_7154d")
 
@@ -266,7 +402,6 @@ range = Vector2(0, 1)
 value = 0.878
 
 [node name="Rendering" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -375,6 +510,7 @@ layout_mode = 2
 value = Vector3(-10, -10, 10)
 
 [node name="Fractal" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -444,6 +580,10 @@ text = "C: "
 visible = false
 layout_mode = 2
 
+[node name="Fhedgebulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
 [node name="Fmandelbox" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
 visible = false
 layout_mode = 2
@@ -492,6 +632,50 @@ vertical_alignment = 1
 visible = false
 layout_mode = 2
 
+[node name="Fjuliaswirl" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftrijulia" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftangentjulia" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fjuliaisland" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fjuliabloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fboxbloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fbasebox" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftrenchbloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fstarbloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fwingtail" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftribulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Names"]
+visible = false
+layout_mode = 2
+
 [node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -511,7 +695,7 @@ value = 2.0
 
 [node name="Formula" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values" instance=ExtResource("12_jiauy")]
 layout_mode = 2
-options = Array[String](["Mandelbulb", "Juliabulb", "Burning Ship", "Mandelbox"])
+options = Array[String](["Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox"])
 
 [node name="Fjuliabulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
 visible = false
@@ -521,9 +705,148 @@ layout_mode = 2
 layout_mode = 2
 range_min = Vector3(-2, -2, -2)
 range_max = Vector3(2, 2, 2)
-value = Vector3(0.35, 0.35, 0.35)
+value = Vector3(0.108, 1.055, 0.673)
+
+[node name="Fjuliaswirl" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliaswirlC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaswirl" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.45519e-11, -0.043, -0.007)
+
+[node name="FjuliaswirlCsqrtMultiplier" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaswirl" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-1, -1, -1)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1.45519e-11)
+
+[node name="Ftrijulia" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FtrijuliaC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.774, 0.738, 1.29)
+
+[node name="FtrijuliaSineMultiplier1" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-0.363, 2.748, 2.648)
+
+[node name="FtrijuliaSineMultiplier2" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="FtrijuliaCosineMultiplier" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="Ftangentjulia" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FtangentjuliaC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-1, -0.816, -0.057)
+
+[node name="FtangentjuliaSineMultiplier1" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.814, 1.495, -2.246)
+
+[node name="FtangentjuliaSineMultiplier2" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.466, 0.014, 1.746)
+
+[node name="FtangentjuliaCosineMultiplier" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="Fjuliaisland" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliaislandC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaisland" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.059, 2.06, 1.606)
+
+[node name="FjuliaislandAbsMultiplier" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaisland" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.45519e-11, 0.276, -0.003)
+
+[node name="FjuliaislandCosineMultiplier" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaisland" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.847, 1.19, 2.073)
+
+[node name="Fjuliabloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliabloatC" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.25, -0.353, 1.45519e-11)
+
+[node name="FjuliabloatAbsMultiplier" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.727, 0.792, -0.062)
+
+[node name="FjuliabloatCosineMultiplier1" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.807, 2.882, 0.2)
+
+[node name="FjuliabloatCosineMultiplier2" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-0.544, -1.425, 2.272)
+
+[node name="FjuliabloatSineMultiplier1" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-0.367, 0.102, 1.377)
+
+[node name="FjuliabloatSineMultiplier2" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat" instance=ExtResource("15_0onbf")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
 
 [node name="Fmandelbulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fhedgebulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
 layout_mode = 2
 
 [node name="Fmandelbox" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
@@ -556,6 +879,31 @@ layout_mode = 2
 range = Vector2(-2, 2)
 
 [node name="Fburning ship" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fboxbloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fbasebox" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Ftrenchbloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fstarbloat" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fwingtail" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Ftribulb" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Fractal/Fields/Values"]
+visible = false
 layout_mode = 2
 
 [connection signal="confirmed" from="FileDialog" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_file_dialog_confirmed"]
@@ -580,6 +928,25 @@ layout_mode = 2
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Formula" to="UI/HBoxContainer/TabContainer" method="_on_formula_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabulb/FjuliabulbC" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabulb_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaswirl/FjuliaswirlC" to="UI/HBoxContainer/TabContainer" method="_on_fjuliaswirl_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaswirl/FjuliaswirlCsqrtMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_fjuliaswirl_c_sqrt_multiplier_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia/FtrijuliaC" to="UI/HBoxContainer/TabContainer" method="_on_ftrijulia_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia/FtrijuliaSineMultiplier1" to="UI/HBoxContainer/TabContainer" method="_on_ftrijulia_sine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia/FtrijuliaSineMultiplier2" to="UI/HBoxContainer/TabContainer" method="_on_ftrijulia_sine_multiplier_2_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftrijulia/FtrijuliaCosineMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_ftrijulia_cosine_multiplier_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia/FtangentjuliaC" to="UI/HBoxContainer/TabContainer" method="_on_ftangentjulia_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia/FtangentjuliaSineMultiplier1" to="UI/HBoxContainer/TabContainer" method="_on_ftangentjulia_sine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia/FtangentjuliaSineMultiplier2" to="UI/HBoxContainer/TabContainer" method="_on_ftangentjulia_sine_multiplier_2_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Ftangentjulia/FtangentjuliaCosineMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_ftangentjulia_cosine_multiplier_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaisland/FjuliaislandC" to="UI/HBoxContainer/TabContainer" method="_on_fjuliaisland_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaisland/FjuliaislandAbsMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_fjuliaisland_abs_multiplier_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliaisland/FjuliaislandCosineMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_fjuliaisland_cosine_multiplier_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat/FjuliabloatC" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabloat_c_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat/FjuliabloatAbsMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabloat_abs_multiplier_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat/FjuliabloatCosineMultiplier1" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabloat_cosine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat/FjuliabloatCosineMultiplier2" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabloat_cosine_multiplier_2_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat/FjuliabloatSineMultiplier1" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabloat_sine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fjuliabloat/FjuliabloatSineMultiplier2" to="UI/HBoxContainer/TabContainer" method="_on_fjuliabloat_sine_multiplier_2_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxSphereFold" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_sphere_fold_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxBoxSize" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_box_size_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Fractal/Fields/Values/Fmandelbox/FmandelboxSpread" to="UI/HBoxContainer/TabContainer" method="_on_fmandelbox_spread_value_changed"]

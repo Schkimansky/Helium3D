@@ -12,6 +12,7 @@ var prevent_opening_colorpicker: bool = false
 	set(value):
 		color = value
 		$Circle.self_modulate = color
+		$Circle/ColorPickerButton.color = color
 
 func _ready() -> void:
 	$Circle.self_modulate = color
@@ -20,6 +21,13 @@ func reload_position() -> void:
 	var length: float = $"../../..".size.x - 19
 	
 	position.x = clamp(offset * length, -5, length)
+	$"../../..".changed_gradient()
+
+func set_block_offset(new_offset: float) -> void:
+	var length: float = $"../../..".size.x - 19
+	
+	position.x = clamp(new_offset * length, 0, length)
+	position.y = ($"../..".size.y - 12) / 2
 	$"../../..".changed_gradient()
 
 func _process(delta: float) -> void:

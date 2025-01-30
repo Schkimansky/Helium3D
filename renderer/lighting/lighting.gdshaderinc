@@ -32,7 +32,7 @@ float soft_shadow(vec3 p, vec3 light_pos, float k) {
 float get_light(vec3 p, vec3 rd, vec3 ro, vec3 light_pos, vec3 normal) {
 	vec3 to_light = normalize(light_pos - p);
 	float light_intensity = 0.6;
-	float light = light_intensity * clamp(dot(to_light, normal), 0.0, 1.0);
+	float light = light_intensity * clamp(dot(to_light, normal), 0.05, 1.0);
 
 	float shadow = soft_shadow(p, light_pos, shadow_softness);
 	vec3 reflection = reflect(to_light, normal);

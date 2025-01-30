@@ -1,88 +1,69 @@
-#include "res://renderer/mathapprox.gdshaderinc"
+#include "res://renderer/math.gdshaderinc"
 
-vec3 complexPow(vec3 z, float to_power) {
-	float r = length(z); // Magnitude of z
-	float theta = fast_acos(z.z / r); // Polar angle (theta)
-	float phi = atan(z.y, z.x); // Azimuthal angle (phi)
-	
-	// Raise the magnitude to the power
-	float r_pow = pow(r, to_power);
-	
-	// Multiply the angles by the power
-	float theta_pow = to_power * theta;
-	float phi_pow = to_power * phi;
-	
-	// Convert back to Cartesian coordinates
-	vec3 result = r_pow * vec3(
-		sin(theta_pow) * cos(phi_pow),
-		sin(theta_pow) * sin(phi_pow),
-		cos(theta_pow)
-	);
-	
-	return result;
-}
+///////////////////////////////
+// Mandelbulb and variations //
+///////////////////////////////
 
-vec4 complexPow4(vec4 z, float to_power) {
-    // Treat the vec4 as two separate complex numbers: (x, y) and (z, w)
-    vec2 complex1 = vec2(z.x, z.y);
-    vec2 complex2 = vec2(z.z, z.w);
-
-    // Compute the magnitude and angle for each complex number
-    float r1 = length(complex1);
-    float r2 = length(complex2);
-    float theta1 = atan(complex1.y, complex1.x);
-    float theta2 = atan(complex2.y, complex2.x);
-
-    // Raise the magnitudes to the power
-    float r1_pow = pow(r1, to_power);
-    float r2_pow = pow(r2, to_power);
-
-    // Multiply the angles by the power
-    float theta1_pow = to_power * theta1;
-    float theta2_pow = to_power * theta2;
-
-    // Convert back to Cartesian coordinates for each complex number
-    vec2 result1 = r1_pow * vec2(cos(theta1_pow), sin(theta1_pow));
-    vec2 result2 = r2_pow * vec2(cos(theta2_pow), sin(theta2_pow));
-
-    // Combine the results into a vec4
-    return vec4(result1, result2);
-}
-
-////////////////
-// Mandelbulb //
-////////////////
-
-// 0 = Mandelbulb, 1 = Juliabulb, 2 = Burning ship
 vec2 mandelfractal(int fractal_id, vec3 p) {
-	vec3 scaled_p = p;
-	vec3 z;
-	vec3 c;
-	if (fractal_id == 1 || fractal_id == 3) { z = vec3(0.00001, 0.0, 0.0); c = scaled_p; } 
-	else { z = scaled_p; c = fjuliabulb_c; }
-	
-	float min_dist = 10000000.0;
-	float r = length(z);
-	float dz = 1.0;
-	float powercache1 = (power - 1.0) * 0.5;
-	
-	for (int i = 0; i < int(iterations); i++) {
-		dz = power * pow(r, powercache1) * dz + 1.0;
-		float th = power * fast_acos(z.z / r);
-		float ph = power * atan(z.y, z.x);
-		if (fractal_id == 3) z = abs(z);
-		
-		z = complexPow(z, power);
-		z += c;
-		
-		r = length(z);
-		float new_dist = distance(z, vec3(0.0, 0.0, 0.0));
-		if (new_dist < min_dist) min_dist = new_dist;
-		
-		if (r > escape_radius) break;
-	}
-	
-	return vec2(0.5 * log(r) * sqrt(r) / dz, min_dist);
+    vec3 scaled_p = p;
+    vec3 z;
+    vec3 c;
+    if (fractal_id == 2) {
+        z = scaled_p;
+        c = fjuliabulb_c; 
+	} else if (fractal_id == 11) {
+        z = scaled_p;
+        c = fjuliaswirl_c;
+	} else if (fractal_id == 12) {
+        z = scaled_p;
+        c = ftrijulia_c;
+	} else if (fractal_id == 13) {
+        z = scaled_p;
+        c = ftangentjulia_c;
+	} else if (fractal_id == 14) {
+        z = scaled_p;
+        c = fjuliaisland_c;
+	} else if (fractal_id == 15) {
+        z = scaled_p;
+        c = fjuliabloat_c;
+	} else {
+        z = vec3(0.00001, 0.0, 0.0);
+        c = scaled_p;
+    }
+
+    float min_dist = 10000000.0;
+    float r = length(z);
+    float dz = 1.0;
+    float powercache1 = (power - 1.0) * 0.5;
+
+    for (int i = 0; i < int(iterations); i++) {
+        dz = power * pow(r, powercache1) * dz + 1.0;
+        float th = power * fast_acos(z.z / r);
+        float ph = power * atan(z.y, z.x);
+        if (fractal_id == 3) z = abs(z);
+
+        if (fractal_id <= 3) { z = complexPow(z, power); z += c; }
+        else if (fractal_id == 4) { z = complexPow(z, power); z += c; z += (cos((c - z) + fhedgebulb_cosine_offset) * fhedgebulb_cosine_multiplier) + (sin(c + z) * fhedgebulb_sine_multiplier); }
+        else if (fractal_id == 5) z = complexPow(z, power) + abs(c * z * fboxbloat_abs_multiplier) + cos(c - z * fboxbloat_cosine_multiplier);
+        else if (fractal_id == 6) { z = complexPow(z, power); z += c; z += (abs(cos((c - z) * ftrenchbloat_cosine_multiplier1))) - (cos((c - z) * ftrenchbloat_cosine_multiplier2in) * ftrenchbloat_cosine_multiplier2out); }
+        else if (fractal_id == 7) { z = complexPow(z, power); z += c; z -= (abs(cos(tan(c * z) * fbasebox_tan_multiplier) * fbasebox_cosine_multiplier1) * fbasebox_abs_multiplier) - (cos(c - z) * fbasebox_cosine_multiplier2); }
+        else if (fractal_id == 8) { z = complexPow(z, power); z += c; z = vec3(z.x + log(abs(z.y * fstarbulb_multiplier.y + fstarbulb_adder.y) * fstarbulb_multiplier.x + fstarbulb_adder.x), z.y + log(abs(z.z) * fstarbulb_multiplier.z + fstarbulb_adder.z), z.z + log(abs(z.x) + 1.0)); }
+        else if (fractal_id == 9) { z = complexPow(z, power); z -= c; z = vec3(z.y + log(abs(z.x + fwingtail_adder.x) * fwingtail_multiplier.x), (z.y * fwingtail_multiplier.y + fwingtail_adder.y) + log(abs(z.z * fwingtail_multiplier.z + fwingtail_adder.z) + 1.0), z.z + log(abs(z.x) + 1.0)); }
+        else if (fractal_id == 10) { z = complexPow(z, power); z += length(negative_sqrt(c * ftribulb_multiplier1)) * (c * ftribulb_multiplier2); }
+        else if (fractal_id == 11) { vec3 zminus = negative_sqrt(c * fjuliaswirl_csqrt_multiplier); z += complexPow(z - zminus, power); z -= zminus; }
+        else if (fractal_id == 12) { z = complexPow(z, power); z += sin(c * z * ftrijulia_sine_multiplier1); z += cos(c * ftrijulia_cosine_multiplier) - sin(c * ftrijulia_sine_multiplier2); }
+        else if (fractal_id == 13) { z = complexPow(z, power); z += sin(c * z * ftangentjulia_sine_multiplier1); z -= cos(c * ftangentjulia_cosine_multiplier) + sin(c * ftangentjulia_sine_multiplier2); }
+        else if (fractal_id == 14) { z = complexPow(z, power) - abs(c * z * fjuliaisland_abs_multiplier) - cos((c - z) * fjuliaisland_cosine_multiplier); }
+        else if (fractal_id == 15) { z = complexPow(z, power) - abs(c * z * fjuliabloat_abs_multiplier) - cos((c - z) * fjuliabloat_cosine_multiplier1); z += sin((c * z) * fjuliabloat_sine_multiplier1); z += cos(c * fjuliabloat_cosine_multiplier2) + sin(c * fjuliabloat_sine_multiplier2); }
+
+        r = length(z);
+        float new_dist = distance(z, vec3(0.0, 0.0, 0.0));
+        if (new_dist < min_dist) min_dist = new_dist;
+
+        if (r > escape_radius) break;
+    }
+
+    return vec2(0.5 * log(r) * sqrt(r) / dz, min_dist);
 }
 
 ///////////////
@@ -95,11 +76,11 @@ void boxFold(inout vec4 z, vec3 r) { z.xyz = clamp(z.xyz, -r, r) * 2.0 - z.xyz; 
 float de_box(vec4 p, vec3 s) { vec3 a = abs(p.xyz) - s; return (min(max(max(a.x, a.y), a.z), 0.0) + length(max(a, 0.0))) / p.w; }
 
 vec2 mandelbox_sdf(vec3 pos) {
-	vec4 p = vec4(pos, 1);
+	vec4 p = vec4(pos, 1.0);
 	p *= 4.0;
 	vec4 o = p;
 	float min_dist = 100000000.0;
-	
+
 	for (int i = 0; i < iterations; i++) {
 		boxFold(p, fmandelbox_box_size);
 		p *= sphereFold(p, fmandelbox_sphere_fold.x, fmandelbox_sphere_fold.y, fmandelbox_sphere_fold.z) * power;
@@ -107,9 +88,9 @@ vec2 mandelbox_sdf(vec3 pos) {
 		p += sin(o) * fmandelbox_stoneness;
 		p += sin(o - p) * fmandelbox_divisions;
 		
-		if (distance(p, vec4(0.0, 0.0, 0.0, 0.0)) < min_dist) min_dist = distance(p, vec4(0.0, 0.0, 0.0, 0.0));
+		min_dist = min(min_dist, sphere_sdf4d(p, vec4(0.0, 0.0, 1.0, 2.0), 1.0));
 	}
-	
+
 	return vec2(de_box(p, vec3(10, 10, 10)), float(min_dist));
 }
 
@@ -119,8 +100,8 @@ vec2 mandelbox_sdf(vec3 pos) {
 
 vec2 scene_sdf(vec3 p) {
 	vec2 data;
-	if (formula == 1 || formula == 2 || formula == 3) data = mandelfractal(formula, p);
-	else if (formula == 4) data = mandelbox_sdf(p);
-	
+	if (formula == 16) data = mandelbox_sdf(p);
+	else if (formula <= 15) data = mandelfractal(formula, p);
+
 	return vec2(data.y, data.x);
 }

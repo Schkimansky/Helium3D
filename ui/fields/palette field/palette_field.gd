@@ -1,9 +1,24 @@
 extends HBoxContainer
 
-signal value_changed(to: GradientTexture1D)
+const BLOCK_SCENE = preload('res://ui/fields/palette field color block/palette_field_color_block.tscn')
+
+signal value_changed(to: Gradient)
 
 func _ready() -> void:
 	Global.value_nodes.append(self)
+
+func set_value(offsets: PackedFloat32Array, colors: PackedColorArray) -> void:
+	for block in %Blocks.get_children():
+		%Blocks.remove_child(block)
+	
+	for i in len(offsets):
+		var color := colors[i]
+		var offset := offsets[i]
+		var block := BLOCK_SCENE.instantiate()
+		block.offset = offset
+		block.color = color
+		%Blocks.add_child(block)
+		block.set_block_offset(block.offset)
 
 func changed_gradient() -> void:
 	var offsets := PackedFloat32Array()
@@ -19,10 +34,9 @@ func changed_gradient() -> void:
 	
 	var gradient_texture: GradientTexture1D = GradientTexture1D.new()
 	gradient_texture.gradient = gradient
-	value_changed.emit(gradient_texture)
+	value_changed.emit(gradient)
 
 func _on_button_button_down() -> void:
-	const BLOCK_SCENE = preload('res://ui/fields/palette field color block/palette_field_color_block.tscn')
 	var block := BLOCK_SCENE.instantiate()
 	%Blocks.add_child(block)
 	block.offset = 0.5

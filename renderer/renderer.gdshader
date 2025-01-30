@@ -6,6 +6,7 @@ uniform float self_shadow_bias = 0.01;
 uniform float shadow_darkness = 0.7;
 uniform int shadow_steps = 4;
 uniform float shadow_softness = 64.0;
+uniform float e = 0.0;
 
 group_uniforms rendering;
 uniform vec3 light1_position = vec3(1.3, 1.6, -1.0);

@@ -8,9 +8,9 @@ vec2 mandelfractal(int fractal_id, vec3 p) {
     vec3 scaled_p = p;
     vec3 z;
     vec3 c;
-    //if (fractal_id == 2) {
-        //z = scaled_p;
-        //c = fjuliabulb_c; 
+    if (fractal_id == 2) {
+        z = scaled_p;
+        c = fjuliabulb_c; 
 	//} else if (fractal_id == 11) {
         //z = scaled_p;
         //c = fjuliaswirl_c;
@@ -26,9 +26,10 @@ vec2 mandelfractal(int fractal_id, vec3 p) {
 	//} else if (fractal_id == 15) {
         //z = scaled_p;
         //c = fjuliabloat_c;
-	//} else {
+	} else {
         z = vec3(0.00001, 0.0, 0.0);
         c = scaled_p;
+	}
     
 
     float min_dist = 10000000.0;
@@ -135,15 +136,15 @@ vec3 orbitTrapColor(float min_dist, float r, float dz, int i) {
 }
 
 vec2 scene_sdf(vec3 p) {
-	vec2 data1 = mandelfractal(formula, p).yx;
-	//if (formula == 17) data = mengersponge_sdf(p);
-	//else if (formula == 16) data = mandelbox_sdf(p);
-	//else if (formula <= 15) data = mandelfractal(formula, p);
+	vec2 data1; // = mandelfractal(formula, p).yx;
+	if (formula == 17) data1 = mengersponge_sdf(p);
+	else if (formula == 16) data1 = mandelbox_sdf(p);
+	else if (formula <= 15) data1 = mandelfractal(formula, p);
 	
-	if (data1.y < 0.1) {
-		vec2 data2 = mandelbox_sdf(p).yx;
-		data1.y += (data2.y * e);
-	}
+	//if (data1.y < 01.1) {
+		//vec2 data2 = mandelbox_sdf(p).yx;
+		//data1.y += (data2.y * e);
+	//}
 	
-	return data1;
+	return data1.yx;
 }

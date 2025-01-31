@@ -17,15 +17,15 @@
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
 
 [sub_resource type="Gradient" id="Gradient_7w6g2"]
-offsets = PackedFloat32Array(0, 0.766393)
-colors = PackedColorArray(0.679304, 0.835563, 1, 1, 0.554142, 0.68827, 0.967115, 1)
+offsets = PackedFloat32Array(0, 0.00527241, 0.991213, 1)
+colors = PackedColorArray(0.679304, 0.835563, 1, 1, 0, 0, 0, 1, 0.00183747, 0.00228223, 0.00320684, 1, 0.554142, 0.68827, 0.967115, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_585rg"]
 gradient = SubResource("Gradient_7w6g2")
 
 [sub_resource type="Gradient" id="Gradient_617fk"]
-offsets = PackedFloat32Array(0.0210896, 0.0755712)
-colors = PackedColorArray(0.195957, 0.356849, 1, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0.56942, 0.58348)
+colors = PackedColorArray(1, 1, 1, 1, 0.195957, 0.356849, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_es10n"]
 gradient = SubResource("Gradient_617fk")
@@ -43,13 +43,13 @@ shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
 shader_parameter/iterations = 9
-shader_parameter/max_steps = 130
+shader_parameter/max_steps = 300
 shader_parameter/ambient_light = 2.053
 shader_parameter/max_distance = 37.0
 shader_parameter/surface_distance = 3e-06
-shader_parameter/raystep_multiplier = 1.634
+shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_es10n")
-shader_parameter/formula = 1
+shader_parameter/formula = 16
 shader_parameter/power = 2.0
 shader_parameter/escape_radius = 8.0
 shader_parameter/bg_color = SubResource("GradientTexture1D_585rg")
@@ -61,19 +61,15 @@ shader_parameter/fmandelbox_spread = 1.0
 shader_parameter/fmandelbox_stoneness = 0.0
 shader_parameter/fmandelbox_divisions = 0.0
 shader_parameter/fmandelbox_sphere_reflection_position = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
-shader_parameter/fhedgebulb_cosine_offset = 0.0
-shader_parameter/fhedgebulb_cosine_multiplier = 1.0
-shader_parameter/fhedgebulb_sine_multiplier = 0.0
-shader_parameter/fboxbloat_cosine_multiplier = 1.0
-shader_parameter/fboxbloat_abs_multiplier = 1.0
-shader_parameter/ftrenchbloat_cosine_multiplier1 = -0.26
-shader_parameter/ftrenchbloat_cosine_multiplier2in = 2.355
-shader_parameter/ftrenchbloat_cosine_multiplier2out = 0.843
 shader_parameter/ambient_occlusion_steps = 7
 shader_parameter/ambient_occlusion_radius = 0.165
 shader_parameter/ambient_occlusion_darkness = 0.0376
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.91
+shader_parameter/glow_intensity = 0.2
+shader_parameter/glow_color = Color(9.33737e-06, 0.663309, 0.83644, 1)
+shader_parameter/glow_threshold = 17.0
+shader_parameter/glow_falloff = 1.0
 shader_parameter/metallicness = 1.45519e-11
 shader_parameter/metallic_darkness = 0.204
 

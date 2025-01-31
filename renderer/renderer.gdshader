@@ -40,21 +40,21 @@ uniform float fmandelbox_spread = 1.0;
 uniform float fmandelbox_stoneness = 0.0;
 uniform float fmandelbox_divisions = 0.0;
 uniform vec3 fmandelbox_sphere_reflection_position = vec3(0.0, 0.0, 0.0);
-// Hedgebulb
-group_uniforms hedgebulb;
-uniform float fhedgebulb_cosine_offset = 0.0;
-uniform float fhedgebulb_cosine_multiplier = 1.0;
-uniform float fhedgebulb_sine_multiplier = 0.0;
-// Boxbloat
-group_uniforms boxbloat;
-uniform float fboxbloat_cosine_multiplier = 1.0;
-uniform float fboxbloat_abs_multiplier = 1.0;
-// Trenchbloat
-group_uniforms trenchbloat;
-uniform float ftrenchbloat_cosine_multiplier1 = 1.0;
-uniform float ftrenchbloat_cosine_multiplier2in = 1.0;
-uniform float ftrenchbloat_cosine_multiplier2out = 1.0;
-//// Basebox
+//// Hedgebulb
+//group_uniforms hedgebulb;
+//uniform float fhedgebulb_cosine_offset = 0.0;
+//uniform float fhedgebulb_cosine_multiplier = 1.0;
+//uniform float fhedgebulb_sine_multiplier = 0.0;
+//// Boxbloat
+//group_uniforms boxbloat;
+//uniform float fboxbloat_cosine_multiplier = 1.0;
+//uniform float fboxbloat_abs_multiplier = 1.0;
+//// Trenchbloat
+//group_uniforms trenchbloat;
+//uniform float ftrenchbloat_cosine_multiplier1 = 1.0;
+//uniform float ftrenchbloat_cosine_multiplier2in = 1.0;
+//uniform float ftrenchbloat_cosine_multiplier2out = 1.0;
+////// Basebox
 //group_uniforms basebox;
 //uniform float fbasebox_tan_multiplier = 1.0;
 //uniform float fbasebox_abs_multiplier = 1.0;
@@ -108,6 +108,10 @@ uniform float ambient_occlusion_radius = 0.5;
 uniform float ambient_occlusion_darkness = 0.7;
 uniform float vignette_strength = 0.7;
 uniform float vignette_radius = 0.8;
+uniform float glow_intensity: hint_range(0.0, 5.0) = 1.0; // Controls overall glow strength
+uniform vec3 glow_color: source_color = vec3(1.0, 0.5, 0.2); // Customizable glow color
+uniform float glow_threshold: hint_range(0.0, 100.0) = 30.0; // Threshold for glow activation
+uniform float glow_falloff: hint_range(1.0, 10.0) = 2.0; // Controls glow falloff sharpness
 
 group_uniforms pbr;
 uniform float metallicness = 0.5;
@@ -117,7 +121,7 @@ uniform float metallic_darkness = 0.3;
 #include "sdf/fractalsdf.gdshaderinc"
 #include "lighting/ambient_occlusion.gdshaderinc"
 
-vec2 ray_marcher(vec3 ro, vec3 rd) {
+vec2 ray_marcher(vec3 ro, vec3 rd, inout int total_marches) {
 	float dfo = 0.0;
 	float orbit_trap_distance;
 
@@ -125,6 +129,7 @@ vec2 ray_marcher(vec3 ro, vec3 rd) {
 		vec2 data = scene_sdf(ro + rd * dfo);
 		float point_distance = data.y;
 		dfo += point_distance * raystep_multiplier;
+		total_marches += 1;
 
 		if (point_distance < surface_distance || dfo > max_distance) {
 			orbit_trap_distance = data.x;
@@ -147,14 +152,16 @@ vec3 calculate_normal(vec3 p) {
 }
 
 vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
-	vec2 data = ray_marcher(ray_origin, ray_dir);
+	int total_marches;
+	vec2 data = ray_marcher(ray_origin, ray_dir, total_marches);
 	float iterations_to_escape = data.x;
 	float dfo = data.y;
 	vec3 palette_color = texture(palette, vec2((iterations_to_escape) * 3.0, 0.0)).xyz * 3.0;
+	vec3 final_color;
 
 	if (dfo >= max_distance) {
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
-		return texture(bg_color, vec2(screen_uv.y, 0.0)).xyz * vignette;
+		final_color = texture(bg_color, vec2(screen_uv.y, 0.0)).xyz * vignette;
 	} else {
 		vec3 p = ray_origin + ray_dir * dfo;
 		vec3 normal = calculate_normal(p);
@@ -164,8 +171,16 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 		float light2 = get_light(p, ray_dir, ray_origin, light2_position, normal);
 
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
-		return palette_color * ao * ((light1 * light1_color) + (light2 * light2_color)) * ambient_light * vignette;
+		final_color = palette_color * ao * ((light1 * light1_color) + (light2 * light2_color)) * ambient_light * vignette;
 	}
+
+	if (float(total_marches) > glow_threshold) {
+		float final_glow_intensity = glow_intensity * smoothstep(glow_threshold, 100.0, float(total_marches));
+		vec3 final_glow_color = glow_color * palette_color;
+		final_color += final_glow_color * pow(final_glow_intensity, glow_falloff);
+	}
+
+	return final_color;
 }
 
 //vec2 random_jitter(vec2 uv, float seed) {

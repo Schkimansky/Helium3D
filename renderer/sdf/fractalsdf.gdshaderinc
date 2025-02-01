@@ -10,27 +10,27 @@ vec2 mandelfractal(int fractal_id, vec3 p) {
     vec3 c;
     if (fractal_id == 2) {
         z = scaled_p;
-        c = fjuliabulb_c; 
-	//} else if (fractal_id == 11) {
-        //z = scaled_p;
-        //c = fjuliaswirl_c;
-	//} else if (fractal_id == 12) {
-        //z = scaled_p;
-        //c = ftrijulia_c;
-	//} else if (fractal_id == 13) {
-        //z = scaled_p;
-        //c = ftangentjulia_c;
-	//} else if (fractal_id == 14) {
-        //z = scaled_p;
-        //c = fjuliaisland_c;
-	//} else if (fractal_id == 15) {
-        //z = scaled_p;
-        //c = fjuliabloat_c;
+        c = fjuliabulb_c;
+	} else if (fractal_id == 11) {
+        z = scaled_p;
+        c = fjuliaswirl_c;
+	} else if (fractal_id == 12) {
+        z = scaled_p;
+        c = ftrijulia_c;
+	} else if (fractal_id == 13) {
+        z = scaled_p;
+        c = ftangentjulia_c;
+	} else if (fractal_id == 14) {
+        z = scaled_p;
+        c = fjuliaisland_c;
+	} else if (fractal_id == 15) {
+        z = scaled_p;
+        c = fjuliabloat_c;
 	} else {
         z = vec3(0.00001, 0.0, 0.0);
         c = scaled_p;
 	}
-    
+
 
     float min_dist = 10000000.0;
     float r = length(z);
@@ -44,18 +44,18 @@ vec2 mandelfractal(int fractal_id, vec3 p) {
         if (fractal_id == 3) z = abs(z);
 
         if (fractal_id <= 3) { z = complexPow(z, power); z += c; }
-        //else if (fractal_id == 4) { z = complexPow(z, power); z += c; z += (cos((c - z) + fhedgebulb_cosine_offset) * fhedgebulb_cosine_multiplier) + (sin(c + z) * fhedgebulb_sine_multiplier); }
-        //else if (fractal_id == 5) z = complexPow(z, power) + abs(c * z * fboxbloat_abs_multiplier) + cos(c - z * fboxbloat_cosine_multiplier);
-        //else if (fractal_id == 6) { z = complexPow(z, power); z += c; z += (abs(cos((c - z) * ftrenchbloat_cosine_multiplier1))) - (cos((c - z) * ftrenchbloat_cosine_multiplier2in) * ftrenchbloat_cosine_multiplier2out); }
-        //else if (fractal_id == 7) { z = complexPow(z, power); z += c; z -= (abs(cos(tan(c * z) * fbasebox_tan_multiplier) * fbasebox_cosine_multiplier1) * fbasebox_abs_multiplier) - (cos(c - z) * fbasebox_cosine_multiplier2); }
-        //else if (fractal_id == 8) { z = complexPow(z, power); z += c; z = vec3(z.x + log(abs(z.y * fstarbulb_multiplier.y + fstarbulb_adder.y) * fstarbulb_multiplier.x + fstarbulb_adder.x), z.y + log(abs(z.z) * fstarbulb_multiplier.z + fstarbulb_adder.z), z.z + log(abs(z.x) + 1.0)); }
-        //else if (fractal_id == 9) { z = complexPow(z, power); z -= c; z = vec3(z.y + log(abs(z.x + fwingtail_adder.x) * fwingtail_multiplier.x), (z.y * fwingtail_multiplier.y + fwingtail_adder.y) + log(abs(z.z * fwingtail_multiplier.z + fwingtail_adder.z) + 1.0), z.z + log(abs(z.x) + 1.0)); }
-        //else if (fractal_id == 10) { z = complexPow(z, power); z += length(negative_sqrt(c * ftribulb_multiplier1)) * (c * ftribulb_multiplier2); }
-        //else if (fractal_id == 11) { vec3 zminus = negative_sqrt(c * fjuliaswirl_csqrt_multiplier); z += complexPow(z - zminus, power); z -= zminus; }
-        //else if (fractal_id == 12) { z = complexPow(z, power); z += sin(c * z * ftrijulia_sine_multiplier1); z += cos(c * ftrijulia_cosine_multiplier) - sin(c * ftrijulia_sine_multiplier2); }
-        //else if (fractal_id == 13) { z = complexPow(z, power); z += sin(c * z * ftangentjulia_sine_multiplier1); z -= cos(c * ftangentjulia_cosine_multiplier) + sin(c * ftangentjulia_sine_multiplier2); }
-        //else if (fractal_id == 14) { z = complexPow(z, power) - abs(c * z * fjuliaisland_abs_multiplier) - cos((c - z) * fjuliaisland_cosine_multiplier); }
-        //else if (fractal_id == 15) { z = complexPow(z, power) - abs(c * z * fjuliabloat_abs_multiplier) - cos((c - z) * fjuliabloat_cosine_multiplier1); z += sin((c * z) * fjuliabloat_sine_multiplier1); z += cos(c * fjuliabloat_cosine_multiplier2) + sin(c * fjuliabloat_sine_multiplier2); }
+        else if (fractal_id == 4) { z = complexPow(z, power); z += c; z += (cos((c - z) + fhedgebulb_cosine_offset) * fhedgebulb_cosine_multiplier) + (sin(c + z) * fhedgebulb_sine_multiplier); }
+        else if (fractal_id == 5) z = complexPow(z, power) + abs(c * z * fboxbloat_abs_multiplier) + cos(c - z * fboxbloat_cosine_multiplier);
+        else if (fractal_id == 6) { z = complexPow(z, power); z += c; z += (abs(cos((c - z) * ftrenchbloat_cosine_multiplier1))) - (cos((c - z) * ftrenchbloat_cosine_multiplier2in) * ftrenchbloat_cosine_multiplier2out); }
+        else if (fractal_id == 7) { z = complexPow(z, power); z += c; z -= (abs(cos(tan(c * z) * fbasebox_tan_multiplier) * fbasebox_cosine_multiplier1) * fbasebox_abs_multiplier) - (cos(c - z) * fbasebox_cosine_multiplier2); }
+        else if (fractal_id == 8) { z = complexPow(z, power); z += c; z = vec3(z.x + log(abs(z.y * fstarbulb_multiplier.y + fstarbulb_adder.y) * fstarbulb_multiplier.x + fstarbulb_adder.x), z.y + log(abs(z.z) * fstarbulb_multiplier.z + fstarbulb_adder.z), z.z + log(abs(z.x) + 1.0)); }
+        else if (fractal_id == 9) { z = complexPow(z, power); z -= c; z = vec3(z.y + log(abs(z.x + fwingtail_adder.x) * fwingtail_multiplier.x), (z.y * fwingtail_multiplier.y + fwingtail_adder.y) + log(abs(z.z * fwingtail_multiplier.z + fwingtail_adder.z) + 1.0), z.z + log(abs(z.x) + 1.0)); }
+        else if (fractal_id == 10) { z = complexPow(z, power); z += length(negative_sqrt(c * ftribulb_multiplier1)) * (c * ftribulb_multiplier2); }
+        else if (fractal_id == 11) { vec3 zminus = negative_sqrt(c * fjuliaswirl_csqrt_multiplier); z += complexPow(z - zminus, power); z -= zminus; }
+        else if (fractal_id == 12) { z = complexPow(z, power); z += sin(c * z * ftrijulia_sine_multiplier1); z += cos(c * ftrijulia_cosine_multiplier) - sin(c * ftrijulia_sine_multiplier2); }
+        else if (fractal_id == 13) { z = complexPow(z, power); z += sin(c * z * ftangentjulia_sine_multiplier1); z -= cos(c * ftangentjulia_cosine_multiplier) + sin(c * ftangentjulia_sine_multiplier2); }
+        else if (fractal_id == 14) { z = complexPow(z, power) - abs(c * z * fjuliaisland_abs_multiplier) - cos((c - z) * fjuliaisland_cosine_multiplier); }
+        else if (fractal_id == 15) { z = complexPow(z, power) - abs(c * z * fjuliabloat_abs_multiplier) - cos((c - z) * fjuliabloat_cosine_multiplier1); z += sin((c * z) * fjuliabloat_sine_multiplier1); z += cos(c * fjuliabloat_cosine_multiplier2) + sin(c * fjuliabloat_sine_multiplier2); }
 
         r = length(z);
         min_dist = min(min_dist, distance(z, vec3(0.0, 0.0, 0.0)));
@@ -88,10 +88,10 @@ vec2 mandelbox_sdf(vec3 pos) {
 		p += sin(o) * fmandelbox_stoneness;
 		p += sin(o - p) * fmandelbox_divisions;
 		p += vec4(sphereInversion(p.xyz, fmandelbox_sphere_reflection_position, fmandelbox_sphere_reflection), 0.0);
-		
+
 		min_dist = min(min_dist, sphere_sdf4d(p, vec4(0.0, 0.0, 0.0, 0.0), 1.0));
 	}
-	
+
 	return vec2(de_box(p, vec3(10, 10, 10)), float(min_dist));
 }
 
@@ -108,7 +108,7 @@ vec2 mengersponge_sdf(vec3 p){
         float db = max(r.y, r.z);
         float dc = max(r.z, r.x);
         float c = (min(da, min(db, dc)) - 1.0) / s;
-		
+
 		if (c > d) {
 			d = c;
 			res = c;
@@ -121,30 +121,28 @@ vec2 mengersponge_sdf(vec3 p){
 // Scene SDF //
 ///////////////
 
-vec3 orbitTrapColor(float min_dist, float r, float dz, int i) {
-    // Use min_dist to create a gradient
-    float dist_factor = smoothstep(0.0, 10.0, min_dist);
-    vec3 color1 = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), dist_factor);
-
-    // Use r and dz to add variation
-    float r_factor = smoothstep(0.0, 10.0, r);
-    float dz_factor = smoothstep(0.0, 10.0, dz);
-    vec3 color2 = mix(vec3(0.0, 0.0, 1.0), vec3(1.0, 1.0, 0.0), r_factor * dz_factor);
-
-    // Combine colors
-    return mix(color1, color2, 0.5);
-}
-
 vec2 scene_sdf(vec3 p) {
-	vec2 data1; // = mandelfractal(formula, p).yx;
-	if (formula == 17) data1 = mengersponge_sdf(p);
-	else if (formula == 16) data1 = mandelbox_sdf(p);
-	else if (formula <= 15) data1 = mandelfractal(formula, p);
-	
-	//if (data1.y < 01.1) {
-		//vec2 data2 = mandelbox_sdf(p).yx;
-		//data1.y += (data2.y * e);
-	//}
-	
-	return data1.yx;
+	vec2 data_values[10];
+	int total_formulas = 0;
+
+	for (int i = 0; i < 10; i++) {
+		int formula = formulas[i];
+		if (formula == 0) continue;
+		total_formulas += 1;
+
+		//if (i == 1 && data_values[0].x > 0.03) return data_values[0].yx;
+
+		if (formula == 17) data_values[i] = mengersponge_sdf(p);
+		else if (formula == 16) data_values[i] = mandelbox_sdf(p);
+		else if (formula <= 15) data_values[i] = mandelfractal(formula, p);
+	}
+
+	vec2 combined_data = vec2(0.0);
+	for (int i = 0; i < total_formulas; i++) {
+		data_values[i].x /= float(total_formulas);
+		combined_data.x += data_values[i].x * formula_weights[i];
+		combined_data.y += data_values[i].y / float(total_formulas);
+	}
+
+	return combined_data.yx;
 }

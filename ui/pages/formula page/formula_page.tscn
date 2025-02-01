@@ -1,0 +1,416 @@
+[gd_scene load_steps=8 format=3 uid="uid://4bx65d7nnvmf"]
+
+[ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="1_fx3a6"]
+[ext_resource type="Script" path="res://ui/pages/formula page/formula_page.gd" id="1_px87o"]
+[ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec_3_label.tscn" id="2_vb6go"]
+[ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="5_j3vbu"]
+[ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="6_uoycf"]
+[ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="7_8qf7q"]
+
+[sub_resource type="FontVariation" id="FontVariation_fxm3f"]
+base_font = ExtResource("1_fx3a6")
+spacing_top = 1
+
+[node name="FormulaPage" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1294.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_px87o")
+
+[node name="Fields" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Names" type="VBoxContainer" parent="Fields"]
+layout_mode = 2
+
+[node name="Power" type="Label" parent="Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_fxm3f")
+text = "
+Power: 
+
+"
+vertical_alignment = 1
+
+[node name="Formula" type="Label" parent="Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_fxm3f")
+text = "
+Formula: 
+
+"
+vertical_alignment = 1
+
+[node name="Fjuliabulb" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="FJuliabulbC" parent="Fields/Names/Fjuliabulb" instance=ExtResource("2_vb6go")]
+layout_mode = 2
+text = "C: "
+
+[node name="Fmandelbulb" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fhedgebulb" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fmandelbox" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="FmandelboxSphereFold" parent="Fields/Names/Fmandelbox" instance=ExtResource("2_vb6go")]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Sphere Fold: "
+
+[node name="FmandelboxBoxSize" parent="Fields/Names/Fmandelbox" instance=ExtResource("2_vb6go")]
+layout_mode = 2
+text = "Box Size: "
+
+[node name="FmandelboxSpread" type="Label" parent="Fields/Names/Fmandelbox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_fxm3f")
+text = "Spread:
+"
+vertical_alignment = 1
+
+[node name="FmandelboxStoneness" type="Label" parent="Fields/Names/Fmandelbox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_fxm3f")
+text = "
+Stoneness:
+
+"
+vertical_alignment = 1
+
+[node name="FmandelboxDivisions" type="Label" parent="Fields/Names/Fmandelbox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_fxm3f")
+text = "
+Divisions:
+
+"
+vertical_alignment = 1
+
+[node name="Fburning ship" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fjuliaswirl" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftrijulia" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftangentjulia" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fjuliaisland" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fjuliabloat" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fboxbloat" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fbasebox" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftrenchbloat" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fstarbloat" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fwingtail" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Ftribulb" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fmengersponge" type="Label" parent="Fields/Names"]
+layout_mode = 2
+
+[node name="Values" type="VBoxContainer" parent="Fields"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Power" parent="Fields/Values" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(1, 8)
+value = 2.0
+
+[node name="Formulas" parent="Fields/Values" instance=ExtResource("6_uoycf")]
+layout_mode = 2
+options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge"])
+
+[node name="Fjuliabulb" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliabulbC" parent="Fields/Values/Fjuliabulb" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.108, 1.055, 0.673)
+
+[node name="Fjuliaswirl" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliaswirlC" parent="Fields/Values/Fjuliaswirl" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.45519e-11, -0.043, -0.007)
+
+[node name="Ftrijulia" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FtrijuliaC" parent="Fields/Values/Ftrijulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.774, 0.738, 1.29)
+
+[node name="FtrijuliaSineMultiplier1" parent="Fields/Values/Ftrijulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-0.363, 2.748, 2.648)
+
+[node name="FtrijuliaSineMultiplier2" parent="Fields/Values/Ftrijulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="FtrijuliaCosineMultiplier" parent="Fields/Values/Ftrijulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="Ftangentjulia" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FtangentjuliaC" parent="Fields/Values/Ftangentjulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-1, -0.816, -0.057)
+
+[node name="FtangentjuliaSineMultiplier1" parent="Fields/Values/Ftangentjulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.814, 1.495, -2.246)
+
+[node name="FtangentjuliaSineMultiplier2" parent="Fields/Values/Ftangentjulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.466, 0.014, 1.746)
+
+[node name="FtangentjuliaCosineMultiplier" parent="Fields/Values/Ftangentjulia" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="Fjuliaisland" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliaislandC" parent="Fields/Values/Fjuliaisland" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.059, 2.06, 1.606)
+
+[node name="FjuliaislandAbsMultiplier" parent="Fields/Values/Fjuliaisland" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.45519e-11, 0.276, -0.003)
+
+[node name="FjuliaislandCosineMultiplier" parent="Fields/Values/Fjuliaisland" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.847, 1.19, 2.073)
+
+[node name="Fjuliabloat" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FjuliabloatC" parent="Fields/Values/Fjuliabloat" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.25, -0.353, 1.45519e-11)
+
+[node name="FjuliabloatAbsMultiplier" parent="Fields/Values/Fjuliabloat" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(0.727, 0.792, -0.062)
+
+[node name="FjuliabloatCosineMultiplier1" parent="Fields/Values/Fjuliabloat" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.807, 2.882, 0.2)
+
+[node name="FjuliabloatCosineMultiplier2" parent="Fields/Values/Fjuliabloat" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-0.544, -1.425, 2.272)
+
+[node name="FjuliabloatSineMultiplier1" parent="Fields/Values/Fjuliabloat" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-0.367, 0.102, 1.377)
+
+[node name="FjuliabloatSineMultiplier2" parent="Fields/Values/Fjuliabloat" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="Fmandelbulb" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fhedgebulb" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fmandelbox" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FmandelboxSphereFold" parent="Fields/Values/Fmandelbox" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1.45519e-11, 1, 1)
+
+[node name="FmandelboxBoxSize" parent="Fields/Values/Fmandelbox" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-5, -5, -5)
+range_max = Vector3(5, 5, 5)
+value = Vector3(1, 1, 1)
+
+[node name="FmandelboxSpread" parent="Fields/Values/Fmandelbox" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-4, 4)
+value = 1.0
+
+[node name="FmandelboxStoneness" parent="Fields/Values/Fmandelbox" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-2, 2)
+
+[node name="FmandelboxDivisions" parent="Fields/Values/Fmandelbox" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-2, 2)
+
+[node name="FmandelboxSphereReflection" parent="Fields/Values/Fmandelbox" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-2, 2)
+
+[node name="Fburning ship" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fboxbloat" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fbasebox" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Ftrenchbloat" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fstarbloat" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fwingtail" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Ftribulb" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fmengersponge" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[connection signal="value_changed" from="Fields/Values/Power" to="." method="_on_power_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Formulas" to="." method="_on_formula_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliabulb/FjuliabulbC" to="." method="_on_fjuliabulb_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliaswirl/FjuliaswirlC" to="." method="_on_fjuliaswirl_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftrijulia/FtrijuliaC" to="." method="_on_ftrijulia_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftrijulia/FtrijuliaSineMultiplier1" to="." method="_on_ftrijulia_sine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftrijulia/FtrijuliaSineMultiplier2" to="." method="_on_ftrijulia_sine_multiplier_2_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftrijulia/FtrijuliaCosineMultiplier" to="." method="_on_ftrijulia_cosine_multiplier_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftangentjulia/FtangentjuliaC" to="." method="_on_ftangentjulia_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftangentjulia/FtangentjuliaSineMultiplier1" to="." method="_on_ftangentjulia_sine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftangentjulia/FtangentjuliaSineMultiplier2" to="." method="_on_ftangentjulia_sine_multiplier_2_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftangentjulia/FtangentjuliaCosineMultiplier" to="." method="_on_ftangentjulia_cosine_multiplier_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliaisland/FjuliaislandC" to="." method="_on_fjuliaisland_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliaisland/FjuliaislandAbsMultiplier" to="." method="_on_fjuliaisland_abs_multiplier_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliaisland/FjuliaislandCosineMultiplier" to="." method="_on_fjuliaisland_cosine_multiplier_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliabloat/FjuliabloatC" to="." method="_on_fjuliabloat_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliabloat/FjuliabloatAbsMultiplier" to="." method="_on_fjuliabloat_abs_multiplier_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliabloat/FjuliabloatCosineMultiplier1" to="." method="_on_fjuliabloat_cosine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliabloat/FjuliabloatCosineMultiplier2" to="." method="_on_fjuliabloat_cosine_multiplier_2_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliabloat/FjuliabloatSineMultiplier1" to="." method="_on_fjuliabloat_sine_multiplier_1_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fjuliabloat/FjuliabloatSineMultiplier2" to="." method="_on_fjuliabloat_sine_multiplier_2_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxSphereFold" to="." method="_on_fmandelbox_sphere_fold_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxBoxSize" to="." method="_on_fmandelbox_box_size_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxSpread" to="." method="_on_fmandelbox_spread_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxStoneness" to="." method="_on_fmandelbox_stoneness_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxDivisions" to="." method="_on_fmandelbox_divisions_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxSphereReflection" to="." method="_on_fmandelbox_sphere_reflection_value_changed"]

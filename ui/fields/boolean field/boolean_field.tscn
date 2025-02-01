@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxdliar5ijtun"]
+
+[ext_resource type="PackedScene" uid="uid://xa6av42x8erd" path="res://ui/fields/base field/field.tscn" id="1_maum6"]
+[ext_resource type="Script" path="res://ui/fields/boolean field/boolean_field.gd" id="2_s4s4l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_agj6n"]
+
+[node name="BooleanField" instance=ExtResource("1_maum6")]
+theme_override_constants/separation = 0
+script = ExtResource("2_s4s4l")
+
+[node name="CheckBox" type="CheckBox" parent="." index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_agj6n")
+
+[connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]

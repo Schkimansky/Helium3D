@@ -5,9 +5,12 @@ signal value_changed(option: String)
 @export var options: Array[String] = []
 @export var index: int = 0:
 	set(value):
+		if value < 0: value = len(options) - 1
+		if value > len(options) - 1: value = 0
 		index = value
 		$HBoxContainer/Label.text = options[index]
-		value_changed.emit(options[index])
+		
+		#value_changed.emit(options[index])
 
 func _ready() -> void:
 	Global.value_nodes.append(self)

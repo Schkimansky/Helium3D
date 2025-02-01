@@ -48,7 +48,7 @@ func _on_file_dialog_confirmed() -> void:
 		%Player.global_position = other_data['player_position']
 		%Player.get_node('Head').global_rotation_degrees = other_data['head_rotation']
 		%Player.get_node('Head/Camera').global_rotation_degrees = other_data['camera_rotation']
-		%UI.get_node('HBoxContainer/TabContainer/Fractal/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
+		%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
 		
 		%SubViewport.refresh_taa()
 		

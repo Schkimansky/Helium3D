@@ -74,7 +74,7 @@ offset_left = 400.0
 offset_right = 412.0
 offset_bottom = 24.0
 offset = 1.45519e-11
-color = Color(0.678431, 0.835294, 1, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="PaletteFieldColorBlock2" parent="MarginContainer/Blocks" index="1" instance=ExtResource("2_k2iqx")]
 layout_mode = 2
@@ -83,7 +83,7 @@ offset_left = 400.0
 offset_right = 412.0
 offset_bottom = 24.0
 offset = 0.76639
-color = Color(0.552941, 0.690196, 0.968627, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="MarginContainer" index="4"]
 layout_mode = 2

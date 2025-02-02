@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://4bx65d7nnvmf"]
+[gd_scene load_steps=9 format=3 uid="uid://4bx65d7nnvmf"]
 
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="1_fx3a6"]
 [ext_resource type="Script" path="res://ui/pages/formula page/formula_page.gd" id="1_px87o"]
-[ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec_3_label.tscn" id="2_vb6go"]
+[ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec3 label/vec_3_label.tscn" id="2_vb6go"]
 [ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="5_j3vbu"]
 [ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="6_uoycf"]
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="7_8qf7q"]
+[ext_resource type="PackedScene" uid="uid://ckwux6dfo5ixp" path="res://ui/fields/vec4 field/vec4_field.tscn" id="7_p1yy6"]
 
 [sub_resource type="FontVariation" id="FontVariation_fxm3f"]
 base_font = ExtResource("1_fx3a6")
@@ -29,17 +30,6 @@ layout_mode = 2
 
 [node name="Names" type="VBoxContainer" parent="Fields"]
 layout_mode = 2
-
-[node name="Power" type="Label" parent="Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = SubResource("FontVariation_fxm3f")
-text = "
-Power: 
-
-"
-vertical_alignment = 1
 
 [node name="Formula" type="Label" parent="Fields/Names"]
 layout_mode = 2
@@ -112,6 +102,17 @@ Divisions:
 "
 vertical_alignment = 1
 
+[node name="FmandelboxSphereReflection" type="Label" parent="Fields/Names/Fmandelbox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_fxm3f")
+text = "
+Sphere Reflection:
+
+"
+vertical_alignment = 1
+
 [node name="Fburning ship" type="VBoxContainer" parent="Fields/Names"]
 visible = false
 layout_mode = 2
@@ -160,21 +161,22 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="Fmengersponge" type="Label" parent="Fields/Names"]
+[node name="Fmengersponge" type="VBoxContainer" parent="Fields/Names"]
+layout_mode = 2
+
+[node name="Fpseudoklenian" type="VBoxContainer" parent="Fields/Names"]
+layout_mode = 2
+
+[node name="Famazingsurf" type="VBoxContainer" parent="Fields/Names"]
 layout_mode = 2
 
 [node name="Values" type="VBoxContainer" parent="Fields"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Power" parent="Fields/Values" instance=ExtResource("5_j3vbu")]
-layout_mode = 2
-range = Vector2(1, 8)
-value = 2.0
-
 [node name="Formulas" parent="Fields/Values" instance=ExtResource("6_uoycf")]
 layout_mode = 2
-options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge"])
+options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf"])
 
 [node name="Fjuliabulb" type="VBoxContainer" parent="Fields/Values"]
 visible = false
@@ -387,7 +389,64 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[connection signal="value_changed" from="Fields/Values/Power" to="." method="_on_power_value_changed"]
+[node name="Fpseudoklenian" type="VBoxContainer" parent="Fields/Values"]
+layout_mode = 2
+
+[node name="FpseudoklenianMin" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("7_p1yy6")]
+layout_mode = 2
+range_min = Vector4(-1, -1, -1, -1)
+range_max = Vector4(1, 1, 1, 1)
+value = Vector4(-0.8323, -0.694, -0.5045, 0.8067)
+
+[node name="FpseudoklenianMax" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("7_p1yy6")]
+layout_mode = 2
+range_min = Vector4(-1, -1, -1, -1)
+range_max = Vector4(1, 1, 1, 1)
+value = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
+
+[node name="Famazingsurf" type="VBoxContainer" parent="Fields/Values"]
+layout_mode = 2
+
+[node name="FamazingsurfC" parent="Fields/Values/Famazingsurf" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(-1, -1, -1)
+
+[node name="FamazingsurfMode" parent="Fields/Values/Famazingsurf" instance=ExtResource("6_uoycf")]
+layout_mode = 2
+options = Array[String](["Fold1", "Fold2", "Fold3"])
+
+[node name="FamazingsurfFoldX" parent="Fields/Values/Famazingsurf" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-2, 2)
+value = 1.0
+
+[node name="FamazingsurfFoldY" parent="Fields/Values/Famazingsurf" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-2, 2)
+value = 1.0
+
+[node name="FamazingsurfMinRadius" parent="Fields/Values/Famazingsurf" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(1.45519e-11, 1)
+value = 0.25
+
+[node name="FamazingsurfRotationAngle" parent="Fields/Values/Famazingsurf" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-2, 2)
+
+[node name="FamazingsurfRotationVector" parent="Fields/Values/Famazingsurf" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1, 1)
+
+[node name="FamazingsurfTranslation" parent="Fields/Values/Famazingsurf" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+
 [connection signal="value_changed" from="Fields/Values/Formulas" to="." method="_on_formula_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fjuliabulb/FjuliabulbC" to="." method="_on_fjuliabulb_c_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fjuliaswirl/FjuliaswirlC" to="." method="_on_fjuliaswirl_c_value_changed"]
@@ -414,3 +473,13 @@ layout_mode = 2
 [connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxStoneness" to="." method="_on_fmandelbox_stoneness_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxDivisions" to="." method="_on_fmandelbox_divisions_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxSphereReflection" to="." method="_on_fmandelbox_sphere_reflection_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianMin" to="." method="_on_fpseudoklenian_min_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianMax" to="." method="_on_fpseudoklenian_max_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfC" to="." method="_on_famazingsurf_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfMode" to="." method="_on_famazingsurf_mode_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfFoldX" to="." method="_on_famazingsurf_fold_x_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfFoldY" to="." method="_on_famazingsurf_fold_y_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfMinRadius" to="." method="_on_famazingsurf_min_radius_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfRotationAngle" to="." method="_on_famazingsurf_rotation_angle_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfRotationVector" to="." method="_on_famazingsurf_rotation_vector_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfTranslation" to="." method="_on_famazingsurf_translation_value_changed"]

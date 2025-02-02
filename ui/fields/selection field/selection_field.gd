@@ -16,6 +16,8 @@ func _ready() -> void:
 	Global.value_nodes.append(self)
 	$HBoxContainer/Label.text = options[index]
 
+func i_am_a_selection_field() -> void: pass
+
 func _on_left_pressed() -> void:
 	index -= 1
 	if index < 0:

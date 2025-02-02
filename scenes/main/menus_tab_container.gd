@@ -1,6 +1,6 @@
 extends TabContainer
 
-const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge']
+const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf']
 var current_formulas: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 func field_changed(field_name: String, value: Variant) -> void:
@@ -22,11 +22,11 @@ func set_formula(formula_name: String, for_page: int) -> void:
 	print(current_formulas)
 	field_changed('formulas', current_formulas)
 	
+	for other_formula in (FORMULAS as Array[String]):
+		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Values').get_node('F' + other_formula.to_lower()).visible = false
+		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Names').get_node('F' + other_formula.to_lower()).visible = false
+	
 	if formula_name.to_lower() != 'none':
-		for other_formula in (FORMULAS as Array[String]):
-			$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Values').get_node('F' + other_formula.to_lower()).visible = false
-			$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Names').get_node('F' + other_formula.to_lower()).visible = false
-		
 		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Values').get_node('F' + formula_name.to_lower()).visible = true
 		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Names').get_node('F' + formula_name.to_lower()).visible = true
 
@@ -50,6 +50,10 @@ func update_field_values(new_fields: Dictionary) -> void:
 			field_name = 'formulas'
 			field_val = [field_val, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		
+		if field_name == 'powers':
+			field_name = 'power'
+			field_val = field_val[0]
+		
 		print(field_name.to_snake_case())
 		var target_value_node: Control = value_nodes.filter(func(x: Control) -> bool: return x.name.to_snake_case() == field_name.to_snake_case())[0]
 		
@@ -60,13 +64,15 @@ func update_field_values(new_fields: Dictionary) -> void:
 					continue
 				
 				target_value_node = value_nodes.filter(func(x: Control) -> bool: return x.name.to_snake_case() == field_name.to_snake_case() and x.get_parent().get_parent().get_parent().page_number == current_page_number)[0]
-				#var all_formulas = field_val
-				#
+				
 				target_value_node.index = field_val[current_page_number - 1]
 				target_value_node.emit_signal('value_changed', target_value_node.options[target_value_node.index])
 			continue
 		
-		target_value_node.value = field_val
+		if not target_value_node.has_method('i_am_a_selection_field'):
+			target_value_node.value = field_val
+		else:
+			target_value_node.index = field_val - 1
 
 #func _on_color_shape_value_changed(option: String) -> void: field_changed('color_shape', $Coloring/Fields/Values/ColorShape.index + 1)
 
@@ -77,7 +83,7 @@ func _on_vignette_strength_value_changed(to: float) -> void: field_changed('vign
 func _on_vignette_radius_value_changed(to: float) -> void: field_changed('vignette_radius', to)
 func _on_bg_color_value_changed(to: Gradient) -> void: field_changed('bg_color', to)
 func _on_iterations_value_changed(to: int) -> void: field_changed('iterations', to)
-func _on_power_value_changed(to: float) -> void: field_changed('power', to)
+func _on_power_value_changed(to: float) -> void: field_changed('powers', [to, to, to, to, to, to, to, to, to, to])
 func _on_surface_distance_value_changed(to: float) -> void: field_changed('surface_distance', to)
 func _on_max_steps_value_changed(to: int) -> void: field_changed('max_steps', to)
 func _on_raystep_multiplier_value_changed(to: float) -> void: field_changed('raystep_multiplier', to)

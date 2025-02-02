@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=33 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cm48vjc7rstpn" path="res://ui/fields/int field/int_field.tscn" id="9_0ej1w"]
 [ext_resource type="Script" path="res://scenes/main/menus_tab_container.gd" id="9_7154d"]
 [ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="9_d1f4f"]
-[ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec_3_label.tscn" id="10_3cnnu"]
+[ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec3 label/vec_3_label.tscn" id="10_3cnnu"]
 [ext_resource type="PackedScene" uid="uid://3bm0lhhd8bm0" path="res://ui/fields/color field/color_field.tscn" id="10_to5n1"]
 [ext_resource type="PackedScene" uid="uid://btjotc720lyxd" path="res://ui/fields/palette field/palette_field.tscn" id="11_ynfe2"]
 [ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="12_jiauy"]
@@ -18,52 +18,61 @@
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
 [ext_resource type="PackedScene" uid="uid://4bx65d7nnvmf" path="res://ui/pages/formula page/formula_page.tscn" id="16_hfvnl"]
 
-[sub_resource type="Gradient" id="Gradient_7w6g2"]
-offsets = PackedFloat32Array(0, 0.00527241, 0.991213, 1)
-colors = PackedColorArray(0.679304, 0.835563, 1, 1, 0, 0, 0, 1, 0.00183747, 0.00228223, 0.00320684, 1, 0.554142, 0.68827, 0.967115, 1)
+[sub_resource type="Gradient" id="Gradient_uuova"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_585rg"]
-gradient = SubResource("Gradient_7w6g2")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i4bwh"]
+gradient = SubResource("Gradient_uuova")
 
-[sub_resource type="Gradient" id="Gradient_617fk"]
-offsets = PackedFloat32Array(0.622144, 0.636204)
-colors = PackedColorArray(5.77569e-07, 0.891436, 0.585343, 1, 1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_w1taj"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_es10n"]
-gradient = SubResource("Gradient_617fk")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_daiga"]
+gradient = SubResource("Gradient_w1taj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
 render_priority = 0
 shader = ExtResource("3_4yvvm")
 shader_parameter/self_shadow_bias = 0.01
-shader_parameter/shadow_darkness = 0.7
+shader_parameter/shadow_darkness = 0.631
 shader_parameter/shadow_steps = 12
 shader_parameter/shadow_softness = 64.0
-shader_parameter/e = 3.0
 shader_parameter/light1_position = Vector3(10, 10, -10)
 shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 6
-shader_parameter/max_steps = 150
+shader_parameter/iterations = 7
+shader_parameter/max_steps = 120
 shader_parameter/ambient_light = 2.0
-shader_parameter/max_distance = 37.0
-shader_parameter/surface_distance = 0.001
+shader_parameter/max_distance = 20.0
+shader_parameter/surface_distance = 3e-06
 shader_parameter/raystep_multiplier = 1.0
-shader_parameter/palette = SubResource("GradientTexture1D_es10n")
+shader_parameter/palette = SubResource("GradientTexture1D_daiga")
 shader_parameter/formulas = PackedInt32Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/formula_weights = PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-shader_parameter/power = 2.0
+shader_parameter/powers = PackedFloat32Array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
 shader_parameter/escape_radius = 2.0
-shader_parameter/bg_color = SubResource("GradientTexture1D_585rg")
-shader_parameter/fjuliabulb_c = Vector3(1.45519e-11, 1.45519e-11, -0.999)
+shader_parameter/bg_color = SubResource("GradientTexture1D_i4bwh")
+shader_parameter/fpseudoklenian_min = Vector4(-0.8323, -0.694, -0.5045, 0.8067)
+shader_parameter/fpseudoklenian_max = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
+shader_parameter/famazingsurf_c = Vector3(-1, -1, -1)
+shader_parameter/famazingsurf_mode = 2
+shader_parameter/famazingsurf_fold_x = 1.0
+shader_parameter/famazingsurf_fold_y = 1.0
+shader_parameter/famazingsurf_rotation_angle = 0.615
+shader_parameter/famazingsurf_rotation_vector = Vector3(1, 0.779, 1)
+shader_parameter/famazingsurf_min_radius = 0.152
+shader_parameter/famazingsurf_translation = Vector3(1.017, 1.45519e-11, 1.45519e-11)
+shader_parameter/fjuliabulb_c = Vector3(0.35, 0.35, 0.35)
 shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
 shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
 shader_parameter/fmandelbox_sphere_reflection = 0.0
 shader_parameter/fmandelbox_spread = 1.0
 shader_parameter/fmandelbox_stoneness = 0.0
 shader_parameter/fmandelbox_divisions = 0.0
-shader_parameter/fmandelbox_sphere_reflection_position = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
+shader_parameter/fmandelbox_sphere_reflection_position = Vector3(0, 0, 0)
 shader_parameter/fhedgebulb_cosine_offset = 0.0
 shader_parameter/fhedgebulb_cosine_multiplier = 1.0
 shader_parameter/fhedgebulb_sine_multiplier = 0.0
@@ -101,19 +110,19 @@ shader_parameter/fjuliabloat_cosine_multiplier1 = Vector3(1, 1, 1)
 shader_parameter/fjuliabloat_cosine_multiplier2 = Vector3(1, 1, 1)
 shader_parameter/fjuliabloat_sine_multiplier1 = Vector3(1, 1, 1)
 shader_parameter/fjuliabloat_sine_multiplier2 = Vector3(1, 1, 1)
-shader_parameter/ambient_occlusion_steps = 7
+shader_parameter/ambient_occlusion_steps = 6
 shader_parameter/ambient_occlusion_radius = 0.165
-shader_parameter/ambient_occlusion_darkness = 0.0376
+shader_parameter/ambient_occlusion_darkness = 0.003
 shader_parameter/vignette_strength = 0.7
-shader_parameter/vignette_radius = 0.91
-shader_parameter/glow_intensity = 0.321
-shader_parameter/glow_color = Color(0.581615, 0.631743, 1, 1)
-shader_parameter/glow_threshold = 35.23
-shader_parameter/glow_falloff = 1.0
+shader_parameter/vignette_radius = 0.8
+shader_parameter/glow_intensity = 1.0
+shader_parameter/glow_color = Color(1, 0.5, 0.2, 1)
+shader_parameter/glow_threshold = 30.0
+shader_parameter/glow_falloff = 2.0
 shader_parameter/super_glow = false
-shader_parameter/glow = false
-shader_parameter/metallicness = 0.349
-shader_parameter/metallic_darkness = 0.204
+shader_parameter/glow = true
+shader_parameter/metallicness = 0.5
+shader_parameter/metallic_darkness = 0.3
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
@@ -149,6 +158,10 @@ viewport_path = NodePath("SubViewport")
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0eucc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i0477"]
+
+[sub_resource type="FontVariation" id="FontVariation_sjns5"]
+base_font = ExtResource("8_rhsly")
+spacing_top = 1
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
@@ -536,6 +549,17 @@ layout_mode = 2
 [node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
 layout_mode = 2
 
+[node name="Power" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_sjns5")
+text = "
+Power: 
+
+"
+vertical_alignment = 1
+
 [node name="Background" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
@@ -620,6 +644,11 @@ text = "Light 2 Position: "
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Power" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(1, 8)
+value = 2.0
+
 [node name="Background" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("11_ynfe2")]
 layout_mode = 2
 
@@ -676,6 +705,7 @@ value = Vector3(-10, -10, 10)
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowFalloff" to="UI/HBoxContainer/TabContainer" method="_on_glow_falloff_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowColor" to="UI/HBoxContainer/TabContainer" method="_on_glow_color_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/SuperGlow" to="UI/HBoxContainer/TabContainer" method="_on_super_glow_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_bg_color_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Iterations" to="UI/HBoxContainer/TabContainer" method="_on_iterations_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/SurfaceDistance" to="UI/HBoxContainer/TabContainer" method="_on_surface_distance_value_changed"]

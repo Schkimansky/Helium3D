@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ntd4vcyn7t6s"]
 
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="1_rch6v"]
-[ext_resource type="Script" path="res://ui/labels/vec_3_label.gd" id="1_tpuht"]
+[ext_resource type="Script" path="res://ui/labels/vec3 label/vec_3_label.gd" id="1_tpuht"]
 
 [sub_resource type="FontVariation" id="FontVariation_e1j5u"]
 base_font = ExtResource("1_rch6v")
@@ -18,7 +18,7 @@ grow_vertical = 2
 theme_override_constants/separation = 3
 script = ExtResource("1_tpuht")
 
-[node name="FjuliabulbCX" type="Label" parent="."]
+[node name="X" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/line_spacing = -15
@@ -29,7 +29,7 @@ Label:
 "
 vertical_alignment = 1
 
-[node name="FjuliabulbCY" type="Label" parent="."]
+[node name="Y" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/line_spacing = -19
@@ -40,7 +40,7 @@ text = "
 "
 vertical_alignment = 1
 
-[node name="FjuliabulbCZ" type="Label" parent="."]
+[node name="Z" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/line_spacing = -15

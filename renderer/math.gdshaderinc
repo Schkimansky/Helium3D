@@ -5,6 +5,30 @@ float fast_acos(float x) {
     return 8.0 / 3.0 * c - b / 3.0;
 }
 
+mat3 rotationMatrix3(vec3 axis, float angle) {
+    vec3 a = normalize(axis);
+    float c = cos(angle);
+    float s = sin(angle);
+
+    return mat3(
+        vec3(
+            c + (1.0 - c) * a.x * a.x,
+            (1.0 - c) * a.x * a.y - s * a.z,
+            (1.0 - c) * a.x * a.z + s * a.y
+        ),
+        vec3(
+            (1.0 - c) * a.x * a.y + s * a.z,
+            c + (1.0 - c) * a.y * a.y,
+            (1.0 - c) * a.y * a.z - s * a.x
+        ),
+        vec3(
+            (1.0 - c) * a.x * a.z - s * a.y,
+            (1.0 - c) * a.y * a.z + s * a.x,
+            c + (1.0 - c) * a.z * a.z
+        )
+    );
+}
+
 vec3 complexPow(vec3 z, float to_power) {
 	float r = length(z); // Magnitude of z
 	float theta = acos(z.z / r); // Polar angle (theta)
@@ -28,6 +52,7 @@ vec3 complexPow(vec3 z, float to_power) {
 }
 
 vec4 complexPow4(vec4 z, float to_power) {
+	//if (flip_azimuthal) z = vec4(z.w, z.z, z.y, z.x);
 	// Treat the vec4 as two separate complex numbers: (x, y) and (z, w)
 	vec2 complex1 = vec2(z.x, z.y);
 	vec2 complex2 = vec2(z.z, z.w);
@@ -85,6 +110,16 @@ vec4 complexMul4(vec4 a, vec4 b) {
 vec4 complexDiv4(vec4 numerator, vec4 denominator) {
     float denom = dot(denominator, denominator);
     return complexMul4(numerator, vec4(denominator.x, -denominator.y, -denominator.z, -denominator.w)) / denom;
+}
+
+float smoothstep_mix(float a, float b, float t) {
+    t = clamp(t, 0.0, 1.0);
+    return mix(a, b, smoothstep(0.0, 1.0, t));
+}
+
+float lerp_mix(float a, float b, float t) {
+    t = clamp(t, 0.0, 1.0);
+    return mix(a, b, t);
 }
 
 //vec4 mobiusTransform(vec4 z, vec4 a, vec4 b, vec4 c, vec4 d) {

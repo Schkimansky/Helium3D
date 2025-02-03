@@ -32,10 +32,10 @@ func _physics_process(delta: float) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		is_holding = false
 	
-	if Input.is_action_pressed('rotate left'):
+	if is_holding and Input.is_action_pressed('rotate left'):
 		camera.rotation_degrees.z += 20 * delta
 		%SubViewport.since_last_dynamic_update = 0.0
-	if Input.is_action_pressed('rotate right'):
+	if is_holding and Input.is_action_pressed('rotate right'):
 		camera.rotation_degrees.z -= 20 * delta
 		%SubViewport.since_last_dynamic_update = 0.0
 	

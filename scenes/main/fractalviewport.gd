@@ -13,9 +13,7 @@ func _ready() -> void:
 	render_target_update_mode = UPDATE_WHEN_VISIBLE
 
 func _process(delta: float) -> void:
-	since_last_dynamic_update += delta
-	
-	if %TextureRect.is_holding and since_last_dynamic_update <= 0.1:
+	if %TextureRect.is_holding and since_last_dynamic_update <= (0.75) / Engine.get_frames_per_second():
 		scaling_3d_scale = low_scaling
 	elif scaling_3d_scale != high_scaling:
 		scaling_3d_scale = high_scaling
@@ -24,6 +22,8 @@ func _process(delta: float) -> void:
 		render_target_update_mode = UPDATE_DISABLED
 	else:
 		render_target_update_mode = UPDATE_WHEN_VISIBLE
+	
+	since_last_dynamic_update += delta
 
 func refresh_taa() -> void:
 	since_last_dynamic_update = 0.0

@@ -2,6 +2,7 @@ vec2 mengersponge_sdf(vec3 p, float power){
 	float d = cube_sdf3d(p, vec3(1));
 	float res = d;
 	float s = 1.0;
+
 	for (int m = 0; m < iterations; m++) {
 		vec3 a = mod(p * s, 2.0) - 1.0;
 		s *= power + 1.0;

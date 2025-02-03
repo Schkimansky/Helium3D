@@ -25,8 +25,7 @@ vec2 mandelfractal(int fractal_id, vec3 p, float power) {
         c = scaled_p;
 	}
 
-
-    float min_dist = 10000000.0;
+    float orbit_trap = 10000000.0;
     float r = length(z);
     float dz = 1.0;
     float powercache1 = (power - 1.0) * 0.5;
@@ -50,10 +49,10 @@ vec2 mandelfractal(int fractal_id, vec3 p, float power) {
         else if (fractal_id == 15) { z = complexPow(z, power) - abs(c * z * fjuliabloat_abs_multiplier) - cos((c - z) * fjuliabloat_cosine_multiplier1); z += sin((c * z) * fjuliabloat_sine_multiplier1); z += cos(c * fjuliabloat_cosine_multiplier2) + sin(c * fjuliabloat_sine_multiplier2); }
 
         r = length(z);
-        min_dist = min(min_dist, distance(z, vec3(0.0, 0.0, 0.0)));
+        orbit_trap = min(orbit_trap, dot(z, z));
 
         if (r > escape_radius) break;
     }
 
-    return vec2(0.5 * log(r) * sqrt(r) / dz, min_dist);
+    return vec2(0.5 * log(r) * sqrt(r) / dz, orbit_trap);
 }

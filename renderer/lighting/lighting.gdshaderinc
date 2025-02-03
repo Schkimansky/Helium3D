@@ -5,7 +5,6 @@ float soft_shadow(vec3 p, vec3 light_pos, float k) {
 	float res = 1.0;
 	float ph = 1e20;
 	float t = surface_distance + self_shadow_bias;
-	float min_step_size = 0.1;
 
 	for (int i = 0; i < shadow_steps; i++) {
 		float h = scene_sdf(p + rd * t).y;

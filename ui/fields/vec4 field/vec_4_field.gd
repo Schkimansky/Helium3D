@@ -11,7 +11,7 @@ signal value_changed(to: Vector4)
 		%X.value = value.x
 		%Y.value = value.y
 		%Z.value = value.z
-		%W.value = value.z
+		%W.value = value.w
 
 func _ready() -> void:
 	Global.value_nodes.append(self)

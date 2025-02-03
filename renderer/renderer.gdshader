@@ -12,26 +12,26 @@ uniform vec3 light1_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light2_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light1_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light2_color: source_color = vec3(1.0, 1.0, 1.0);
-
 uniform int iterations = 8;
 uniform int max_steps = 120;
 uniform float ambient_light = 0.5;
 uniform float max_distance = 10.0;
 uniform float surface_distance = 0.000003;
 uniform float raystep_multiplier = 1.0;
+
+group_uniforms coloring;
 uniform sampler2D palette;
 
 group_uniforms fractal;
 uniform sampler2D bg_color;
 uniform int formulas[10];
-uniform float formula_weights[10];
+//uniform float formula_weights[10];
 uniform float powers[10];
 uniform float escape_radius = 2.0;
 
-//group_uniforms modifications;
-//uniform bool flip_azimuthal = false;
-//uniform vec3 pow_order = vec3(1, 2, 3);
-
+// Quaternion
+group_uniforms Quaternion;
+uniform vec4 fquaternion_c = vec4(0.5, 0.5, 0.5, 0.5);
 // Pseudoklenian
 group_uniforms pseudoklenian;
 uniform vec4 fpseudoklenian_min = vec4(-0.8323, -0.694, -0.5045, 0.8067);
@@ -121,45 +121,54 @@ uniform vec3 fjuliabloat_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
 uniform vec3 fjuliabloat_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
 
 group_uniforms post_processing;
+// Ambient Occlusion
 uniform int ambient_occlusion_steps = 6;
 uniform float ambient_occlusion_radius = 0.5;
 uniform float ambient_occlusion_darkness = 0.7;
+// Vignette
 uniform float vignette_strength = 0.7;
 uniform float vignette_radius = 0.8;
+// Glow
 uniform float glow_intensity: hint_range(0.0, 5.0) = 1.0;
 uniform vec3 glow_color: source_color = vec3(1.0, 0.5, 0.2);
 uniform float glow_threshold: hint_range(0.0, 100.0) = 30.0;
 uniform float glow_falloff: hint_range(1.0, 10.0) = 2.0;
 uniform bool super_glow = false;
 uniform bool glow = false;
+// Fog
+uniform vec3 fog_color: source_color = vec3(0.5, 0.6, 0.7);
+uniform float fog_density = 0.01;
+uniform float fog_falloff = 1.64;
 
 group_uniforms pbr;
 uniform float metallicness = 0.5;
 uniform float metallic_darkness = 0.3;
+uniform float min_step_size = 0.5;
 
 #include "math.gdshaderinc"
 #include "sdf/fractalsdf.gdshaderinc"
 #include "lighting/ambient_occlusion.gdshaderinc"
 
-vec2 ray_marcher(vec3 ro, vec3 rd, inout int total_marches) {
+vec3 ray_marcher(vec3 ro, vec3 rd) {
 	float dfo = 0.0;
 	float orbit_trap_distance;
+	float total_marches = 0.0;
 
-	for (int i = 0; i < int(max_steps); i++) {
+	for (int i = 0; i < max_steps; i++) {
 		vec2 data = scene_sdf(ro + rd * dfo);
 		float point_distance = data.y;
 		dfo += point_distance * raystep_multiplier;
-		total_marches += 1;
+		total_marches += 1.0;
 
-		if (point_distance < surface_distance || dfo > max_distance) {
+		if (abs(point_distance) < surface_distance || dfo > max_distance) {
 			orbit_trap_distance = data.x;
 			break;
 		};
 	}
 
-	if (super_glow && dfo < max_distance) { total_marches = max_steps; }
+	if (super_glow && dfo < max_distance) { total_marches = float(max_steps); }
 
-	return vec2(dfo > max_distance ? 0.0 : orbit_trap_distance, dfo);
+	return vec3(dfo > max_distance ? 0.0 : orbit_trap_distance, dfo, total_marches);
 }
 
 #include "lighting/lighting.gdshaderinc"
@@ -174,10 +183,10 @@ vec3 calculate_normal(vec3 p) {
 }
 
 vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
-	int total_marches;
-	vec2 data = ray_marcher(ray_origin, ray_dir, total_marches);
+	vec3 data = ray_marcher(ray_origin, ray_dir);
 	float iterations_to_escape = data.x;
 	float dfo = data.y;
+	float total_marches = data.z;
 	vec3 palette_color = texture(palette, vec2((iterations_to_escape) * 3.0, 0.0)).xyz * 3.0;
 	vec3 final_color;
 
@@ -197,10 +206,19 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	}
 
 	if (glow && float(total_marches) * raystep_multiplier > glow_threshold) {
-		float final_glow_intensity = glow_intensity * smoothstep(glow_threshold, 100.0, float(total_marches) * raystep_multiplier);
+		float final_glow_intensity = (glow_intensity - 0.2) * smoothstep(glow_threshold, 100.0, float(total_marches) * raystep_multiplier);
 		vec3 final_glow_color = glow_color * 3.0;
 		final_color += final_glow_color * pow(final_glow_intensity, glow_falloff);
 	}
+
+	float fog_distance = dfo < max_distance ? dfo : max_distance;
+	float fog_amount = 1.0 - exp(-fog_density * fog_distance);
+	final_color = mix(final_color, fog_color, pow(fog_amount, fog_falloff));
+
+	// For some reason, Doing this makes glow work. Why? I DONT KNOW.
+	//final_color /= 2.0;
+	//final_color = min(final_color, 1.0);
+	//final_color *= 2.0;
 
 	return final_color;
 }

@@ -1,6 +1,6 @@
 extends TabContainer
 
-const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf']
+const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf', 'quaternion']
 var current_formulas: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 func field_changed(field_name: String, value: Variant) -> void:
@@ -97,3 +97,6 @@ func _on_glow_color_value_changed(to: Color) -> void: field_changed('glow_color'
 func _on_glow_falloff_value_changed(to: float) -> void: field_changed('glow_falloff', to)
 func _on_glow_intensity_value_changed(to: float) -> void: field_changed('glow_intensity', to)
 func _on_glow_threshold_value_changed(to: float) -> void: field_changed('glow_threshold', to)
+func _on_fog_color_value_changed(to: Color) -> void: field_changed('fog_color', to)
+func _on_fog_density_value_changed(to: float) -> void: field_changed('fog_density', to)
+func _on_fog_falloff_value_changed(to: float) -> void: field_changed('fog_falloff', to)

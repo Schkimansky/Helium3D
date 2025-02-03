@@ -1,6 +1,9 @@
 extends HBoxContainer
 
 func _on_save_picture_pressed() -> void:
+	if %FileDialog.current_path.ends_with('.hlm'):
+		%FileDialog.current_path = %FileDialog.current_path.replace('.hlm', '.png')
+	
 	%FileDialog.ok_button_text = 'Save Picture'
 	%FileDialog.title = "Save Picture"
 	%FileDialog.clear_filters()

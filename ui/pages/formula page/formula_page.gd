@@ -55,3 +55,4 @@ func _on_famazingsurf_min_radius_value_changed(to: float) -> void: field_changed
 func _on_famazingsurf_fold_y_value_changed(to: float) -> void: field_changed('famazingsurf_fold_y', to)
 func _on_famazingsurf_fold_x_value_changed(to: float) -> void: field_changed('famazingsurf_fold_x', to)
 func _on_famazingsurf_c_value_changed(to: Vector3) -> void: field_changed('famazingsurf_c', to)
+func _on_fquaternion_c_value_changed(to: Vector4) -> void: field_changed('fquaternion_c', to)

@@ -15,6 +15,7 @@ signal value_changed(option: String)
 func _ready() -> void:
 	Global.value_nodes.append(self)
 	$HBoxContainer/Label.text = options[index]
+	value_changed.emit(options[index])
 
 func i_am_a_selection_field() -> void: pass
 

@@ -170,13 +170,25 @@ layout_mode = 2
 [node name="Famazingsurf" type="VBoxContainer" parent="Fields/Names"]
 layout_mode = 2
 
+[node name="Fquaternion" type="VBoxContainer" parent="Fields/Names"]
+layout_mode = 2
+
+[node name="FquaternionC" type="Label" parent="Fields/Names/Fquaternion"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = SubResource("FontVariation_fxm3f")
+text = "C:
+"
+vertical_alignment = 1
+
 [node name="Values" type="VBoxContainer" parent="Fields"]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Formulas" parent="Fields/Values" instance=ExtResource("6_uoycf")]
 layout_mode = 2
-options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf"])
+options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Quaternion"])
 
 [node name="Fjuliabulb" type="VBoxContainer" parent="Fields/Values"]
 visible = false
@@ -400,8 +412,8 @@ value = Vector4(-0.8323, -0.694, -0.5045, 0.8067)
 
 [node name="FpseudoklenianMax" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-1, -1, -1, -1)
-range_max = Vector4(1, 1, 1, 1)
+range_min = Vector4(-1, -1, -1, 1.45519e-11)
+range_max = Vector4(1, 1, 1, 2)
 value = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
 
 [node name="Famazingsurf" type="VBoxContainer" parent="Fields/Values"]
@@ -415,7 +427,7 @@ value = Vector3(-1, -1, -1)
 
 [node name="FamazingsurfMode" parent="Fields/Values/Famazingsurf" instance=ExtResource("6_uoycf")]
 layout_mode = 2
-options = Array[String](["Fold1", "Fold2", "Fold3"])
+options = Array[String](["Fold1", "Fold2", "Fold3", "Fold4"])
 
 [node name="FamazingsurfFoldX" parent="Fields/Values/Famazingsurf" instance=ExtResource("5_j3vbu")]
 layout_mode = 2
@@ -446,6 +458,15 @@ value = Vector3(1, 1, 1)
 layout_mode = 2
 range_min = Vector3(-2, -2, -2)
 range_max = Vector3(2, 2, 2)
+
+[node name="Fquaternion" type="VBoxContainer" parent="Fields/Values"]
+layout_mode = 2
+
+[node name="FquaternionC" parent="Fields/Values/Fquaternion" instance=ExtResource("7_p1yy6")]
+layout_mode = 2
+range_min = Vector4(-2, -2, -2, -2)
+range_max = Vector4(2, 2, 2, 2)
+value = Vector4(-0.08, -0.463, 0.492, -0.177)
 
 [connection signal="value_changed" from="Fields/Values/Formulas" to="." method="_on_formula_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fjuliabulb/FjuliabulbC" to="." method="_on_fjuliabulb_c_value_changed"]
@@ -483,3 +504,4 @@ range_max = Vector3(2, 2, 2)
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfRotationAngle" to="." method="_on_famazingsurf_rotation_angle_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfRotationVector" to="." method="_on_famazingsurf_rotation_vector_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfTranslation" to="." method="_on_famazingsurf_translation_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fquaternion/FquaternionC" to="." method="_on_fquaternion_c_value_changed"]

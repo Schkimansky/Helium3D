@@ -9,11 +9,13 @@ vec2 amazingsurf_sdf(vec3 pos, float power) {
     mat3 rot = rotationMatrix3(normalize(famazingsurf_rotation_vector), famazingsurf_rotation_angle);
 
     for (int i = 0; i < iterations; i++) {
-        if (famazingsurf_mode == 2) {
+        if (famazingsurf_mode == 1) {
             p.xy = famazingsurf_fold - abs(abs(p.xy) - famazingsurf_fold);
-        } else if (famazingsurf_mode == 3) {
+        } else if (famazingsurf_mode == 2) {
             p.xy = abs(p.xy + famazingsurf_fold);
-        } else {
+        } else if (famazingsurf_mode == 3) {
+            p.xy = famazingsurf_fold * abs(abs(p.xy) + famazingsurf_fold);
+        } else if (famazingsurf_mode == 4) {
             p.xy = abs(p.xy + famazingsurf_fold) - abs(p.xy - famazingsurf_fold) - p.xy;
         }
 

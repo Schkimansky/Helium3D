@@ -8,6 +8,7 @@ uniform int shadow_steps = 4;
 uniform float shadow_softness = 64.0;
 
 group_uniforms rendering;
+uniform float light_intensity = 0.6;
 uniform vec3 light1_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light2_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light1_color: source_color = vec3(1.0, 1.0, 1.0);
@@ -29,13 +30,23 @@ uniform int formulas[10];
 uniform float powers[10];
 uniform float escape_radius = 2.0;
 
+// Mengersponge
+group_uniforms mengersponge;
+uniform float fmengersponge_rotation_x = 0.0;
+uniform float fmengersponge_rotation_y = 0.0;
+// Tetraglad
+group_uniforms tetraglad;
+uniform float ftetraglad_rotation_x = 0.0;
+uniform float ftetraglad_rotation_y = 0.0;
 // Quaternion
-group_uniforms Quaternion;
+group_uniforms quaternion;
 uniform vec4 fquaternion_c = vec4(0.5, 0.5, 0.5, 0.5);
 // Pseudoklenian
 group_uniforms pseudoklenian;
 uniform vec4 fpseudoklenian_min = vec4(-0.8323, -0.694, -0.5045, 0.8067);
 uniform vec4 fpseudoklenian_max = vec4(0.8579, 1.0883, 0.8937, 0.9411);
+uniform int fpseudoklenian_mode = 1;
+//uniform float fpseudoklenian_a = 1.0;
 // Amazingsurf
 group_uniforms amazingsurf;
 uniform vec3 famazingsurf_c = vec3(-1.0);
@@ -141,9 +152,12 @@ uniform float fog_density = 0.01;
 uniform float fog_falloff = 1.64;
 
 group_uniforms pbr;
-uniform float metallicness = 0.5;
-uniform float metallic_darkness = 0.3;
-uniform float min_step_size = 0.5;
+uniform float refraction_intensity = 2.611;
+uniform float refraction_sharpness = 8.0;
+//uniform float refraction_color = 0.3;
+
+// Min shadow step size.
+const float min_step_size = 0.0;
 
 #include "math.gdshaderinc"
 #include "sdf/fractalsdf.gdshaderinc"
@@ -198,11 +212,11 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 		vec3 normal = calculate_normal(p);
 
 		float ao = max(calculate_ambient_occlusion(p, normal), ambient_occlusion_darkness);
-		float light1 = get_light(p, ray_dir, ray_origin, light1_position, normal);
-		float light2 = get_light(p, ray_dir, ray_origin, light2_position, normal);
+		vec3 light1 = get_light(p, ray_dir, ray_origin, light1_position, light1_color, normal);
+		vec3 light2 = get_light(p, ray_dir, ray_origin, light2_position, light2_color, normal);
 
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
-		final_color = palette_color * ao * ((light1 * light1_color) + (light2 * light2_color)) * ambient_light * vignette;
+		final_color = palette_color * ao * (light1 + light2) * vignette;
 	}
 
 	if (glow && float(total_marches) * raystep_multiplier > glow_threshold) {

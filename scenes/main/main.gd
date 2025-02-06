@@ -18,3 +18,15 @@ func update_fields(new_fields: Dictionary) -> void:
 		%Fractal.material_override.set_shader_parameter(field_name, field_val)
 	
 	%TabContainer.update_field_values(fields)
+
+func _on_viewport_width_text_changed(new_text: String) -> void:
+	if new_text.is_valid_float() or new_text.is_valid_int():
+		var value: float = float(new_text)
+		%SubViewport.size.x = value
+		%SubViewport.refresh_taa()
+
+func _on_viewport_height_text_changed(new_text: String) -> void:
+	if new_text.is_valid_float() or new_text.is_valid_int():
+		var value: float = float(new_text)
+		%SubViewport.size.y = value
+		%SubViewport.refresh_taa()

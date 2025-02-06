@@ -30,6 +30,32 @@ mat3 rotationMatrix3(vec3 axis, float angle) {
 }
 
 vec3 complexPow(vec3 z, float to_power) {
+	//float x = z3.x;
+	//float y = z3.y;
+	//float z = z3.z;
+	// Lightship pow (sadly doesnt react to power)
+	//return vec3((x * 2.0) - (y * 2.0) - (z * 2.0), y * (2.0 * x - z), z * (2.0 * x + y));
+//	// Lightship attempt 2
+	//return vec3((x * x) - (y * y) - (z * z), 2.0 * x * y, 2.0 * ((x - y) * z));
+
+	// Bristorbrot pow
+	//return vec3(pow(x, to_power) - pow(y, to_power) - pow(z, to_power), to_power * x * y, to_power * (x - y) * z);
+	// Bristorbrot attempt 2
+	//return vec3((x * x) - (y * y) - (z * z), y * (2.0 * x - z), z * (2.0 * x + y));
+
+	// Daniel whites squaring formula
+    //float r2 = dot(z3, z3);
+    //float r = sqrt(r2);
+    //float theta = to_power * atan(y, x);
+    //float phi = to_power * asin(z / r);
+//
+    //return r2 * vec3(
+        //cos(theta) * cos(phi),
+        //sin(theta) * cos(phi),
+        //-sin(phi)
+    //);
+
+	// Normal pow
 	float r = length(z); // Magnitude of z
 	float theta = acos(z.z / r); // Polar angle (theta)
 	float phi = atan(z.y, z.x); // Azimuthal angle (phi)

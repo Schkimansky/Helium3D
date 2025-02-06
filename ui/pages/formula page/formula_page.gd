@@ -5,19 +5,22 @@ extends MarginContainer
 func _ready() -> void:
 	if page_number == 1:
 		set_formula('Mandelbulb')
-		#$Fields/Values/Formula.restricted_options = ['None']
 	else:
 		set_formula('None')
 
 func field_changed(field_name: String, to: Variant) -> void:
-	var tab_container: TabContainer = get_parent().get_parent().get_parent()
-	tab_container.field_changed(field_name, to)
+	%TabContainer.field_changed(field_name, to)
 
 func set_formula(formula_name: String) -> void:
-	$Fields/Values/Formulas.index = ($Fields/Values/Formulas.options.find(formula_name))
+	$Fields/Values/Formulas.index = $Fields/Values/Formulas.options.find(formula_name)
 	$Fields/Values/Formulas.get_node('HBoxContainer/Label').text = formula_name
-	var tab_container: TabContainer = get_parent().get_parent().get_parent()
-	tab_container.set_formula(formula_name, page_number)
+	%TabContainer.set_formula(formula_name, page_number)
+
+func set_formula_from_id(id: int) -> void:
+	var formula_name: String = $Fields/Values/Formulas.options[id]
+	$Fields/Values/Formulas.index = id
+	$Fields/Values/Formulas.get_node('HBoxContainer/Label').text = formula_name
+	%TabContainer.set_formula(formula_name, page_number)
 
 func _on_fjuliabulb_c_value_changed(to: Vector3) -> void: field_changed('fjuliabulb_c', to)
 func _on_fmandelbox_sphere_fold_value_changed(to: Vector3) -> void: field_changed('fmandelbox_sphere_fold', to)
@@ -56,3 +59,7 @@ func _on_famazingsurf_fold_y_value_changed(to: float) -> void: field_changed('fa
 func _on_famazingsurf_fold_x_value_changed(to: float) -> void: field_changed('famazingsurf_fold_x', to)
 func _on_famazingsurf_c_value_changed(to: Vector3) -> void: field_changed('famazingsurf_c', to)
 func _on_fquaternion_c_value_changed(to: Vector4) -> void: field_changed('fquaternion_c', to)
+func _on_fmengersponge_rotation_x_value_changed(to: float) -> void: field_changed('fmengersponge_rotation_x', to)
+func _on_fmengersponge_rotation_y_value_changed(to: float) -> void: field_changed('fmengersponge_rotation_y', to)
+func _on_ftetraglad_rotation_x_value_changed(to: float) -> void: field_changed('ftetraglad_rotation_x', to)
+func _on_ftetraglad_rotation_y_value_changed(to: float) -> void: field_changed('ftetraglad_rotation_y', to)

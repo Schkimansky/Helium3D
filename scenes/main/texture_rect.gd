@@ -1,6 +1,7 @@
 extends TextureRect
 
 var speed := 1.0
+var target_size := Vector2(960, 540)
 const DELTA_MULTIPLIER = 7.0
 const FRICTION := 0.9
 const JUMP_POWER := 6.0
@@ -19,11 +20,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		var adjusted_input: Vector2 = input.rotated(-camera.rotation.z)
 		
 		head.rotate_y(-adjusted_input.x * SENSITIVITY)
-		camera.rotation.x = clamp(camera.rotation.x - adjusted_input.y * SENSITIVITY, deg_to_rad(-80), deg_to_rad(80))
+		camera.rotation.x = camera.rotation.x - adjusted_input.y * SENSITIVITY
+		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 		
 		%SubViewport.refresh_taa()
 
 func _physics_process(delta: float) -> void:
+	custom_minimum_size = target_size
+	
 	if Input.is_action_just_pressed('mouse right click') and is_hovering:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		is_holding = true
@@ -46,6 +50,9 @@ func _physics_process(delta: float) -> void:
 	
 	if is_holding:
 		var direction := Input.get_vector("a", "d", "s", "w")
+		var target_speed: float = speed
+		
+		
 		
 		if direction:
 			%SubViewport.refresh_taa()
@@ -55,7 +62,7 @@ func _physics_process(delta: float) -> void:
 		var up: Vector3 = camera.global_transform.basis.y.normalized()
 		var movement_direction := (right * direction.x + forward * direction.y).normalized()
 		
-		%Player.global_transform.origin += movement_direction * speed * delta
+		%Player.global_transform.origin += movement_direction * target_speed * delta
 		
 		if Input.is_action_pressed('up'):
 			%Player.global_transform.origin += up * speed * delta

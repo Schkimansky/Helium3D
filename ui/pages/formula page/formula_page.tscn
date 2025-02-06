@@ -164,6 +164,9 @@ layout_mode = 2
 [node name="Fmengersponge" type="VBoxContainer" parent="Fields/Names"]
 layout_mode = 2
 
+[node name="Ftetraglad" type="VBoxContainer" parent="Fields/Names"]
+layout_mode = 2
+
 [node name="Fpseudoklenian" type="VBoxContainer" parent="Fields/Names"]
 layout_mode = 2
 
@@ -188,7 +191,7 @@ size_flags_horizontal = 3
 
 [node name="Formulas" parent="Fields/Values" instance=ExtResource("6_uoycf")]
 layout_mode = 2
-options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Quaternion"])
+options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Quaternion", "Tetraglad"])
 
 [node name="Fjuliabulb" type="VBoxContainer" parent="Fields/Values"]
 visible = false
@@ -401,20 +404,40 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="FmengerspongeRotationX" parent="Fields/Values/Fmengersponge" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="FmengerspongeRotationY" parent="Fields/Values/Fmengersponge" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="Ftetraglad" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FtetragladRotationX" parent="Fields/Values/Ftetraglad" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="FtetragladRotationY" parent="Fields/Values/Ftetraglad" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
 [node name="Fpseudoklenian" type="VBoxContainer" parent="Fields/Values"]
 layout_mode = 2
 
 [node name="FpseudoklenianMin" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-1, -1, -1, -1)
-range_max = Vector4(1, 1, 1, 1)
-value = Vector4(-0.8323, -0.694, -0.5045, 0.8067)
+range_min = Vector4(-1, -1, -1, -2)
+range_max = Vector4(1, 1, 1, 2)
+value = Vector4(-1, -1, -1, 1.354)
 
 [node name="FpseudoklenianMax" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-1, -1, -1, 1.45519e-11)
+range_min = Vector4(-1, -1, -1, -2)
 range_max = Vector4(1, 1, 1, 2)
-value = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
+value = Vector4(1, 1, 1, 1.354)
 
 [node name="Famazingsurf" type="VBoxContainer" parent="Fields/Values"]
 layout_mode = 2
@@ -494,6 +517,10 @@ value = Vector4(-0.08, -0.463, 0.492, -0.177)
 [connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxStoneness" to="." method="_on_fmandelbox_stoneness_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxDivisions" to="." method="_on_fmandelbox_divisions_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fmandelbox/FmandelboxSphereReflection" to="." method="_on_fmandelbox_sphere_reflection_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengersponge/FmengerspongeRotationX" to="." method="_on_fmengersponge_rotation_x_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengersponge/FmengerspongeRotationY" to="." method="_on_fmengersponge_rotation_y_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftetraglad/FtetragladRotationX" to="." method="_on_ftetraglad_rotation_x_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Ftetraglad/FtetragladRotationY" to="." method="_on_ftetraglad_rotation_y_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianMin" to="." method="_on_fpseudoklenian_min_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianMax" to="." method="_on_fpseudoklenian_max_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfC" to="." method="_on_famazingsurf_c_value_changed"]

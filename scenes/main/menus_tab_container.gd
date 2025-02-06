@@ -1,7 +1,31 @@
 extends TabContainer
 
-const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf', 'quaternion']
+const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf', 'quaternion', 'tetraglad']
 var current_formulas: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var total_visible_formulas: int = 1:
+	set(value):
+		total_visible_formulas = value
+		total_visible_formulas = clamp(total_visible_formulas, 1, 5)
+		
+		var formula_tabcontainer: TabContainer = %TabContainer.get_node('Formula/TabContainer')
+		var formula_pages: Array[Node] = formula_tabcontainer.get_formula_pages()
+		for formula_page in formula_pages: 
+			formula_page.reparent(formula_tabcontainer.get_node('Buffer'))
+		
+		for i in total_visible_formulas + 1:
+			for formula_page in formula_pages: 
+				if formula_page.page_number == i:
+					formula_page.reparent(formula_tabcontainer)
+		
+		if total_visible_formulas == 1:
+			$Formula/Buttons/AddFormula.disabled = false
+			$Formula/Buttons/RemoveFormula.disabled = true
+		elif total_visible_formulas == 5:
+			$Formula/Buttons/AddFormula.disabled = true
+			$Formula/Buttons/RemoveFormula.disabled = false
+		else:
+			$Formula/Buttons/AddFormula.disabled = false
+			$Formula/Buttons/RemoveFormula.disabled = false
 
 func field_changed(field_name: String, value: Variant) -> void:
 	if value is EncodedObjectAsID:
@@ -23,12 +47,20 @@ func set_formula(formula_name: String, for_page: int) -> void:
 	field_changed('formulas', current_formulas)
 	
 	for other_formula in (FORMULAS as Array[String]):
-		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Values').get_node('F' + other_formula.to_lower()).visible = false
-		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Names').get_node('F' + other_formula.to_lower()).visible = false
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node('F' + other_formula.to_lower()).visible = false
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node('F' + other_formula.to_lower()).visible = false
 	
 	if formula_name.to_lower() != 'none':
-		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Values').get_node('F' + formula_name.to_lower()).visible = true
-		$Formula/TabContainer.get_node('Formula' + str(for_page)).get_node('Fields/Names').get_node('F' + formula_name.to_lower()).visible = true
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node('F' + formula_name.to_lower()).visible = true
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node('F' + formula_name.to_lower()).visible = true
+
+func _on_add_formula_pressed() -> void: total_visible_formulas += 1
+func _on_remove_formula_pressed() -> void:
+	%TabContainer.get_node('Formula/TabContainer').get_formula_page(total_visible_formulas).set_formula('None')
+	%TabContainer.get_node('Formula/TabContainer').current_tab -= 1
+	await get_tree().process_frame
+	set_formula('none', total_visible_formulas)
+	total_visible_formulas -= 1
 
 func update_field_values(new_fields: Dictionary) -> void:
 	var value_nodes: Array[Control] = Global.value_nodes
@@ -43,9 +75,6 @@ func update_field_values(new_fields: Dictionary) -> void:
 		if field_val is EncodedObjectAsID or field_name == 'fjuliabulb_c_sqrt' or field_name == 'fjuliaswirl_csqrt_multiplier':
 			continue
 		
-		#if field_name == 'formula' and 'formulas' in new_fields.keys():
-			#continue
-		
 		if field_name == 'formula':
 			field_name = 'formulas'
 			field_val = [field_val, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -59,8 +88,7 @@ func update_field_values(new_fields: Dictionary) -> void:
 		
 		if field_name == 'formulas':
 			for current_page_number in range(1, 10 + 1):
-				if current_page_number >= 3:
-					# Support for up to 2 formulas only (for now, target is 10)
+				if current_page_number >= 5:
 					continue
 				
 				target_value_node = value_nodes.filter(func(x: Control) -> bool: return x.name.to_snake_case() == field_name.to_snake_case() and x.get_parent().get_parent().get_parent().page_number == current_page_number)[0]
@@ -74,9 +102,6 @@ func update_field_values(new_fields: Dictionary) -> void:
 		else:
 			target_value_node.index = field_val - 1
 
-#func _on_color_shape_value_changed(option: String) -> void: field_changed('color_shape', $Coloring/Fields/Values/ColorShape.index + 1)
-
-#func _on_formula_value_changed(option: String) -> void: set_formula(option)
 func _on_ambient_occlusion_steps_value_changed(to: float) -> void: field_changed('ambient_occlusion_steps', to)
 func _on_ambient_occlusion_radius_value_changed(to: float) -> void: field_changed('ambient_occlusion_radius', to)
 func _on_vignette_strength_value_changed(to: float) -> void: field_changed('vignette_strength', to)

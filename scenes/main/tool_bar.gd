@@ -36,7 +36,7 @@ func _on_file_dialog_confirmed() -> void:
 	elif %FileDialog.title == "Save Project":
 		var file: FileAccess = FileAccess.open(%FileDialog.current_path, FileAccess.WRITE)
 		var data: Dictionary = get_tree().current_scene.fields
-		data['other'] = {'player_position': %Player.global_position, 'head_rotation': %Player.get_node('Head').global_rotation_degrees, 'camera_rotation': %Player.get_node('Head/Camera').global_rotation_degrees, 'bgcoloroffsets': data['bg_color'].gradient.offsets, 'bgcolorcolors': data['bg_color'].gradient.colors}
+		data['other'] = {'total_visible_formula_pages': %TabContainer.total_visible_formulas, 'player_position': %Player.global_position, 'head_rotation': %Player.get_node('Head').global_rotation_degrees, 'camera_rotation': %Player.get_node('Head/Camera').global_rotation_degrees, 'bgcoloroffsets': data['bg_color'].gradient.offsets, 'bgcolorcolors': data['bg_color'].gradient.colors}
 		file.store_var(data)
 		print('saving: ', data)
 		file.close()
@@ -52,7 +52,17 @@ func _on_file_dialog_confirmed() -> void:
 		%Player.get_node('Head').global_rotation_degrees = other_data['head_rotation']
 		%Player.get_node('Head/Camera').global_rotation_degrees = other_data['camera_rotation']
 		%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
+		%TabContainer.total_visible_formulas = other_data.get('total_visible_formulas', count_non_zero(project_fields['formulas']))
 		
 		%SubViewport.refresh_taa()
 		
 		file.close()
+
+func count_non_zero(numbers: Array) -> int:
+	var count := 0
+	
+	for number in (numbers as Array[int]):
+		if number != 0:
+			count += 1
+	
+	return count

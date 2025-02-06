@@ -1,6 +1,6 @@
 extends TabContainer
 
-const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf', 'quaternion', 'tetraglad']
+const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf', 'quaternion', 'tetraglad', 'sierpinski', 'sierpinski4d', 'mengerflake']
 var current_formulas: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var total_visible_formulas: int = 1:
 	set(value):

@@ -44,15 +44,13 @@ func _physics_process(delta: float) -> void:
 		%SubViewport.since_last_dynamic_update = 0.0
 	
 	if is_holding and Input.is_action_just_released('mouse wheel up'):
-		speed = clamp(speed * 1.1, 0.0, 100.0)
+		speed = clamp(speed * 1.2, 0.0, 100.0)
 	if is_holding and Input.is_action_just_released('mouse wheel down'):
-		speed = clamp(speed / 1.1, 0.0, 100.0)
+		speed = clamp(speed / 1.2, 0.0, 100.0)
 	
 	if is_holding:
 		var direction := Input.get_vector("a", "d", "s", "w")
 		var target_speed: float = speed
-		
-		
 		
 		if direction:
 			%SubViewport.refresh_taa()

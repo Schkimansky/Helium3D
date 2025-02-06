@@ -1,9 +1,8 @@
-[gd_scene load_steps=37 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=42 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
 [ext_resource type="Shader" path="res://renderer/renderer.gdshader" id="3_4yvvm"]
-[ext_resource type="Script" path="res://scenes/main/player.gd" id="3_rtqen"]
 [ext_resource type="Script" path="res://scenes/main/tool_bar.gd" id="5_og0rs"]
 [ext_resource type="Script" path="res://scenes/main/texture_rect.gd" id="6_dbdf5"]
 [ext_resource type="Script" path="res://scenes/main/texture_rect_holder.gd" id="7_20ti0"]
@@ -18,50 +17,65 @@
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
 [ext_resource type="Script" path="res://scenes/main/formula_tab_container.gd" id="16_dmyle"]
 [ext_resource type="PackedScene" uid="uid://4bx65d7nnvmf" path="res://ui/pages/formula page/formula_page.tscn" id="16_hfvnl"]
+[ext_resource type="Script" path="res://scenes/main/bottom_bar.gd" id="18_wb8t8"]
 
-[sub_resource type="Gradient" id="Gradient_5vyug"]
+[sub_resource type="Gradient" id="Gradient_t01jn"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_yqb2j"]
-gradient = SubResource("Gradient_5vyug")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_e8ld6"]
+gradient = SubResource("Gradient_t01jn")
 
-[sub_resource type="Gradient" id="Gradient_gj2re"]
-offsets = PackedFloat32Array(0.437936, 0.885635)
-colors = PackedColorArray(1, 1, 1, 1, 0.372278, 0.372278, 0.372278, 1)
+[sub_resource type="Gradient" id="Gradient_awg6w"]
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ds7kp"]
-gradient = SubResource("Gradient_gj2re")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fbu7m"]
+gradient = SubResource("Gradient_awg6w")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
 render_priority = 0
 shader = ExtResource("3_4yvvm")
-shader_parameter/self_shadow_bias = 0.025
-shader_parameter/shadow_darkness = 0.0325
+shader_parameter/self_shadow_bias = 0.01
+shader_parameter/shadow_darkness = 0.2973
 shader_parameter/shadow_steps = 32
-shader_parameter/shadow_softness = 1.0
-shader_parameter/light_intensity = 4.0
+shader_parameter/shadow_softness = 8.0
+shader_parameter/light_intensity = 0.6221
 shader_parameter/light1_position = Vector3(10, 10, 10)
 shader_parameter/light2_position = Vector3(-10, -10, -10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 14
-shader_parameter/max_steps = 450
-shader_parameter/ambient_light = 0.0454
-shader_parameter/max_distance = 20.0
-shader_parameter/surface_distance = 0.0003
-shader_parameter/raystep_multiplier = 2.705
-shader_parameter/formulas = PackedInt32Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/iterations = 7
+shader_parameter/max_steps = 120
+shader_parameter/ambient_light = 0.0051
+shader_parameter/max_distance = 50.0
+shader_parameter/surface_distance = 3e-06
+shader_parameter/raystep_multiplier = 1.0
+shader_parameter/palette = SubResource("GradientTexture1D_fbu7m")
+shader_parameter/formulas = PackedInt32Array(16, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/powers = PackedFloat32Array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
 shader_parameter/escape_radius = 2.0
-shader_parameter/bg_color = SubResource("GradientTexture1D_yqb2j")
-shader_parameter/fmengersponge_rotation_x = 3.0
-shader_parameter/fmengersponge_rotation_y = 4.0
-shader_parameter/ftetraglad_rotation_x = 1.45519e-11
-shader_parameter/ftetraglad_rotation_y = 1.45519e-11
+shader_parameter/bg_color = SubResource("GradientTexture1D_e8ld6")
+shader_parameter/fmengerflake_mode = 1
+shader_parameter/fmengerflake_rotation_x = 0.0
+shader_parameter/fmengerflake_rotation_y = 0.0
+shader_parameter/fmengerflake_rotation_xi = 0.52
+shader_parameter/fmengerflake_rotation_yi = 0.26
+shader_parameter/fmengerflake_offset = 0.5
+shader_parameter/fmengerflake_fold4_multiplier = 1.0
+shader_parameter/fmengerflake_fold5_multiplier = 1.0
+shader_parameter/fsierpinski_rotation_x = 0.0
+shader_parameter/fsierpinski_rotation_y = 0.0
+shader_parameter/fsierpinski4d_rotation_x = 0.0
+shader_parameter/fsierpinski4d_rotation_y = 0.0
+shader_parameter/fsierpinski4d_rotation_z = 0.0
+shader_parameter/fmengersponge_rotation_x = 0.0
+shader_parameter/fmengersponge_rotation_y = 0.0
+shader_parameter/ftetraglad_rotation_x = 0.0
+shader_parameter/ftetraglad_rotation_y = 0.0
 shader_parameter/fquaternion_c = Vector4(0.5, 0.5, 0.5, 0.5)
-shader_parameter/fpseudoklenian_min = Vector4(-1, -1, -1, 1.354)
-shader_parameter/fpseudoklenian_max = Vector4(1, 1, 1, 1.354)
+shader_parameter/fpseudoklenian_min = Vector4(-0.8323, -0.694, -0.5045, 0.7777)
+shader_parameter/fpseudoklenian_max = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
+shader_parameter/fpseudoklenian_sin_multiplier = 1.0
+shader_parameter/fpseudoklenian_cosine_multiplier = 0.9
 shader_parameter/fpseudoklenian_mode = 1
 shader_parameter/famazingsurf_c = Vector3(-1, -1, -1)
 shader_parameter/famazingsurf_mode = 1
@@ -71,7 +85,7 @@ shader_parameter/famazingsurf_rotation_angle = 0.0
 shader_parameter/famazingsurf_rotation_vector = Vector3(1, 1, 1)
 shader_parameter/famazingsurf_min_radius = 0.25
 shader_parameter/famazingsurf_translation = Vector3(0, 0, 0)
-shader_parameter/fjuliabulb_c = Vector3(0.0352, 1.45519e-11, 1.45519e-11)
+shader_parameter/fjuliabulb_c = Vector3(0.35, 0.35, 0.35)
 shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
 shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
 shader_parameter/fmandelbox_sphere_reflection = 0.0
@@ -117,25 +131,26 @@ shader_parameter/fjuliabloat_cosine_multiplier2 = Vector3(1, 1, 1)
 shader_parameter/fjuliabloat_sine_multiplier1 = Vector3(1, 1, 1)
 shader_parameter/fjuliabloat_sine_multiplier2 = Vector3(1, 1, 1)
 shader_parameter/ambient_occlusion_steps = 6
-shader_parameter/ambient_occlusion_radius = 0.163
-shader_parameter/ambient_occlusion_darkness = 0.0607
+shader_parameter/ambient_occlusion_radius = 0.166
+shader_parameter/ambient_occlusion_darkness = 0.0767
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
-shader_parameter/glow_intensity = 1.0
+shader_parameter/glow_intensity = 0.741
 shader_parameter/glow_color = Color(1, 1, 1, 1)
-shader_parameter/glow_threshold = 0.0
-shader_parameter/glow_falloff = 1.274
+shader_parameter/glow_threshold = 6.166
+shader_parameter/glow_falloff = 1.953
 shader_parameter/super_glow = false
 shader_parameter/glow = false
-shader_parameter/fog_color = Color(0.5, 0.6, 0.7, 1)
-shader_parameter/fog_density = 0.0684
-shader_parameter/fog_falloff = 1.9398
+shader_parameter/fog_color = Color(0.0804785, 0.115246, 0.149669, 1)
+shader_parameter/fog_density = 0.216
+shader_parameter/fog_falloff = 2.139
 shader_parameter/refraction_intensity = 4.0
-shader_parameter/refraction_sharpness = 6.0
-shader_parameter/palette = SubResource("GradientTexture1D_ds7kp")
+shader_parameter/refraction_sharpness = 4.54
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_suufn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p0jhq"]
 
@@ -182,6 +197,28 @@ spacing_top = 1
 base_font = ExtResource("8_rhsly")
 spacing_top = 1
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i63gn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bo68"]
+bg_color = Color(0.10748, 0.10748, 0.10748, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rt3fx"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0.12, 0.12, 0.12, 0)
+border_width_top = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vljsl"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0.12, 0.12, 0.12, 0)
+border_color = Color(1, 1, 1, 1)
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yss2u")
 
@@ -208,7 +245,7 @@ script = ExtResource("2_2kstx")
 
 [node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.052, 0.271, -0.096)
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.121907, -1.1731, -0.568433)
 material_override = SubResource("ShaderMaterial_pfrgc")
 mesh = SubResource("BoxMesh_bajpv")
 skeleton = NodePath("../..")
@@ -216,7 +253,10 @@ skeleton = NodePath("../..")
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true
 transform = Transform3D(0.999998, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 2.6)
-script = ExtResource("3_rtqen")
+
+[node name="Hitbox" type="CollisionShape3D" parent="SubViewport/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("SphereShape3D_suufn")
 
 [node name="Head" type="Node3D" parent="SubViewport/Player"]
 
@@ -237,6 +277,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 layout_mode = 2
@@ -354,12 +395,11 @@ size_flags_stretch_ratio = 2.1
 theme_override_constants/side_margin = 0
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
-current_tab = 1
+current_tab = 0
 drag_to_rearrange_enabled = true
 script = ExtResource("9_7154d")
 
 [node name="Post Processing" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -575,6 +615,7 @@ value = Color(0.580392, 0.631373, 1, 1)
 layout_mode = 2
 
 [node name="Formula" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -802,6 +843,34 @@ value = Vector3(10, 10, -10)
 layout_mode = 2
 value = Vector3(-10, -10, 10)
 
+[node name="BottomBar" type="TabContainer" parent="UI"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+theme_override_constants/side_margin = 0
+theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_i63gn")
+theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_8bo68")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_rt3fx")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_vljsl")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_vljsl")
+current_tab = 0
+tabs_position = 1
+deselect_enabled = true
+script = ExtResource("18_wb8t8")
+
+[node name="Animation" type="VBoxContainer" parent="UI/BottomBar"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Control" type="HBoxContainer" parent="UI/BottomBar/Animation"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UI/BottomBar/Animation/Control"]
+layout_mode = 2
+text = "Play"
+
 [connection signal="confirmed" from="FileDialog" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_file_dialog_confirmed"]
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Save" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Load" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_load_pressed"]
@@ -837,3 +906,4 @@ value = Vector3(-10, -10, 10)
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Color" to="UI/HBoxContainer/TabContainer" method="_on_light2_color_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Position" to="UI/HBoxContainer/TabContainer" method="_on_light1_position_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Position" to="UI/HBoxContainer/TabContainer" method="_on_light2_position_value_changed"]
+[connection signal="tab_changed" from="UI/BottomBar" to="UI/BottomBar" method="_on_tab_changed"]

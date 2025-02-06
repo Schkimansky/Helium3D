@@ -26,9 +26,10 @@ vec2 mengersponge_sdf(vec3 p, float power) {
     float colorind = 0.0;
     float alpha = fmengersponge_rotation_x;
     float beta = fmengersponge_rotation_y;
+	float orbit_trap = 1000000.0;
 	int n = 0;
+
     for (; n < iterations; n++) {
-        // Apply rotations
         p.xz = vec2(cos(alpha) * p.x - sin(alpha) * p.z, sin(alpha) * p.x + cos(alpha) * p.z); // Y-axis rotation
         p.yz = vec2(cos(beta) * p.y - sin(beta) * p.z, sin(beta) * p.y + cos(beta) * p.z);     // X-axis rotation
 
@@ -36,15 +37,19 @@ vec2 mengersponge_sdf(vec3 p, float power) {
         if (p.y > p.x) p.yx = p.xy;
         if (p.z > p.y) p.zy = p.yz;
 
+		orbit_trap = min(orbit_trap, dot(p, p));
+
         p *= scale;
         if (p.z > 0.5 * (scale - 1.0)) {
+            //p -= (vec3(1) * (1.0 / power)) * (scale - 1.0);
             p -= vec3(1) * (scale - 1.0);
-            colorind++;
         } else {
+            //p -= (vec3(1.0, 1.0, 0.0) * (1.0 / power)) * (scale - 1.0);
+            //p -= vec3(1, 1, 1) * (scale - 1.0);
             p -= vec3(1, 1, 0) * (scale - 1.0);
         }
     }
-	// Multiply by 0.715 because of bad distance estimation
-    float d = 0.715 * length(p) * pow(scale, -float(n));
-    return vec2(d, colorind);
+
+    float d = length(p) * pow(scale, -float(n));
+    return vec2(d, orbit_trap);
 }

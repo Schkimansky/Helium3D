@@ -124,29 +124,29 @@ vec4 quatConjugate(vec4 q) { return vec4(-q.xyz, q.w); }
 float quatNormSquared(vec4 q) { return dot(q, q); }
 vec4 quatInverse(vec4 q) { float normSquared = quatNormSquared(q); return quatConjugate(q) / normSquared; }
 
-vec4 complexMul4(vec4 a, vec4 b) {
-    return vec4(
-        a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
-        a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
-        a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
-        a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x
-    );
-}
+//vec4 complexMul4(vec4 a, vec4 b) {
+    //return vec4(
+        //a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
+        //a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
+        //a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
+        //a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x
+    //);
+//}
+//
+//vec4 complexDiv4(vec4 numerator, vec4 denominator) {
+    //float denom = dot(denominator, denominator);
+    //return complexMul4(numerator, vec4(denominator.x, -denominator.y, -denominator.z, -denominator.w)) / denom;
+//}
 
-vec4 complexDiv4(vec4 numerator, vec4 denominator) {
-    float denom = dot(denominator, denominator);
-    return complexMul4(numerator, vec4(denominator.x, -denominator.y, -denominator.z, -denominator.w)) / denom;
-}
-
-float smoothstep_mix(float a, float b, float t) {
-    t = clamp(t, 0.0, 1.0);
-    return mix(a, b, smoothstep(0.0, 1.0, t));
-}
-
-float lerp_mix(float a, float b, float t) {
-    t = clamp(t, 0.0, 1.0);
-    return mix(a, b, t);
-}
+//float smoothstep_mix(float a, float b, float t) {
+    //t = clamp(t, 0.0, 1.0);
+    //return mix(a, b, smoothstep(0.0, 1.0, t));
+//}
+//
+//float lerp_mix(float a, float b, float t) {
+    //t = clamp(t, 0.0, 1.0);
+    //return mix(a, b, t);
+//}
 
 //vec4 mobiusTransform(vec4 z, vec4 a, vec4 b, vec4 c, vec4 d) {
     //vec4 numerator = complexMul4(a, z) + b;

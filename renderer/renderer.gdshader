@@ -13,14 +13,14 @@ uniform vec3 light1_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light2_position = vec3(1.3, 1.6, -1.0);
 uniform vec3 light1_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light2_color: source_color = vec3(1.0, 1.0, 1.0);
+
+group_uniforms coloring;
 uniform int iterations = 8;
 uniform int max_steps = 120;
 uniform float ambient_light = 0.5;
 uniform float max_distance = 10.0;
 uniform float surface_distance = 0.000003;
 uniform float raystep_multiplier = 1.0;
-
-group_uniforms coloring;
 uniform sampler2D palette;
 
 group_uniforms fractal;
@@ -30,6 +30,25 @@ uniform int formulas[10];
 uniform float powers[10];
 uniform float escape_radius = 2.0;
 
+// Mengerflake
+group_uniforms mengerflake;
+uniform int fmengerflake_mode = 1;
+uniform float fmengerflake_rotation_x = 0.0;
+uniform float fmengerflake_rotation_y = 0.0;
+uniform float fmengerflake_rotation_xi = 0.52; // PI / 6.0
+uniform float fmengerflake_rotation_yi = 0.26; // PI / 12.0
+uniform float fmengerflake_offset = 0.5;
+uniform float fmengerflake_fold4_multiplier = 1.0;
+uniform float fmengerflake_fold5_multiplier = 1.0;
+// Sierpinski
+group_uniforms sierpinski;
+uniform float fsierpinski_rotation_x = 0.0;
+uniform float fsierpinski_rotation_y = 0.0;
+// Sierpinski4D
+group_uniforms sierpinski4d;
+uniform float fsierpinski4d_rotation_x = 0.0;
+uniform float fsierpinski4d_rotation_y = 0.0;
+uniform float fsierpinski4d_rotation_z = 0.0;
 // Mengersponge
 group_uniforms mengersponge;
 uniform float fmengersponge_rotation_x = 0.0;
@@ -45,6 +64,8 @@ uniform vec4 fquaternion_c = vec4(0.5, 0.5, 0.5, 0.5);
 group_uniforms pseudoklenian;
 uniform vec4 fpseudoklenian_min = vec4(-0.8323, -0.694, -0.5045, 0.8067);
 uniform vec4 fpseudoklenian_max = vec4(0.8579, 1.0883, 0.8937, 0.9411);
+uniform float fpseudoklenian_sin_multiplier = 0.0;
+uniform float fpseudoklenian_cosine_multiplier = 0.0;
 uniform int fpseudoklenian_mode = 1;
 //uniform float fpseudoklenian_a = 1.0;
 // Amazingsurf

@@ -162,18 +162,31 @@ visible = false
 layout_mode = 2
 
 [node name="Fmengersponge" type="VBoxContainer" parent="Fields/Names"]
+visible = false
 layout_mode = 2
 
 [node name="Ftetraglad" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fsierpinski" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
+[node name="Fsierpinski4d" type="VBoxContainer" parent="Fields/Names"]
+visible = false
 layout_mode = 2
 
 [node name="Fpseudoklenian" type="VBoxContainer" parent="Fields/Names"]
+visible = false
 layout_mode = 2
 
 [node name="Famazingsurf" type="VBoxContainer" parent="Fields/Names"]
+visible = false
 layout_mode = 2
 
 [node name="Fquaternion" type="VBoxContainer" parent="Fields/Names"]
+visible = false
 layout_mode = 2
 
 [node name="FquaternionC" type="Label" parent="Fields/Names/Fquaternion"]
@@ -185,13 +198,17 @@ text = "C:
 "
 vertical_alignment = 1
 
+[node name="Fmengerflake" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
 [node name="Values" type="VBoxContainer" parent="Fields"]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Formulas" parent="Fields/Values" instance=ExtResource("6_uoycf")]
 layout_mode = 2
-options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Quaternion", "Tetraglad"])
+options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Quaternion", "Tetraglad", "Sierpinski", "Sierpinski4D", "Mengerflake"])
 
 [node name="Fjuliabulb" type="VBoxContainer" parent="Fields/Values"]
 visible = false
@@ -425,6 +442,7 @@ layout_mode = 2
 range = Vector2(-1.5708, 1.5708)
 
 [node name="Fpseudoklenian" type="VBoxContainer" parent="Fields/Values"]
+visible = false
 layout_mode = 2
 
 [node name="FpseudoklenianMin" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("7_p1yy6")]
@@ -440,6 +458,7 @@ range_max = Vector4(1, 1, 1, 2)
 value = Vector4(1, 1, 1, 1.354)
 
 [node name="Famazingsurf" type="VBoxContainer" parent="Fields/Values"]
+visible = false
 layout_mode = 2
 
 [node name="FamazingsurfC" parent="Fields/Values/Famazingsurf" instance=ExtResource("7_8qf7q")]
@@ -483,6 +502,7 @@ range_min = Vector3(-2, -2, -2)
 range_max = Vector3(2, 2, 2)
 
 [node name="Fquaternion" type="VBoxContainer" parent="Fields/Values"]
+visible = false
 layout_mode = 2
 
 [node name="FquaternionC" parent="Fields/Values/Fquaternion" instance=ExtResource("7_p1yy6")]
@@ -490,6 +510,70 @@ layout_mode = 2
 range_min = Vector4(-2, -2, -2, -2)
 range_max = Vector4(2, 2, 2, 2)
 value = Vector4(-0.08, -0.463, 0.492, -0.177)
+
+[node name="Fsierpinski" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FsierpinskiRotationX" parent="Fields/Values/Fsierpinski" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="FsierpinskiRotationY" parent="Fields/Values/Fsierpinski" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="Fmengerflake" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FmengerflakeRotationX" parent="Fields/Values/Fmengerflake" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="FmengerflakeRotationY" parent="Fields/Values/Fmengerflake" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="FmengerflakeRotationXI" parent="Fields/Values/Fmengerflake" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+value = 0.52
+
+[node name="FmengerflakeRotationYI" parent="Fields/Values/Fmengerflake" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+value = 0.26
+
+[node name="FmengerflakeOffset" parent="Fields/Values/Fmengerflake" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+value = 0.5
+
+[node name="FmengerflakeMode" parent="Fields/Values/Fmengerflake" instance=ExtResource("6_uoycf")]
+layout_mode = 2
+options = Array[String](["Fold1", "Fold2", "Fold3", "Fold4", "Fold5", "Fold6", "Fold7"])
+
+[node name="FmengerflakeFold4Multiplier" parent="Fields/Values/Fmengerflake" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+value = 0.52
+
+[node name="Fsierpinski4d" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="Fsierpinski4dRotationX" parent="Fields/Values/Fsierpinski4d" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="Fsierpinski4dRotationY" parent="Fields/Values/Fsierpinski4d" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
+
+[node name="Fsierpinski4dRotationZ" parent="Fields/Values/Fsierpinski4d" instance=ExtResource("5_j3vbu")]
+layout_mode = 2
+range = Vector2(-1.5708, 1.5708)
 
 [connection signal="value_changed" from="Fields/Values/Formulas" to="." method="_on_formula_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fjuliabulb/FjuliabulbC" to="." method="_on_fjuliabulb_c_value_changed"]
@@ -532,3 +616,15 @@ value = Vector4(-0.08, -0.463, 0.492, -0.177)
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfRotationVector" to="." method="_on_famazingsurf_rotation_vector_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfTranslation" to="." method="_on_famazingsurf_translation_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fquaternion/FquaternionC" to="." method="_on_fquaternion_c_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fsierpinski/FsierpinskiRotationX" to="." method="_on_fsierpinski_rotation_x_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fsierpinski/FsierpinskiRotationY" to="." method="_on_fsierpinski_rotation_y_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengerflake/FmengerflakeRotationX" to="." method="_on_fmengerflake_rotation_x_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengerflake/FmengerflakeRotationY" to="." method="_on_fmengerflake_rotation_y_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengerflake/FmengerflakeRotationXI" to="." method="_on_fmengerflake_rotation_xi_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengerflake/FmengerflakeRotationYI" to="." method="_on_fmengerflake_rotation_yi_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengerflake/FmengerflakeOffset" to="." method="_on_fmengerflake_offset_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengerflake/FmengerflakeMode" to="." method="_on_fmengerflake_mode_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fmengerflake/FmengerflakeFold4Multiplier" to="." method="_on_fmengerflake_fold_4_multiplier_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fsierpinski4d/Fsierpinski4dRotationX" to="." method="_on_fsierpinski_4d_rotation_x_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fsierpinski4d/Fsierpinski4dRotationY" to="." method="_on_fsierpinski_4d_rotation_y_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fsierpinski4d/Fsierpinski4dRotationZ" to="." method="_on_fsierpinski_4d_rotation_z_value_changed"]

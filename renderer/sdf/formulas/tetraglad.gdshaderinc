@@ -1,11 +1,9 @@
 
 vec2 tetraglad_sdf(vec3 p, float power) {
     float scale = power + 1.0;
-    float colorind = 0.0;
-
-    // Rotation angles (can be controlled externally)
-    float alpha = ftetraglad_rotation_x; // Y-axis rotation
-    float beta = ftetraglad_rotation_y;  // X-axis rotation
+	float orbit_trap = 1000000.0;
+    float alpha = ftetraglad_rotation_x;
+    float beta = ftetraglad_rotation_y;
 	int n = 0;
 
     for (; n < iterations; n++) {
@@ -18,10 +16,12 @@ vec2 tetraglad_sdf(vec3 p, float power) {
         if (p.x + p.z < 0.0) p.xz = -p.zx;
         if (p.y + p.z < 0.0) {
             p.zy = -p.yz;
-            colorind++;
         }
         p = p * scale - vec3(1) * (scale - 1.0);
+
+		orbit_trap = min(orbit_trap, dot(p, p));
     }
+
     float d = length(p) * pow(scale, -float(n));
-    return vec2(d, colorind / float(n));
+    return vec2(d, orbit_trap);
 }

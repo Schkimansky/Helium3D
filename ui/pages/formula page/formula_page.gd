@@ -75,3 +75,5 @@ func _on_fmengerflake_rotation_yi_value_changed(to: float) -> void: field_change
 func _on_fmengerflake_offset_value_changed(to: float) -> void: field_changed('fmengerflake_offset', to)
 func _on_fmengerflake_mode_value_changed(option: String) -> void: field_changed('fmengerflake_mode', $Fields/Values/Fmengerflake/FmengerflakeMode.index + 1)
 func _on_fmengerflake_fold_4_multiplier_value_changed(to: float) -> void: field_changed('fmengerflake_fold4_multiplier', to)
+func _on_fpseudoklenian_inversion_sphere_value_changed(to: Vector4) -> void: field_changed('fpseudoklenian_inversion_sphere', to)
+func _on_fpseudoklenian_invert_value_changed(to: bool) -> void: field_changed('fpseudoklenian_invert', to)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://4bx65d7nnvmf"]
+[gd_scene load_steps=10 format=3 uid="uid://4bx65d7nnvmf"]
 
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="1_fx3a6"]
 [ext_resource type="Script" path="res://ui/pages/formula page/formula_page.gd" id="1_px87o"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="6_uoycf"]
 [ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="7_8qf7q"]
 [ext_resource type="PackedScene" uid="uid://ckwux6dfo5ixp" path="res://ui/fields/vec4 field/vec4_field.tscn" id="7_p1yy6"]
+[ext_resource type="PackedScene" uid="uid://dxdliar5ijtun" path="res://ui/fields/boolean field/boolean_field.tscn" id="8_8baq7"]
 
 [sub_resource type="FontVariation" id="FontVariation_fxm3f"]
 base_font = ExtResource("1_fx3a6")
@@ -457,6 +458,15 @@ range_min = Vector4(-1, -1, -1, -2)
 range_max = Vector4(1, 1, 1, 2)
 value = Vector4(1, 1, 1, 1.354)
 
+[node name="FpseudoklenianInversionSphere" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("7_p1yy6")]
+layout_mode = 2
+range_min = Vector4(-1, -1, -1, -2)
+range_max = Vector4(1, 1, 1, 2)
+value = Vector4(1, 1, 1, 1.354)
+
+[node name="FpseudoklenianInvert" parent="Fields/Values/Fpseudoklenian" instance=ExtResource("8_8baq7")]
+layout_mode = 2
+
 [node name="Famazingsurf" type="VBoxContainer" parent="Fields/Values"]
 visible = false
 layout_mode = 2
@@ -607,6 +617,8 @@ range = Vector2(-1.5708, 1.5708)
 [connection signal="value_changed" from="Fields/Values/Ftetraglad/FtetragladRotationY" to="." method="_on_ftetraglad_rotation_y_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianMin" to="." method="_on_fpseudoklenian_min_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianMax" to="." method="_on_fpseudoklenian_max_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianInversionSphere" to="." method="_on_fpseudoklenian_inversion_sphere_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fpseudoklenian/FpseudoklenianInvert" to="." method="_on_fpseudoklenian_invert_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfC" to="." method="_on_famazingsurf_c_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfMode" to="." method="_on_famazingsurf_mode_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Famazingsurf/FamazingsurfFoldX" to="." method="_on_famazingsurf_fold_x_value_changed"]

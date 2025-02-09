@@ -5,12 +5,23 @@ extends SubViewport
 # scaling template heavy: 0.9, 1.5
 # scaling template responsive: 0.45, 0.9
 
-var low_scaling := 0.3
-var high_scaling := 0.77
+enum AntiAliasing { TAA, FXAA, NONE }
+
+var antialiasing := AntiAliasing.TAA
+var low_scaling := 0.77#0.3
+var high_scaling := 0.77#0.77
 var since_last_dynamic_update := 0.0
 
 func _ready() -> void:
 	render_target_update_mode = UPDATE_WHEN_VISIBLE
+	
+	if antialiasing == AntiAliasing.TAA:
+		pass  # Default
+	elif antialiasing == AntiAliasing.FXAA:
+		scaling_3d_mode = SCALING_3D_MODE_BILINEAR
+		screen_space_aa = SCREEN_SPACE_AA_FXAA
+	elif antialiasing == AntiAliasing.NONE:
+		scaling_3d_mode = SCALING_3D_MODE_BILINEAR
 
 func _process(delta: float) -> void:
 	if since_last_dynamic_update <= (0.75) / Engine.get_frames_per_second():

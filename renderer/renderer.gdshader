@@ -3,22 +3,22 @@ render_mode unshaded;
 
 group_uniforms shadows;
 uniform float self_shadow_bias = 0.01;
-uniform float shadow_darkness = 0.7;
-uniform int shadow_steps = 4;
-uniform float shadow_softness = 64.0;
+uniform float shadow_darkness = 0.2;
+uniform int shadow_steps = 32;
+uniform float shadow_softness = 12.0;
 
 group_uniforms rendering;
 uniform float light_intensity = 0.6;
-uniform vec3 light1_position = vec3(1.3, 1.6, -1.0);
-uniform vec3 light2_position = vec3(1.3, 1.6, -1.0);
+uniform vec3 light1_position = vec3(10.0, 10.0, -10.0);
+uniform vec3 light2_position = vec3(-10.0, -10.0, 10.0);
 uniform vec3 light1_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light2_color: source_color = vec3(1.0, 1.0, 1.0);
 
 group_uniforms coloring;
 uniform int iterations = 8;
 uniform int max_steps = 120;
-uniform float ambient_light = 0.5;
-uniform float max_distance = 10.0;
+uniform float ambient_light = 0.08;
+uniform float max_distance = 30.0;
 uniform float surface_distance = 0.000003;
 uniform float raystep_multiplier = 1.0;
 uniform sampler2D palette;
@@ -28,7 +28,7 @@ uniform sampler2D bg_color;
 uniform int formulas[10];
 //uniform float formula_weights[10];
 uniform float powers[10];
-uniform float escape_radius = 2.0;
+uniform float escape_radius = 8.0;
 
 // Mengerflake
 group_uniforms mengerflake;
@@ -64,10 +64,8 @@ uniform vec4 fquaternion_c = vec4(0.5, 0.5, 0.5, 0.5);
 group_uniforms pseudoklenian;
 uniform vec4 fpseudoklenian_min = vec4(-0.8323, -0.694, -0.5045, 0.8067);
 uniform vec4 fpseudoklenian_max = vec4(0.8579, 1.0883, 0.8937, 0.9411);
-uniform float fpseudoklenian_sin_multiplier = 0.0;
-uniform float fpseudoklenian_cosine_multiplier = 0.0;
-uniform int fpseudoklenian_mode = 1;
-//uniform float fpseudoklenian_a = 1.0;
+uniform vec4 fpseudoklenian_inversion_sphere = vec4(1.0, 1.0, 1.0, 1.0);
+uniform bool fpseudoklenian_invert = false;
 // Amazingsurf
 group_uniforms amazingsurf;
 uniform vec3 famazingsurf_c = vec3(-1.0);

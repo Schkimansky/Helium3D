@@ -5,6 +5,7 @@ const BLOCK_SCENE = preload('res://ui/fields/palette field color block/palette_f
 signal value_changed(to: Gradient)
 
 func _ready() -> void:
+	changed_gradient()
 	Global.value_nodes.append(self)
 
 func set_value(offsets: PackedFloat32Array, colors: PackedColorArray) -> void:

@@ -62,6 +62,5 @@ vec2 sierpinski4d_sdf(vec3 z3d, float power) {
         n++;
     }
 
-    // Calculate distance in 4D
     return vec2(length(z) * pow(Scale, -float(n)), orbit_trap);
 }

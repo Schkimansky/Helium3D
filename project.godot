@@ -28,6 +28,7 @@ shader_language/warnings/enable=false
 
 window/size/viewport_width=1950
 window/size/viewport_height=1080
+window/size/mode=2
 window/stretch/scale=1.4
 
 [editor]

@@ -10,16 +10,16 @@
 #include "formulas/mengerflake.gdshaderinc"
 
 vec2 single_fractal_sdf(int formula, vec3 p, float power) {
-	if (formula == 24) return pseudoklenian_sdf(p, power);
-	//else if (formula == 23) return sierpinski4d_sdf(p, power);
-	//else if (formula == 22) return sierpinski_sdf(p, power);
-	//else if (formula == 21) return tetraglad_sdf(p, power);
+	if (formula == 24) return mengerflake_sdf(p, power);  // mengerflake_sdf
+	else if (formula == 23) return sierpinski4d_sdf(p, power);
+	else if (formula == 22) return sierpinski_sdf(p, power);
+	else if (formula == 21) return tetraglad_sdf(p, power);
 	else if (formula == 20) return quaternion_sdf(p, power);
 	else if (formula == 19) return amazingsurf_sdf(p, power);
 	else if (formula == 18) return pseudoklenian_sdf(p, power);
 	//else if (formula == 17) return mengersponge_sdf(p, power);
 	else if (formula == 16) return mandelbox_sdf(p, power);
-	else if (formula <= 15) return mandelfractal(formula, p, power);
+	//else if (formula <= 15) return mandelfractal(formula, p, power);
 }
 
 vec2 scene_sdf(vec3 p) {

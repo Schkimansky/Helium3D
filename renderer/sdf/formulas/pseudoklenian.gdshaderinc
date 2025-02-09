@@ -8,8 +8,7 @@ vec3 invertSphere(vec3 point, vec4 sph) {
 
 vec2 pseudoklenian_sdf(vec3 pos, float power) {
 	if (fpseudoklenian_invert) {
-		pos *= 8.0;  // Hack to get better distance estimation
-		pos = invertSphere(pos, fpseudoklenian_inversion_sphere + vec4(0.0, 0.0, 0.0, 8.0));
+		pos = invertSphere(pos, fpseudoklenian_inversion_sphere);
 	}
 
 	vec3 p = pos;

@@ -20,19 +20,19 @@
 [ext_resource type="Script" path="res://scenes/main/bottom_bar.gd" id="18_wb8t8"]
 [ext_resource type="Script" path="res://scenes/main/animation_track.gd" id="19_fsmeo"]
 
-[sub_resource type="Gradient" id="Gradient_hbi3o"]
+[sub_resource type="Gradient" id="Gradient_va8jq"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_vgsns"]
-gradient = SubResource("Gradient_hbi3o")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_juagn"]
+gradient = SubResource("Gradient_va8jq")
 
-[sub_resource type="Gradient" id="Gradient_kduoj"]
-offsets = PackedFloat32Array(0.296167, 0.662021)
-colors = PackedColorArray(0.450648, 0.450648, 0.450648, 1, 1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_pgt4m"]
+offsets = PackedFloat32Array(0.222997, 0.820557)
+colors = PackedColorArray(0.370364, 0.370365, 0.370364, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_vmq3i"]
-gradient = SubResource("Gradient_kduoj")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6av28"]
+gradient = SubResource("Gradient_pgt4m")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
 render_priority = 0
@@ -52,11 +52,11 @@ shader_parameter/ambient_light = 0.0051
 shader_parameter/max_distance = 50.0
 shader_parameter/surface_distance = 3e-06
 shader_parameter/raystep_multiplier = 1.0
-shader_parameter/palette = SubResource("GradientTexture1D_vmq3i")
+shader_parameter/palette = SubResource("GradientTexture1D_6av28")
 shader_parameter/formulas = PackedInt32Array(16, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/powers = PackedFloat32Array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
 shader_parameter/escape_radius = 2.0
-shader_parameter/bg_color = SubResource("GradientTexture1D_vgsns")
+shader_parameter/bg_color = SubResource("GradientTexture1D_juagn")
 shader_parameter/fmengerflake_mode = 1
 shader_parameter/fmengerflake_rotation_x = 0.0
 shader_parameter/fmengerflake_rotation_y = 0.0

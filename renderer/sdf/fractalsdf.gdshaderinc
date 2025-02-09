@@ -17,7 +17,7 @@ vec2 single_fractal_sdf(int formula, vec3 p, float power) {
 	else if (formula == 20) return quaternion_sdf(p, power);
 	else if (formula == 19) return amazingsurf_sdf(p, power);
 	else if (formula == 18) return pseudoklenian_sdf(p, power);
-	//else if (formula == 17) return mengersponge_sdf(p, power);
+	else if (formula == 17) return mengersponge_sdf(p, power);
 	else if (formula == 16) return mandelbox_sdf(p, power);
 	//else if (formula <= 15) return mandelfractal(formula, p, power);
 }

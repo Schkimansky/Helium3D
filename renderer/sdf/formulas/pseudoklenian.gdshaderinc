@@ -8,6 +8,7 @@ vec3 invertSphere(vec3 point, vec4 sph) {
 
 vec2 pseudoklenian_sdf(vec3 pos, float power) {
 	if (fpseudoklenian_invert) {
+		power += 0.772;
 		pos = invertSphere(pos, fpseudoklenian_inversion_sphere);
 	}
 

@@ -59,50 +59,43 @@ vec3 complexPow(vec3 z, float to_power) {
 	float r = length(z); // Magnitude of z
 	float theta = acos(z.z / r); // Polar angle (theta)
 	float phi = atan(z.y, z.x); // Azimuthal angle (phi)
-
+	
 	// Raise the magnitude to the power
 	float r_pow = pow(r, to_power);
-
+	
 	// Multiply the angles by the power
 	float theta_pow = to_power * theta;
 	float phi_pow = to_power * phi;
-
+	
 	// Convert back to Cartesian coordinates
 	vec3 result = r_pow * vec3(
 		sin(theta_pow) * cos(phi_pow),
 		sin(theta_pow) * sin(phi_pow),
 		cos(theta_pow)
 	);
-
+	
 	return result;
 }
 
-vec4 complexPow4(vec4 z, float to_power) {
-	//if (flip_azimuthal) z = vec4(z.w, z.z, z.y, z.x);
-	// Treat the vec4 as two separate complex numbers: (x, y) and (z, w)
-	vec2 complex1 = vec2(z.x, z.y);
-	vec2 complex2 = vec2(z.z, z.w);
+vec4 quat_ln(vec4 q) {
+    float r = length(q.xyz);
+    float t = (r > 0.00001) ? atan(r, q.w) / r : 0.0;
+    return vec4(q.xyz * t, 0.5 * log(dot(q, q)));
+}
 
-	// Compute the magnitude and angle for each complex number
-	float r1 = length(complex1);
-	float r2 = length(complex2);
-	float theta1 = atan(complex1.y, complex1.x);
-	float theta2 = atan(complex2.y, complex2.x);
+vec4 quat_exp(vec4 q) {
+    float r = length(q.xyz);
+    float et = exp(q.w);
+    float s = (r >= 0.00001) ? et * sin(r) / r : 0.0;
+    return vec4(q.xyz * s, et * cos(r));
+}
 
-	// Raise the magnitudes to the power
-	float r1_pow = pow(r1, to_power);
-	float r2_pow = pow(r2, to_power);
+vec4 quat_scale(vec4 q, float scale) {
+    return q * scale;
+}
 
-	// Multiply the angles by the power
-	float theta1_pow = to_power * theta1;
-	float theta2_pow = to_power * theta2;
-
-	// Convert back to Cartesian coordinates for each complex number
-	vec2 result1 = r1_pow * vec2(cos(theta1_pow), sin(theta1_pow));
-	vec2 result2 = r2_pow * vec2(cos(theta2_pow), sin(theta2_pow));
-
-	// Combine the results into a vec4
-	return vec4(result1, result2);
+vec4 quat_pow(vec4 q, float n) {
+    return quat_exp(quat_scale(quat_ln(q), n));
 }
 
 float sphere_sdf3d(vec3 p, vec3 sphere_position, float radius) { return length(p - sphere_position) - radius; }

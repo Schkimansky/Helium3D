@@ -8,7 +8,7 @@ extends SubViewport
 enum AntiAliasing { TAA, FXAA, NONE }
 
 var antialiasing := AntiAliasing.TAA
-var low_scaling := 0.3#0.3
+var low_scaling := 0.77#0.3
 var high_scaling := 0.77#0.77
 var since_last_dynamic_update := 0.0
 

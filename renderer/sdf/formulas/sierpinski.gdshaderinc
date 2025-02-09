@@ -4,7 +4,7 @@ vec2 sierpinski_sdf(vec3 z, float power) {
 	float alpha = fsierpinski_rotation_x;
 	float beta = fsierpinski_rotation_y;
 	float orbit_trap = 1000000.0;
-
+	
 	float r;
 	int n = 0;
 	while (n < int(iterations)) {
@@ -14,12 +14,12 @@ vec2 sierpinski_sdf(vec3 z, float power) {
 		z = z * Scale - Offset * (Scale - 1.0);
 		z.xz = vec2(cos(alpha) * z.x - sin(alpha) * z.z, sin(alpha) * z.x + cos(alpha) * z.z); // Y-axis rotation
 		z.yz = vec2(cos(beta) * z.y - sin(beta) * z.z, sin(beta) * z.y + cos(beta) * z.z);     // X-axis rotation
-
+		
 		orbit_trap = min(orbit_trap, dot(z, z));
-
+		
 		n++;
 	}
-
+	
 	return vec2(length(z) * pow(Scale, -float(n)), orbit_trap);
 }
 

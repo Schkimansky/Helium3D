@@ -34,8 +34,8 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	data.erase('other')
 	
 	if update_app_fields:
-		var diff: Dictionary = data#get_dictionary_difference(fields, data) if use_fast_diff else data
-		print('Diff: ', diff)
+		var diff: Dictionary = get_dictionary_difference(fields, data) if use_fast_diff else data
+		print('[INFO] Calc diff: ', diff)
 		update_fields(diff)
 	
 	if not use_lerp:
@@ -58,7 +58,8 @@ func get_dictionary_difference(d1: Dictionary, d2: Dictionary) -> Dictionary:
 	var difference := {}
 
 	for key in (d2.keys() as Array[String]):
-		if not d1.has(key) or d1[key] != d2[key]:
+		if d1.has(key) and d1[key] != d2[key]:
+			#print("[ALERT] d1 key != d2 key, vals: ", d1[key], ' | ', d2[key])
 			difference[key] = d2[key]
 	
 	return difference

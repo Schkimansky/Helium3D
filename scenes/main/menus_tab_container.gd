@@ -1,6 +1,6 @@
 extends TabContainer
 
-const FORMULAS = ['mandelbulb', 'juliabulb', 'burning ship', 'mandelbox', 'juliaswirl', 'trijulia', 'tangentjulia', 'juliaisland', 'starbloat', 'juliabloat', 'hedgebulb', 'boxbloat', 'basebox', 'trenchbloat', 'wingtail', 'tribulb', 'mengersponge', 'pseudoklenian', 'amazingsurf', 'quaternion', 'tetraglad', 'sierpinski', 'sierpinski4d', 'mengerflake']
+@onready var FORMULAS: Array = $Formula/TabContainer.get_formula_pages()[0].FORMULAS
 var current_formulas: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var total_visible_formulas: int = 1:
 	set(value):
@@ -45,13 +45,16 @@ func set_formula(formula_name: String, for_page: int) -> void:
 	current_formulas[for_page - 1] = $Formula/TabContainer/Formula1/Fields/Values/Formulas.options.find(formula_name)
 	field_changed('formulas', current_formulas)
 	
+	var formula_node_name: String = 'F' + formula_name.replace(' ', '').to_lower()
+	
 	for other_formula in (FORMULAS as Array[String]):
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node('F' + other_formula.to_lower()).visible = false
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node('F' + other_formula.to_lower()).visible = false
+		var other_node_name: String = 'F' + other_formula.replace(' ', '').to_lower()
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node(other_node_name).visible = false
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node(other_node_name).visible = false
 	
 	if formula_name.to_lower() != 'none':
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node('F' + formula_name.to_lower()).visible = true
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node('F' + formula_name.to_lower()).visible = true
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node(formula_node_name).visible = true
+		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node(formula_node_name).visible = true
 
 func _on_add_formula_pressed() -> void: total_visible_formulas += 1
 func _on_remove_formula_pressed() -> void:

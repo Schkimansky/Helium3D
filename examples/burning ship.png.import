@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c247pxmmc4qua"
-path="res://.godot/imported/sierpinski4d.png-f13462fa4a1a34f3a6fc821860ccd2a8.ctex"
+uid="uid://20tnplj7tt20"
+path="res://.godot/imported/burning ship.png-1dc9ca4ce902f4e5d326792d6b825aec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://examples/sierpinski4d.png"
-dest_files=["res://.godot/imported/sierpinski4d.png-f13462fa4a1a34f3a6fc821860ccd2a8.ctex"]
+source_file="res://examples/burning ship.png"
+dest_files=["res://.godot/imported/burning ship.png-1dc9ca4ce902f4e5d326792d6b825aec.ctex"]
 
 [params]
 

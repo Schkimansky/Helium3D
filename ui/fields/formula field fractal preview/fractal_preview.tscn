@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4dsfw5bjf2fg"]
+
+[ext_resource type="Texture2D" uid="uid://vihrb7ybaylm" path="res://videos/NEWexamples/examples/mandelbulb.png" id="1_pr4ei"]
+[ext_resource type="Script" path="res://ui/fields/formula field fractal preview/fractal_preview.gd" id="1_r8tj0"]
+[ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="2_hkpm3"]
+
+[node name="FractalPreview" type="VBoxContainer"]
+custom_minimum_size = Vector2(250, 250)
+anchors_preset = -1
+anchor_right = 0.127
+anchor_bottom = 0.229
+offset_right = 2.34999
+offset_bottom = 2.67998
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r8tj0")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_pr4ei")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_hkpm3")
+text = "Mandelbulb"
+horizontal_alignment = 1
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

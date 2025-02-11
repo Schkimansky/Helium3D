@@ -1,5 +1,34 @@
 extends MarginContainer
 
+const FORMULAS = [
+	'mandelbulb', 
+	'juliabulb', 
+	'burning ship', 
+	'mandelbox', 
+	'juliaswirl', 
+	'trijulia', 
+	'tangentjulia', 
+	'juliaisland', 
+	'starbloat', 
+	'juliabloat', 
+	'hedgebulb', 
+	'boxbloat', 
+	'basebox', 
+	'trenchbloat',
+	'wingtail', 
+	'tribulb', 
+	'mengersponge', 
+	'pseudoklenian', 
+	'amazingsurf', 
+	'juliabulb4d', 
+	'tetraglad', 
+	'sierpinski tetrahedron', 
+	'sierpinski tetrahedron 4d', 
+	'mengerflake', 
+	'frenselcube',
+	'frenselcube4d',
+	'sierpinski dodecahedron',
+]
 @export var page_number: int = 1
 
 func _ready() -> void:
@@ -12,14 +41,14 @@ func field_changed(field_name: String, to: Variant) -> void:
 	%TabContainer.field_changed(field_name, to)
 
 func set_formula(formula_name: String) -> void:
-	$Fields/Values/Formulas.index = $Fields/Values/Formulas.options.find(formula_name)
-	$Fields/Values/Formulas.get_node('HBoxContainer/Label').text = formula_name
+	#$Fields/Values/Formulas.index = $Fields/Values/Formulas.options.find(formula_name)
+	#$Fields/Values/Formulas.get_node('HBoxContainer/Label').text = formula_name
 	%TabContainer.set_formula(formula_name, page_number)
 
 func set_formula_from_id(id: int) -> void:
 	var formula_name: String = $Fields/Values/Formulas.options[id]
 	$Fields/Values/Formulas.index = id
-	$Fields/Values/Formulas.get_node('HBoxContainer/Label').text = formula_name
+	#$Fields/Values/Formulas.get_node('HBoxContainer/Label').text = formula_name
 	%TabContainer.set_formula(formula_name, page_number)
 
 func _on_fjuliabulb_c_value_changed(to: Vector3) -> void: field_changed('fjuliabulb_c', to)
@@ -77,3 +106,20 @@ func _on_fmengerflake_mode_value_changed(option: String) -> void: field_changed(
 func _on_fmengerflake_fold_4_multiplier_value_changed(to: float) -> void: field_changed('fmengerflake_fold4_multiplier', to)
 func _on_fpseudoklenian_inversion_sphere_value_changed(to: Vector4) -> void: field_changed('fpseudoklenian_inversion_sphere', to)
 func _on_fpseudoklenian_invert_value_changed(to: bool) -> void: field_changed('fpseudoklenian_invert', to)
+func _on_fpseudoklenian_symmetry_value_changed(to: float) -> void: field_changed('fpseudoklenian_symmetry', to)
+func _on_fpseudoklenian_rotation_y_value_changed(to: float) -> void: field_changed('fpseudoklenian_rotation_x', to)
+func _on_fpseudoklenian_rotation_x_value_changed(to: float) -> void: field_changed('fpseudoklenian_rotation_y', to)
+func _on_fpseudoklenian_fold_mode_value_changed(option: String) -> void: field_changed('fpseudoklenian_fold_mode', $Fields/Values/Fpseudoklenian/FpseudoklenianFoldMode.index)
+func _on_fpseudoklenian_scaling_mode_value_changed(option: String) -> void: field_changed('fpseudoklenian_scaling_mode', $Fields/Values/Fpseudoklenian/FpseudoklenianScalingMode.index)
+func _on_ffrenselcube_falloff_value_changed(to: float) -> void: field_changed('ffrenselcube_falloff', to)
+func _on_ffrenselcube_rotation_y_value_changed(to: float) -> void: field_changed('ffrenselcube_rotation_y', to)
+func _on_ffrenselcube_rotation_x_value_changed(to: float) -> void: field_changed('ffrenselcube_rotation_x', to)
+func _on_ffrenselcube_4d_rotation_x_value_changed(to: float) -> void: field_changed('ffrenselcube4d_rotation_x', to)
+func _on_ffrenselcube_4d_rotation_y_value_changed(to: float) -> void: field_changed('ffrenselcube4d_rotation_y', to)
+func _on_ffrenselcube_4d_falloff_value_changed(to: float) -> void: field_changed('ffrenselcube4d_falloff', to)
+func _on_ffrenselcube_4d_rotation_z_value_changed(to: float) -> void: field_changed('ffrenselcube4d_rotation_z', to)
+func _on_ffrenselcube_4d_rotation_w_value_changed(to: float) -> void: field_changed('ffrenselcube4d_rotation_w', to)
+func _on_fsierpinskidodecahedron_rotation_value_changed(to: Vector4) -> void: field_changed('fsierpinskidodecahedron_rotation', to)
+func _on_fsierpinskidodecahedron_offset_value_changed(to: Vector3) -> void: field_changed('fsierpinskidodecahedron_offset', to)
+func _on_fsierpinskiicosahedron_offset_value_changed(to: Vector3) -> void: field_changed('fsierpinskiicosahedron_offset', to)
+func _on_fsierpinskiicosahedron_rotation_value_changed(to: Vector4) -> void: field_changed('fsierpinskiicosahedron_rotation', to)

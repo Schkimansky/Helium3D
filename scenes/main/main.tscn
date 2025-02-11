@@ -1,9 +1,10 @@
-[gd_scene load_steps=44 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=45 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
 [ext_resource type="Shader" path="res://renderer/renderer.gdshader" id="3_4yvvm"]
 [ext_resource type="Script" path="res://scenes/main/tool_bar.gd" id="5_og0rs"]
+[ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="6_50v3j"]
 [ext_resource type="Script" path="res://scenes/main/texture_rect.gd" id="6_dbdf5"]
 [ext_resource type="Script" path="res://scenes/main/texture_rect_holder.gd" id="7_20ti0"]
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="8_rhsly"]
@@ -46,17 +47,31 @@ shader_parameter/light1_position = Vector3(10, 10, 10)
 shader_parameter/light2_position = Vector3(-10, -10, -10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 7
+shader_parameter/iterations = 20
 shader_parameter/max_steps = 120
 shader_parameter/ambient_light = 0.0051
 shader_parameter/max_distance = 50.0
 shader_parameter/surface_distance = 3e-06
 shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_6av28")
-shader_parameter/formulas = PackedInt32Array(16, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/formulas = PackedInt32Array(25, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/powers = PackedFloat32Array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
 shader_parameter/escape_radius = 2.0
 shader_parameter/bg_color = SubResource("GradientTexture1D_juagn")
+shader_parameter/fsierpinskidodecahedron_rotation = Vector4(0, 0, 0, 0)
+shader_parameter/fsierpinskidodecahedron_offset = Vector3(0, 0, 0)
+shader_parameter/fsierpinskiicosahedron_rotation = Vector4(0, 0, 0, 0)
+shader_parameter/fsierpinskiicosahedron_offset = Vector3(0, 0, 0)
+shader_parameter/ffrenselcube_rotation_x = 1.45519e-11
+shader_parameter/ffrenselcube_rotation_y = 1.45519e-11
+shader_parameter/ffrenselcube_thickness = 0.05
+shader_parameter/ffrenselcube_falloff = 1.089
+shader_parameter/ffrenselcube4d_rotation_x = 1.3
+shader_parameter/ffrenselcube4d_rotation_y = 0.0
+shader_parameter/ffrenselcube4d_rotation_z = 0.0
+shader_parameter/ffrenselcube4d_rotation_w = 0.0
+shader_parameter/ffrenselcube4d_thickness = 0.05
+shader_parameter/ffrenselcube4d_falloff = 0.5
 shader_parameter/fmengerflake_mode = 1
 shader_parameter/fmengerflake_rotation_x = 0.0
 shader_parameter/fmengerflake_rotation_y = 0.0
@@ -79,6 +94,11 @@ shader_parameter/fpseudoklenian_min = Vector4(-0.8323, -0.694, -0.5045, 0.7777)
 shader_parameter/fpseudoklenian_max = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
 shader_parameter/fpseudoklenian_inversion_sphere = Vector4(1, 1, 1, 1)
 shader_parameter/fpseudoklenian_invert = false
+shader_parameter/fpseudoklenian_scaling_mode = 1
+shader_parameter/fpseudoklenian_fold_mode = 1
+shader_parameter/fpseudoklenian_rotation_x = 1.0
+shader_parameter/fpseudoklenian_rotation_y = 1.0
+shader_parameter/fpseudoklenian_symmetry = 6.0
 shader_parameter/famazingsurf_c = Vector3(-1, -1, -1)
 shader_parameter/famazingsurf_mode = 1
 shader_parameter/famazingsurf_fold_x = 1.0
@@ -87,7 +107,7 @@ shader_parameter/famazingsurf_rotation_angle = 0.0
 shader_parameter/famazingsurf_rotation_vector = Vector3(1, 1, 1)
 shader_parameter/famazingsurf_min_radius = 0.25
 shader_parameter/famazingsurf_translation = Vector3(0, 0, 0)
-shader_parameter/fjuliabulb_c = Vector3(0.35, 0.35, 0.35)
+shader_parameter/fjuliabulb_c = Vector3(1.0425, 0.3305, 0.184)
 shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
 shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
 shader_parameter/fmandelbox_sphere_reflection = 0.0
@@ -137,10 +157,10 @@ shader_parameter/ambient_occlusion_radius = 0.166
 shader_parameter/ambient_occlusion_darkness = 0.0767
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
-shader_parameter/glow_intensity = 0.741
+shader_parameter/glow_intensity = 5.0
 shader_parameter/glow_color = Color(1, 1, 1, 1)
-shader_parameter/glow_threshold = 6.166
-shader_parameter/glow_falloff = 1.953
+shader_parameter/glow_threshold = 0.0
+shader_parameter/glow_falloff = 1.0
 shader_parameter/super_glow = false
 shader_parameter/glow = false
 shader_parameter/fog_color = Color(0.0804785, 0.115246, 0.149669, 1)
@@ -338,13 +358,17 @@ size_flags_vertical = 0
 theme_override_constants/separation = 0
 script = ExtResource("5_og0rs")
 
-[node name="ViewportSize" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+[node name="ViewportSize" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ViewportSize" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
 text = " Size: "
 
-[node name="ViewportWidth" type="LineEdit" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+[node name="ViewportWidth" type="LineEdit" parent="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fti0q")
@@ -354,13 +378,13 @@ placeholder_text = " Width"
 alignment = 1
 expand_to_text_length = true
 
-[node name="ViewportX" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+[node name="ViewportX" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
 text = " X "
 
-[node name="ViewportHeight" type="LineEdit" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+[node name="ViewportHeight" type="LineEdit" parent="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fti0q")
@@ -370,10 +394,31 @@ placeholder_text = " Height"
 alignment = 1
 expand_to_text_length = true
 
+[node name="Antialiasing" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Antialiasing"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
+text = " Antialiasing: "
+
 [node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
+
+[node name="Antialiasing" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Panel" instance=ExtResource("6_50v3j")]
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.277
+anchor_bottom = 1.032
+offset_right = -0.0270081
+offset_bottom = 0.00799751
+options = Array[String](["TAA", "FXAA", "None"])
+index = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -907,8 +952,9 @@ layout_mode = 2
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Save" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Load" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_load_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/SavePicture" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_picture_pressed"]
-[connection signal="text_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportWidth" to="." method="_on_viewport_width_text_changed"]
-[connection signal="text_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportHeight" to="." method="_on_viewport_height_text_changed"]
+[connection signal="text_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize/ViewportWidth" to="." method="_on_viewport_width_text_changed"]
+[connection signal="text_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize/ViewportHeight" to="." method="_on_viewport_height_text_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/Panel/Antialiasing" to="UI/HBoxContainer/MarginContainer/SettingsBar" method="_on_antialiasing_value_changed"]
 [connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/VBoxContainer" to="UI/HBoxContainer/MarginContainer/VBoxContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/VBoxContainer" to="UI/HBoxContainer/MarginContainer/VBoxContainer" method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" method="_on_mouse_entered"]

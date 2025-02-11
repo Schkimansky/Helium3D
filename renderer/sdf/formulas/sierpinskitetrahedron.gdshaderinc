@@ -1,29 +1,29 @@
-vec2 sierpinski_sdf(vec3 z, float power) {
+vec2 sierpinskitetrahedron_sdf(vec3 z, float power) {
 	float Scale = power;
 	float Offset = 1.0;
 	float alpha = fsierpinski_rotation_x;
 	float beta = fsierpinski_rotation_y;
 	float orbit_trap = 1000000.0;
-	
 	float r;
 	int n = 0;
-	while (n < int(iterations)) {
-		if (z.x + z.y < 0.0) z.xy = -z.yx; // fold 1
-		if (z.x + z.z < 0.0) z.xz = -z.zx; // fold 2
-		if (z.y + z.z < 0.0) z.zy = -z.yz; // fold 3
+
+	for (; n < iterations; n++) {
+		if (z.x + z.y < 0.0) z.xy = -z.yx;
+		if (z.x + z.z < 0.0) z.xz = -z.zx;
+		if (z.y + z.z < 0.0) z.zy = -z.yz;
+
 		z = z * Scale - Offset * (Scale - 1.0);
+
 		z.xz = vec2(cos(alpha) * z.x - sin(alpha) * z.z, sin(alpha) * z.x + cos(alpha) * z.z); // Y-axis rotation
 		z.yz = vec2(cos(beta) * z.y - sin(beta) * z.z, sin(beta) * z.y + cos(beta) * z.z);     // X-axis rotation
-		
-		orbit_trap = min(orbit_trap, dot(z, z));
-		
-		n++;
+
+		orbit_trap = min(orbit_trap, abs(dot(z, z)));
 	}
-	
+
 	return vec2(length(z) * pow(Scale, -float(n)), orbit_trap);
 }
 
-vec2 sierpinski4d_sdf(vec3 z3d, float power) {
+vec2 sierpinskitetrahedron4d_sdf(vec3 z3d, float power) {
 	vec4 z = vec4(z3d, 0.0);
     float Scale = power;
     float Offset = 1.0;

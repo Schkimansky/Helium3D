@@ -37,7 +37,7 @@ vec2 mengersponge_sdf(vec3 p, float power) {
         if (p.y > p.x) p.yx = p.xy;
         if (p.z > p.y) p.zy = p.yz;
 
-		orbit_trap = min(orbit_trap, dot(p, p));
+		orbit_trap = min(orbit_trap, abs(dot(p, p)));
 
         p *= scale;
         if (p.z > 0.5 * (scale - 1.0)) {

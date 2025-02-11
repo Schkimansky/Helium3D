@@ -35,7 +35,7 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	
 	if update_app_fields:
 		var diff: Dictionary = get_dictionary_difference(fields, data) if use_fast_diff else data
-		print('[INFO] Calc diff: ', diff)
+		#print('[INFO] Calc diff: ', diff)
 		update_fields(diff)
 	
 	if not use_lerp:

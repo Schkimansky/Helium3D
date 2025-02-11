@@ -1,3 +1,5 @@
+const float golden_ratio = (1.0 + sqrt(5.0)) * 0.5;
+
 float fast_acos(float x) {
     float a = sqrt(2.0 + 2.0 * x);
     float b = sqrt(2.0 - 2.0 * x);
@@ -59,43 +61,57 @@ vec3 complexPow(vec3 z, float to_power) {
 	float r = length(z); // Magnitude of z
 	float theta = acos(z.z / r); // Polar angle (theta)
 	float phi = atan(z.y, z.x); // Azimuthal angle (phi)
-	
+
 	// Raise the magnitude to the power
 	float r_pow = pow(r, to_power);
-	
+
 	// Multiply the angles by the power
 	float theta_pow = to_power * theta;
 	float phi_pow = to_power * phi;
-	
+
 	// Convert back to Cartesian coordinates
 	vec3 result = r_pow * vec3(
 		sin(theta_pow) * cos(phi_pow),
 		sin(theta_pow) * sin(phi_pow),
 		cos(theta_pow)
 	);
-	
+
 	return result;
 }
 
-vec4 quat_ln(vec4 q) {
-    float r = length(q.xyz);
-    float t = (r > 0.00001) ? atan(r, q.w) / r : 0.0;
-    return vec4(q.xyz * t, 0.5 * log(dot(q, q)));
-}
-
-vec4 quat_exp(vec4 q) {
-    float r = length(q.xyz);
-    float et = exp(q.w);
-    float s = (r >= 0.00001) ? et * sin(r) / r : 0.0;
-    return vec4(q.xyz * s, et * cos(r));
-}
-
-vec4 quat_scale(vec4 q, float scale) {
-    return q * scale;
-}
+//vec4 quat_ln(vec4 q) {
+    //float r = length(q.xyz);
+    //float t = (r > 0.00001) ? atan(r, q.w) / r : 0.0;
+    //return vec4(q.xyz * t, 0.5 * log(dot(q, q)));
+//}
+//
+//vec4 quat_exp(vec4 q) {
+    //float r = length(q.xyz);
+    //float et = exp(q.w);
+    //float s = (r >= 0.00001) ? et * sin(r) / r : 0.0;
+    //return vec4(q.xyz * s, et * cos(r));
+//}
+//
+//vec4 quat_scale(vec4 q, float scale) {
+    //return q * scale;
+//}
+//
+//vec4 quat_pow(vec4 q, float n) {
+    //return quat_exp(quat_scale(quat_ln(q), n));
+//}
 
 vec4 quat_pow(vec4 q, float n) {
-    return quat_exp(quat_scale(quat_ln(q), n));
+    float angle = acos(q.w); // Extract the angle (theta) from the scalar part
+    float sinAngle = sin(angle);
+
+    if (sinAngle == 0.0) {
+        return vec4(q.w, q.xyz); // If purely real, return the same quaternion
+    }
+
+    vec3 axis = q.xyz / sinAngle; // Normalize imaginary part
+    float newAngle = angle * n;
+
+    return vec4(cos(newAngle), axis * sin(newAngle));
 }
 
 float sphere_sdf3d(vec3 p, vec3 sphere_position, float radius) { return length(p - sphere_position) - radius; }

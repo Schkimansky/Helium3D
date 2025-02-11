@@ -49,3 +49,13 @@ func _on_file_dialog_confirmed() -> void:
 		%SubViewport.refresh_taa()
 		
 		file.close()
+
+func _on_antialiasing_value_changed(option: String) -> void:
+	if option == 'None':
+		%SubViewport.set_antialiasing(%SubViewport.AntiAliasing.NONE)
+	elif option == 'TAA':
+		%SubViewport.set_antialiasing(%SubViewport.AntiAliasing.TAA)
+	elif option == 'FXAA':
+		%SubViewport.set_antialiasing(%SubViewport.AntiAliasing.FXAA)
+	%SubViewport.refresh_taa()
+	%DummyFocusButton.grab_focus()

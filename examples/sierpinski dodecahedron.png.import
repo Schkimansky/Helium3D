@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://20tnplj7tt20"
-path="res://.godot/imported/burningship.png-60de066a3e956b0809a5408983b72c2d.ctex"
+uid="uid://tvw6thcs2p6x"
+path="res://.godot/imported/sierpinski dodecahedron.png-3d54c4d8b397ba3cd45fb2494e96db26.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://examples/burningship.png"
-dest_files=["res://.godot/imported/burningship.png-60de066a3e956b0809a5408983b72c2d.ctex"]
+source_file="res://examples/sierpinski dodecahedron.png"
+dest_files=["res://.godot/imported/sierpinski dodecahedron.png-3d54c4d8b397ba3cd45fb2494e96db26.ctex"]
 
 [params]
 

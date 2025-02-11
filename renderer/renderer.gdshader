@@ -30,6 +30,28 @@ uniform int formulas[10];
 uniform float powers[10];
 uniform float escape_radius = 8.0;
 
+// Sierpinski dodecahedron
+group_uniforms sierpinski_dodecahedron;
+uniform vec4 fsierpinskidodecahedron_rotation = vec4(0.0, 0.0, 0.0, 0.0);
+uniform vec3 fsierpinskidodecahedron_offset = vec3(0.0, 0.0, 0.0);
+// Sierpinski icosahedron
+group_uniforms sierpinski_icosahedron;
+uniform vec4 fsierpinskiicosahedron_rotation = vec4(0.0, 0.0, 0.0, 0.0);
+uniform vec3 fsierpinskiicosahedron_offset = vec3(0.0, 0.0, 0.0);
+// Frenselcube
+group_uniforms fresnelcube;
+uniform float ffrenselcube_rotation_x = 1.3;
+uniform float ffrenselcube_rotation_y = 0.0;
+uniform float ffrenselcube_thickness = 0.05;
+uniform float ffrenselcube_falloff = 0.5;
+// Frenselcube4D
+group_uniforms fresnelcube4d;
+uniform float ffrenselcube4d_rotation_x = 1.3;
+uniform float ffrenselcube4d_rotation_y = 0.0;
+uniform float ffrenselcube4d_rotation_z = 0.0;
+uniform float ffrenselcube4d_rotation_w = 0.0;
+uniform float ffrenselcube4d_thickness = 0.05;
+uniform float ffrenselcube4d_falloff = 0.5;
 // Mengerflake
 group_uniforms mengerflake;
 uniform int fmengerflake_mode = 1;
@@ -66,6 +88,11 @@ uniform vec4 fpseudoklenian_min = vec4(-0.8323, -0.694, -0.5045, 0.8067);
 uniform vec4 fpseudoklenian_max = vec4(0.8579, 1.0883, 0.8937, 0.9411);
 uniform vec4 fpseudoklenian_inversion_sphere = vec4(1.0, 1.0, 1.0, 1.0);
 uniform bool fpseudoklenian_invert = false;
+uniform int fpseudoklenian_scaling_mode = 1;
+uniform int fpseudoklenian_fold_mode = 1;
+uniform float fpseudoklenian_rotation_x = 1.0;
+uniform float fpseudoklenian_rotation_y = 1.0;
+uniform float fpseudoklenian_symmetry = 6.0;
 // Amazingsurf
 group_uniforms amazingsurf;
 uniform vec3 famazingsurf_c = vec3(-1.0);
@@ -234,8 +261,7 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 		vec3 light1 = get_light(p, ray_dir, ray_origin, light1_position, light1_color, normal);
 		vec3 light2 = get_light(p, ray_dir, ray_origin, light2_position, light2_color, normal);
 
-		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
-		final_color = palette_color * ao * (light1 + light2) * vignette;
+		final_color = palette_color * ao * (light1 + light2);
 	}
 
 	if (glow && float(total_marches) * raystep_multiplier > glow_threshold) {
@@ -252,7 +278,10 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	//final_color /= 2.0;
 	//final_color = min(final_color, 1.0);
 	//final_color *= 2.0;
-
+	
+	float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
+	final_color *= vignette;
+	
 	return final_color;
 }
 

@@ -50,7 +50,7 @@ vec2 mengerflake_sdf(vec3 p, float power) {
 		else if (fmengerflake_mode == 6) p.xyz += w * abs(w) * fract(w);
 		else if (fmengerflake_mode == 7) {};
 
-		orbit_trap = min(orbit_trap, dot(p, p));
+		orbit_trap = min(orbit_trap, abs(dot(p, p)));
 	}
 
 	vec3 q = p - clamp(p, -vec3(w), vec3(w));

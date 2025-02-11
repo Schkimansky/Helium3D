@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://hjiutbf52d4r"]
+
+[ext_resource type="PackedScene" uid="uid://xa6av42x8erd" path="res://ui/fields/base field/field.tscn" id="1_idpb3"]
+[ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="2_788kb"]
+[ext_resource type="Script" path="res://ui/fields/formula field/formula_field.gd" id="2_t45rt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_to7w2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vo1nm"]
+bg_color = Color(0.355314, 0.355314, 0.355314, 0.0313726)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.356863, 0.356863, 0.356863, 0.0313726)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b7qpq"]
+bg_color = Color(0, 0, 0, 0.207843)
+border_width_left = 5
+border_width_top = 6
+border_width_right = 5
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 0.207843)
+
+[node name="FormulaField" instance=ExtResource("1_idpb3")]
+anchor_right = 0.097
+anchor_bottom = 0.051
+offset_right = -0.150009
+offset_bottom = -0.0800018
+theme_override_constants/separation = 10
+script = ExtResource("2_t45rt")
+options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Juliabulb4D", "Tetraglad", "Sierpinski Tetrahedron", "Sierpinski Tetrahedron 4D", "Mengerflake", "Frenselcube", "Frenselcube4D", "Sierpinski Dodecahedron", "Sierpinski Icosahedron"])
+
+[node name="Button" type="Button" parent="." index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_788kb")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_to7w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vo1nm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_b7qpq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_b7qpq")
+text = " Mandelbulb "
+
+[node name="Popup" type="Popup" parent="." index="2"]
+title = "Select Fractal Formula"
+initial_position = 1
+size = Vector2i(1660, 770)
+borderless = false
+content_scale_factor = 1.4
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Popup" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="Popup/ScrollContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 1
+columns = 4
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

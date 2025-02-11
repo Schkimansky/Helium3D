@@ -19,7 +19,7 @@ vec2 tetraglad_sdf(vec3 p, float power) {
         }
         p = p * scale - vec3(1) * (scale - 1.0);
 
-		orbit_trap = min(orbit_trap, dot(p, p));
+		orbit_trap = min(orbit_trap, abs(dot(p, p)));
     }
 
     float d = length(p) * pow(scale, -float(n));

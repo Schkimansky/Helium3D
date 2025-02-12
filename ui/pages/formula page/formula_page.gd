@@ -28,6 +28,8 @@ const FORMULAS = [
 	'frenselcube',
 	'frenselcube4d',
 	'sierpinski dodecahedron',
+	'sierpinski icosahedron',
+	'sierpinski octahedron',
 ]
 @export var page_number: int = 1
 
@@ -123,3 +125,5 @@ func _on_fsierpinskidodecahedron_rotation_value_changed(to: Vector4) -> void: fi
 func _on_fsierpinskidodecahedron_offset_value_changed(to: Vector3) -> void: field_changed('fsierpinskidodecahedron_offset', to)
 func _on_fsierpinskiicosahedron_offset_value_changed(to: Vector3) -> void: field_changed('fsierpinskiicosahedron_offset', to)
 func _on_fsierpinskiicosahedron_rotation_value_changed(to: Vector4) -> void: field_changed('fsierpinskiicosahedron_rotation', to)
+func _on_fsierpinski_octahedron_rotation_value_changed(to: Vector4) -> void: field_changed('fsierpinskioctahedron_rotation', to)
+func _on_fsierpinski_octahedron_offset_value_changed(to: Vector3) -> void: field_changed('fsierpinskioctahedron_offset', to)

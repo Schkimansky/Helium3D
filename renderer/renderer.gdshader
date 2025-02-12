@@ -30,6 +30,10 @@ uniform int formulas[10];
 uniform float powers[10];
 uniform float escape_radius = 8.0;
 
+// Sierpinski Octahedron
+group_uniforms sierpinski_octahedron;
+uniform vec4 fsierpinskioctahedron_rotation = vec4(0.0, 0.0, 0.0, 0.0);
+uniform vec3 fsierpinskioctahedron_offset = vec3(0.0, 0.0, 0.0);
 // Sierpinski dodecahedron
 group_uniforms sierpinski_dodecahedron;
 uniform vec4 fsierpinskidodecahedron_rotation = vec4(0.0, 0.0, 0.0, 0.0);

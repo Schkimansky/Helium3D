@@ -220,6 +220,10 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="Fsierpinskioctahedron" type="VBoxContainer" parent="Fields/Names"]
+visible = false
+layout_mode = 2
+
 [node name="Values" type="VBoxContainer" parent="Fields"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -699,6 +703,21 @@ layout_mode = 2
 range_min = Vector4(-2, -2, -2, -2)
 range_max = Vector4(2, 2, 2, 2)
 
+[node name="Fsierpinskioctahedron" type="VBoxContainer" parent="Fields/Values"]
+visible = false
+layout_mode = 2
+
+[node name="FsierpinskioctahedronOffset" parent="Fields/Values/Fsierpinskioctahedron" instance=ExtResource("7_8qf7q")]
+layout_mode = 2
+range_min = Vector3(-2, -2, -2)
+range_max = Vector3(2, 2, 2)
+value = Vector3(1, 1.45519e-11, 1.45519e-11)
+
+[node name="FsierpinskioctahedronRotation" parent="Fields/Values/Fsierpinskioctahedron" instance=ExtResource("7_p1yy6")]
+layout_mode = 2
+range_min = Vector4(-2, -2, -2, -2)
+range_max = Vector4(2, 2, 2, 2)
+
 [connection signal="value_changed" from="Fields/Values/Formulas" to="." method="_on_formula_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fjuliabulb/FjuliabulbC" to="." method="_on_fjuliabulb_c_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fjuliaswirl/FjuliaswirlC" to="." method="_on_fjuliaswirl_c_value_changed"]
@@ -771,3 +790,5 @@ range_max = Vector4(2, 2, 2, 2)
 [connection signal="value_changed" from="Fields/Values/Fsierpinskidodecahedron/FsierpinskidodecahedronRotation" to="." method="_on_fsierpinskidodecahedron_rotation_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fsierpinskiicosahedron/FsierpinskiicosahedronOffset" to="." method="_on_fsierpinskiicosahedron_offset_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fsierpinskiicosahedron/FsierpinskiicosahedronRotation" to="." method="_on_fsierpinskiicosahedron_rotation_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fsierpinskioctahedron/FsierpinskioctahedronOffset" to="." method="_on_fsierpinski_octahedron_offset_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fsierpinskioctahedron/FsierpinskioctahedronRotation" to="." method="_on_fsierpinski_octahedron_rotation_value_changed"]

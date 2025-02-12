@@ -55,6 +55,8 @@ func set_formula(formula_name: String, for_page: int) -> void:
 	if formula_name.to_lower() != 'none':
 		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node(formula_node_name).visible = true
 		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node(formula_node_name).visible = true
+	
+	print(current_formulas)
 
 func _on_add_formula_pressed() -> void: total_visible_formulas += 1
 func _on_remove_formula_pressed() -> void:

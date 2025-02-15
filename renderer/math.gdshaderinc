@@ -1,5 +1,14 @@
 const float golden_ratio = (1.0 + sqrt(5.0)) * 0.5;
 
+vec3 rotate3d_point(vec3 z, vec4 rotation, bool is_before) {
+	float rotation_x = is_before ? rotation.x : rotation.z;
+	float rotation_y = is_before ? rotation.y : rotation.w;
+	z.xz = vec2(cos(rotation_x) * z.x - sin(rotation_x) * z.z, sin(rotation_x) * z.x + cos(rotation_x) * z.z);
+	z.yz = vec2(cos(rotation_y) * z.y - sin(rotation_y) * z.z, sin(rotation_y) * z.y + cos(rotation_y) * z.z);
+
+	return z;
+}
+
 float fast_acos(float x) {
     float a = sqrt(2.0 + 2.0 * x);
     float b = sqrt(2.0 - 2.0 * x);

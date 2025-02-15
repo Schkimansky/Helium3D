@@ -37,6 +37,6 @@ vec2 sierpinskidodecahedron_sdf(vec3 z, float scale) {
 		orbit_trap = min(orbit_trap, abs(r));
 		if (r > 1e6) break;
 	}
-	
+
 	return vec2(0.99 * length(z) * pow(scale, float(-n - 1)), orbit_trap);
 }

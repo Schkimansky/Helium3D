@@ -29,7 +29,7 @@ offset_right = -0.150009
 offset_bottom = -0.0800018
 theme_override_constants/separation = 10
 script = ExtResource("2_t45rt")
-options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Juliabulb4D", "Tetraglad", "Sierpinski Tetrahedron", "Sierpinski Tetrahedron 4D", "Mengerflake", "Frenselcube", "Frenselcube4D", "Sierpinski Dodecahedron", "Sierpinski Icosahedron", "Sierpinski Octahedron"])
+options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Juliabulb4D", "Tetraglad", "Sierpinski Tetrahedron", "Sierpinski Tetrahedron 4D", "Mengerflake", "Frenselcube", "Frenselcube4D", "Sierpinski Dodecahedron", "Sierpinski Icosahedron", "Sierpinski Octahedron", "Baird Delta"])
 
 [node name="Button" type="Button" parent="." index="1"]
 layout_mode = 2

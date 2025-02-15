@@ -30,6 +30,19 @@ uniform int formulas[10];
 uniform float powers[10];
 uniform float escape_radius = 8.0;
 
+// Klenian schottky
+group_uniforms klenianschottky;
+uniform vec4 fklenianschottky_base_sphere = vec4(0, 0, 0, 125);
+uniform vec4 fklenianschottky_s_1 = vec4(300, 300, 0, 300);
+uniform vec4 fklenianschottky_s_2 = vec4(300, -300, 0, 300);
+uniform vec4 fklenianschottky_s_3 = vec4(-300, 300, 0, 300);
+uniform vec4 fklenianschottky_s_4 = vec4(-300, -300, 0, 300);
+uniform vec4 fklenianschottky_s_5 = vec4(0, 0, 424.26, 300);
+uniform vec4 fklenianschottky_s_6 = vec4(0, 0, -424.26, 300);
+// Baird Delta
+group_uniforms baird_delta;
+uniform float fbairddelta_angle = 45.0;
+uniform vec4 fbairddelta_rotation = vec4(0.0, 0.0, 0.0, 0.0);
 // Sierpinski Octahedron
 group_uniforms sierpinski_octahedron;
 uniform vec4 fsierpinskioctahedron_rotation = vec4(0.0, 0.0, 0.0, 0.0);
@@ -282,10 +295,10 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	//final_color /= 2.0;
 	//final_color = min(final_color, 1.0);
 	//final_color *= 2.0;
-	
+
 	float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
 	final_color *= vignette;
-	
+
 	return final_color;
 }
 

@@ -12,9 +12,13 @@
 #include "formulas/sierpinskidodecahedron.gdshaderinc"
 #include "formulas/sierpinskiicosahedron.gdshaderinc"
 #include "formulas/sierpinskioctahedron.gdshaderinc"
+#include "formulas/bairddelta.gdshaderinc"
+#include "formulas/klenianschottky.gdshaderinc"
 
 vec2 single_fractal_sdf(int formula, vec3 p, float power) {
-	if (formula == 29) return sierpinskioctahedron_sdf(p, power);
+	if (formula == 31) return klenianschottky_sdf(p, power);
+	else if (formula == 30) return bairddelta_sdf(p, power);
+	else if (formula == 29) return sierpinskioctahedron_sdf(p, power);
 	else if (formula == 28) return sierpinskiicosahedron_sdf(p, power);
 	else if (formula == 27) return sierpinskidodecahedron_sdf(p, power);
 	else if (formula == 26) return fresnelcube4d_sdf(p, power);
@@ -27,7 +31,7 @@ vec2 single_fractal_sdf(int formula, vec3 p, float power) {
 	else if (formula == 19) return amazingsurf_sdf(p, power);
 	else if (formula == 18) return pseudoklenian_sdf(p, power);
 	else if (formula == 17) return mengersponge_sdf(p, power);
-	//else if (formula == 16) return mandelbox_sdf(p, power);
+	else if (formula == 16) return mandelbox_sdf(p, power);
 	//else if (formula <= 15) return mandelfractal(formula, p, power);
 
 	return vec2(0.0, 0.0);

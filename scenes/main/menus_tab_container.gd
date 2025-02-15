@@ -49,12 +49,16 @@ func set_formula(formula_name: String, for_page: int) -> void:
 	
 	for other_formula in (FORMULAS as Array[String]):
 		var other_node_name: String = 'F' + other_formula.replace(' ', '').to_lower()
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node(other_node_name).visible = false
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node(other_node_name).visible = false
+		var value_node: Node = %TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node(other_node_name)
+		var name_node: Node = %TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node(other_node_name)
+		if value_node: value_node.visible = false
+		if name_node: name_node.visible = false
 	
 	if formula_name.to_lower() != 'none':
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node(formula_node_name).visible = true
-		%TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node(formula_node_name).visible = true
+		var value_node: Node = %TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Values').get_node(formula_node_name)
+		var name_node: Node = %TabContainer.get_node('Formula/TabContainer').get_formula_page(for_page).get_node('Fields/Names').get_node(formula_node_name)
+		if value_node: value_node.visible = true
+		if name_node: name_node.visible = true
 	
 	print(current_formulas)
 

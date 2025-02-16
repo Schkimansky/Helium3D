@@ -6,20 +6,20 @@ vec4 qPow5(vec4 a) {
     return vec4(a4.x * a.x - dot(a4.yzw, a.yzw), 2.0 * a4.x * a.yzw);
 }
 float lengthSquared(vec4 a) { return dot(a, a); }
-
-vec4 hyperspherical_power(vec4 z, float power) {
-    float r = length(z);
-    float theta = acos(z.x / r);
-    float phi = atan(z.y, z.z);
-    float psi = atan(length(z.yz), z.w);
-
-    r = pow(r, power);
-    theta *= power;
-    phi *= power;
-    psi *= power;
-
-    return r * vec4(cos(theta), sin(theta) * cos(phi), sin(theta) * sin(phi) * cos(psi), sin(theta) * sin(phi) * sin(psi));
-}
+//
+//vec4 hyperspherical_power(vec4 z, float power) {
+    //float r = length(z);
+    //float theta = acos(z.x / r);
+    //float phi = atan(z.y, z.z);
+    //float psi = atan(length(z.yz), z.w);
+//
+    //r = pow(r, power);
+    //theta *= power;
+    //phi *= power;
+    //psi *= power;
+//
+    //return r * vec4(cos(theta), sin(theta) * cos(phi), sin(theta) * sin(phi) * cos(psi), sin(theta) * sin(phi) * sin(psi));
+//}
 
 vec2 juliabulb4d_sdf(vec3 p, float power) {
     //vec4 c = fquaternion_c;

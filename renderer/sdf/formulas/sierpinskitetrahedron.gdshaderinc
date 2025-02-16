@@ -27,9 +27,9 @@ vec2 sierpinskitetrahedron4d_sdf(vec3 z3d, float power) {
 	vec4 z = vec4(z3d, 0.0);
     float Scale = power;
     float Offset = 1.0;
-    float alpha = fsierpinski4d_rotation_x; // Rotation around Y-axis in 4D
-    float beta = fsierpinski4d_rotation_y;  // Rotation around X-axis in 4D
-    float gamma = fsierpinski4d_rotation_z;//ftetraglad_rotation_z; // Rotation around Z-axis in 4D
+    float alpha = fsierpinski4d_rotation_x;
+    float beta = fsierpinski4d_rotation_y;
+    float gamma = fsierpinski4d_rotation_z;
 	float orbit_trap = 1000000.0;
 
     float r;

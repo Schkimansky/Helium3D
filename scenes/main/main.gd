@@ -49,6 +49,8 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	
 	%TabContainer.total_visible_formulas = other_data.get('total_visible_formulas', count_non_zero(data.get('formulas', [1])))
 	%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
+	if 'paletteoffsets' in data:
+		%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Palette').set_value(other_data['paletteoffsets'], other_data['palettecolors'])
 	
 	if update_keyframes:
 		%AnimationTrack.keyframes = other_data.get('keyframes', {})

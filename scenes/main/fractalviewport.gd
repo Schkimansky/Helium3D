@@ -8,9 +8,10 @@ extends SubViewport
 enum AntiAliasing { TAA, FXAA, NONE }
 
 var antialiasing := AntiAliasing.TAA
-var low_scaling := 0.3#0.3
-var high_scaling := 1.0#0.77
+var low_scaling := 0.3
+var high_scaling := 0.77
 var since_last_dynamic_update := 0.0
+var previous_update_mode: int
 
 func _ready() -> void:
 	since_last_dynamic_update = 0.0
@@ -41,28 +42,30 @@ func set_quality(quality: String) -> void:
 		high_scaling = 1.0
 
 func _process(delta: float) -> void:
-	var update_on: int = UPDATE_WHEN_VISIBLE if antialiasing == AntiAliasing.TAA else UPDATE_ONCE
 	var low_scaling_time: float = (0.75) / Engine.get_frames_per_second()
 	
 	var rendered_condition: bool = false
 	if antialiasing == AntiAliasing.TAA:
 		rendered_condition = since_last_dynamic_update >= 2.5
 	else:
-		rendered_condition = since_last_dynamic_update > 0
+		rendered_condition = since_last_dynamic_update > 0 or previous_update_mode == UPDATE_WHEN_VISIBLE
 	
 	if rendered_condition:
 		render_target_update_mode = UPDATE_DISABLED
 	else:
-		render_target_update_mode = update_on
+		render_target_update_mode = UPDATE_WHEN_VISIBLE
 	
 	if since_last_dynamic_update <= low_scaling_time and not %AnimationTrack.is_playing:
 		scaling_3d_scale = low_scaling
-		render_target_update_mode = update_on
+		render_target_update_mode = UPDATE_WHEN_VISIBLE
 	elif scaling_3d_scale != high_scaling:
 		scaling_3d_scale = high_scaling
-		render_target_update_mode = update_on
+		render_target_update_mode = UPDATE_WHEN_VISIBLE
+	
+	print(render_target_update_mode, ' | Enum: ', UPDATE_ALWAYS)
 	
 	since_last_dynamic_update += delta
+	previous_update_mode = render_target_update_mode
 
 func refresh_taa() -> void:
 	since_last_dynamic_update = 0.0

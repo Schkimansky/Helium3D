@@ -47,11 +47,11 @@ shader_parameter/light1_position = Vector3(10, 10, 10)
 shader_parameter/light2_position = Vector3(-10, -10, -10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
-shader_parameter/iterations = 20
+shader_parameter/iterations = 10
 shader_parameter/max_steps = 120
 shader_parameter/ambient_light = 0.0051
 shader_parameter/max_distance = 100.0
-shader_parameter/surface_distance = 3e-06
+shader_parameter/surface_distance = 0.0046
 shader_parameter/raystep_multiplier = 1.0
 shader_parameter/palette = SubResource("GradientTexture1D_6av28")
 shader_parameter/formulas = PackedInt32Array(27, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -802,7 +802,7 @@ theme_override_constants/separation = 4
 [node name="Palette" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/line_spacing = -8
+theme_override_constants/line_spacing = -12
 theme_override_fonts/font = SubResource("FontVariation_sjns5")
 text = "
 Palette: 
@@ -824,7 +824,7 @@ vertical_alignment = 1
 [node name="Background" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/line_spacing = -17
+theme_override_constants/line_spacing = -14
 theme_override_fonts/font = SubResource("FontVariation_uuept")
 text = "
 Background: 
@@ -865,7 +865,7 @@ Max Steps:
 [node name="RaystepMultiplier" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/line_spacing = -17
+theme_override_constants/line_spacing = -12
 theme_override_fonts/font = SubResource("FontVariation_uuept")
 text = "
 Raystep Multiplier:
@@ -958,6 +958,7 @@ layout_mode = 2
 value = Vector3(-10, -10, 10)
 
 [node name="BottomBar" type="TabContainer" parent="UI"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0

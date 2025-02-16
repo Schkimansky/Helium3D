@@ -36,7 +36,7 @@ func _on_file_dialog_confirmed() -> void:
 	elif %FileDialog.title == "Save Project":
 		var file: FileAccess = FileAccess.open(%FileDialog.current_path, FileAccess.WRITE)
 		var data: Dictionary = get_tree().current_scene.fields
-		data['other'] = {'total_visible_formula_pages': %TabContainer.total_visible_formulas, 'player_position': %Player.global_position, 'head_rotation': %Player.get_node('Head').global_rotation_degrees, 'camera_rotation': %Player.get_node('Head/Camera').global_rotation_degrees, 'bgcoloroffsets': data['bg_color'].gradient.offsets, 'bgcolorcolors': data['bg_color'].gradient.colors, 'keyframes': %AnimationTrack.keyframes}
+		data['other'] = {'paletteoffsets': data['palette'].gradient.offsets, 'palettecolors': data['palette'].gradient.colors, 'total_visible_formula_pages': %TabContainer.total_visible_formulas, 'player_position': %Player.global_position, 'head_rotation': %Player.get_node('Head').global_rotation_degrees, 'camera_rotation': %Player.get_node('Head/Camera').global_rotation_degrees, 'bgcoloroffsets': data['bg_color'].gradient.offsets, 'bgcolorcolors': data['bg_color'].gradient.colors, 'keyframes': %AnimationTrack.keyframes}
 		file.store_var(data)
 		print('saving: ', data)
 		file.close()

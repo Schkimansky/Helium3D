@@ -132,3 +132,4 @@ func _on_glow_threshold_value_changed(to: float) -> void: field_changed('glow_th
 func _on_fog_color_value_changed(to: Color) -> void: field_changed('fog_color', to)
 func _on_fog_density_value_changed(to: float) -> void: field_changed('fog_density', to)
 func _on_fog_falloff_value_changed(to: float) -> void: field_changed('fog_falloff', to)
+func _on_palette_value_changed(to: Gradient) -> void: field_changed('palette', to)

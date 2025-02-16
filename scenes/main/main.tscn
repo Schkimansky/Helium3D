@@ -67,6 +67,7 @@ shader_parameter/fklenianschottky_s_5 = Vector4(0, 0, 424.26, 300)
 shader_parameter/fklenianschottky_s_6 = Vector4(0, 0, -424.26, 300)
 shader_parameter/fbairddelta_angle = 45.0
 shader_parameter/fbairddelta_rotation = Vector4(0, 0, 0, 0)
+shader_parameter/fbairddelta_folds = Vector4(1, 1, 0, 0)
 shader_parameter/fsierpinskioctahedron_rotation = Vector4(0, 0, 0, 0)
 shader_parameter/fsierpinskioctahedron_offset = Vector3(0, 0, 0)
 shader_parameter/fsierpinskidodecahedron_rotation = Vector4(0, 0, 0, 0)
@@ -405,31 +406,69 @@ placeholder_text = " Height"
 alignment = 1
 expand_to_text_length = true
 
-[node name="Antialiasing" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+[node name="AntiAliasing" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Antialiasing"]
+[node name="Antialiasing" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/SettingsBar/AntiAliasing"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar/AntiAliasing/Antialiasing"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
 text = " Antialiasing: "
 
-[node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+[node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer/SettingsBar/AntiAliasing"]
+custom_minimum_size = Vector2(220, 1.45519e-11)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
 
-[node name="Antialiasing" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Panel" instance=ExtResource("6_50v3j")]
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.277
-anchor_bottom = 1.032
-offset_right = -0.0270081
-offset_bottom = 0.00799751
+[node name="Antialiasing" parent="UI/HBoxContainer/MarginContainer/SettingsBar/AntiAliasing/Panel" instance=ExtResource("6_50v3j")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
 options = Array[String](["TAA", "FXAA", "None"])
 index = 2
-metadata/_edit_use_anchors_ = true
+
+[node name="Quality" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Quality" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Quality"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Quality/Quality"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_rhsly")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
+text = " Quality:  "
+
+[node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Quality"]
+custom_minimum_size = Vector2(220, 1.45519e-11)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
+
+[node name="Quality" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Quality/Panel" instance=ExtResource("6_50v3j")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+options = Array[String](["Performance", "Balanced", "Quality"])
+
+[node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer/SettingsBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/HBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -454,11 +493,12 @@ size_flags_stretch_ratio = 2.1
 theme_override_constants/side_margin = 0
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
-current_tab = 0
+current_tab = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("9_7154d")
 
 [node name="Post Processing" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -745,7 +785,6 @@ disabled = true
 text = " Remove "
 
 [node name="Rendering" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -759,6 +798,17 @@ layout_mode = 2
 [node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
 layout_mode = 2
 theme_override_constants/separation = 4
+
+[node name="Palette" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -8
+theme_override_fonts/font = SubResource("FontVariation_sjns5")
+text = "
+Palette: 
+
+"
+vertical_alignment = 1
 
 [node name="Power" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
 layout_mode = 2
@@ -856,6 +906,11 @@ text = "Light 2 Position: "
 [node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Palette" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("11_ynfe2")]
+layout_mode = 2
+offsets = PackedFloat32Array(0.291, 0.814)
+colors = PackedColorArray(0.60933, 0.60933, 0.60933, 1, 1, 1, 1, 1)
 
 [node name="Power" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
@@ -965,7 +1020,8 @@ layout_mode = 2
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/SavePicture" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_picture_pressed"]
 [connection signal="text_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize/ViewportWidth" to="." method="_on_viewport_width_text_changed"]
 [connection signal="text_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/ViewportSize/ViewportHeight" to="." method="_on_viewport_height_text_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/Panel/Antialiasing" to="UI/HBoxContainer/MarginContainer/SettingsBar" method="_on_antialiasing_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/AntiAliasing/Panel/Antialiasing" to="UI/HBoxContainer/MarginContainer/SettingsBar" method="_on_antialiasing_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/MarginContainer/SettingsBar/Quality/Panel/Quality" to="UI/HBoxContainer/MarginContainer/SettingsBar" method="_on_quality_value_changed"]
 [connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/VBoxContainer" to="UI/HBoxContainer/MarginContainer/VBoxContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/VBoxContainer" to="UI/HBoxContainer/MarginContainer/VBoxContainer" method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" method="_on_mouse_entered"]
@@ -985,6 +1041,7 @@ layout_mode = 2
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/SuperGlow" to="UI/HBoxContainer/TabContainer" method="_on_super_glow_value_changed"]
 [connection signal="pressed" from="UI/HBoxContainer/TabContainer/Formula/Buttons/AddFormula" to="UI/HBoxContainer/TabContainer" method="_on_add_formula_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/TabContainer/Formula/Buttons/RemoveFormula" to="UI/HBoxContainer/TabContainer" method="_on_remove_formula_pressed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Palette" to="UI/HBoxContainer/TabContainer" method="_on_palette_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_bg_color_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Iterations" to="UI/HBoxContainer/TabContainer" method="_on_iterations_value_changed"]

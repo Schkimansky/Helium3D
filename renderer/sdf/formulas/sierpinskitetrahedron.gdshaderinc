@@ -57,7 +57,7 @@ vec2 sierpinskitetrahedron4d_sdf(vec3 z3d, float power) {
         z.yw = vec2(cos(gamma) * z.y - sin(gamma) * z.w, sin(gamma) * z.y + cos(gamma) * z.w);
         z.zw = vec2(cos(gamma) * z.z - sin(gamma) * z.w, sin(gamma) * z.z + cos(gamma) * z.w);
 
-		orbit_trap = min(orbit_trap, dot(z, z));
+		orbit_trap = min(orbit_trap, abs(dot(z, z)));
 
         n++;
     }

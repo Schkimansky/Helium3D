@@ -96,7 +96,7 @@ func _process(delta: float) -> void:
 	if is_playing:
 		#print(currently_at_frame, ' | ', len(animation_frames_data))
 		# data, update_app_fields, use_lerp, update_keyframes, delta_multiplier
-		get_tree().current_scene.update_app_state(animation_frames_data[round(currently_at_frame)], true, true if currently_at_frame != 0 else false, false, 0.51, true)
+		get_tree().current_scene.update_app_state(animation_frames_data[round(currently_at_frame)], true, false, false, 0.51, true) # true if currently_at_frame != 0 else false
 		currently_at_frame += 1
 
 func _on_mouse_entered() -> void: is_mouse_hovering = true

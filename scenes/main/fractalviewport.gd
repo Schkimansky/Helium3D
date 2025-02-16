@@ -29,6 +29,17 @@ func set_antialiasing(target_aa: AntiAliasing) -> void:
 		scaling_3d_mode = SCALING_3D_MODE_BILINEAR
 		screen_space_aa = SCREEN_SPACE_AA_DISABLED
 
+func set_quality(quality: String) -> void:
+	if quality == 'performance':
+		low_scaling = 0.3
+		high_scaling = 0.77
+	elif quality == 'balanced':
+		low_scaling = 0.65
+		high_scaling = 0.91
+	elif quality == 'quality':
+		low_scaling = 1.0
+		high_scaling = 1.0
+
 func _process(delta: float) -> void:
 	var update_on: int = UPDATE_WHEN_VISIBLE if antialiasing == AntiAliasing.TAA else UPDATE_ONCE
 	var low_scaling_time: float = (0.75) / Engine.get_frames_per_second()
@@ -44,7 +55,7 @@ func _process(delta: float) -> void:
 	else:
 		render_target_update_mode = update_on
 	
-	if since_last_dynamic_update <= low_scaling_time:
+	if since_last_dynamic_update <= low_scaling_time and not %AnimationTrack.is_playing:
 		scaling_3d_scale = low_scaling
 		render_target_update_mode = update_on
 	elif scaling_3d_scale != high_scaling:

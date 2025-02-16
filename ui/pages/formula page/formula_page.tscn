@@ -27,7 +27,7 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 script = ExtResource("1_px87o")
 
-[node name="Fields" type="VBoxContainer" parent="."]
+[node name="Fields" type="HBoxContainer" parent="."]
 layout_mode = 2
 
 [node name="Names" type="VBoxContainer" parent="Fields"]
@@ -730,7 +730,12 @@ value = 80.0
 
 [node name="FbairddeltaRotation" parent="Fields/Values/Fbairddelta" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
+
+[node name="FbairddeltaFolds" parent="Fields/Values/Fbairddelta" instance=ExtResource("7_p1yy6")]
+layout_mode = 2
+range_min = Vector4(-2, -2, -2, -2)
+range_max = Vector4(2, 2, 4, 4)
+value = Vector4(1, 1, 2, 2)
 
 [node name="Fklenianschottky" type="VBoxContainer" parent="Fields/Values"]
 visible = false
@@ -738,37 +743,30 @@ layout_mode = 2
 
 [node name="FklenianschottkyBaseSphere" parent="Fields/Values/Fklenianschottky" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
 value = Vector4(1.45519e-11, 1.45519e-11, 1.45519e-11, 5)
 
 [node name="FklenianschottkyS1" parent="Fields/Values/Fklenianschottky" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
 value = Vector4(10, 10, 1.45519e-11, 10)
 
 [node name="FklenianschottkyS2" parent="Fields/Values/Fklenianschottky" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
 value = Vector4(10, -10, 1.45519e-11, 10)
 
 [node name="FklenianschottkyS3" parent="Fields/Values/Fklenianschottky" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
 value = Vector4(-10, 10, 1.45519e-11, 10)
 
 [node name="FklenianschottkyS4" parent="Fields/Values/Fklenianschottky" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
 value = Vector4(-10, -10, 1.45519e-11, 10)
 
 [node name="FklenianschottkyS5" parent="Fields/Values/Fklenianschottky" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
 value = Vector4(1.45519e-11, 1.45519e-11, 15, 10)
 
 [node name="FklenianschottkyS6" parent="Fields/Values/Fklenianschottky" instance=ExtResource("7_p1yy6")]
 layout_mode = 2
-range_min = Vector4(-20, -20, -20, -20)
 value = Vector4(1.45519e-11, 1.45519e-11, -15, 10)
 
 [connection signal="value_changed" from="Fields/Values/Formulas" to="." method="_on_formula_value_changed"]
@@ -847,6 +845,7 @@ value = Vector4(1.45519e-11, 1.45519e-11, -15, 10)
 [connection signal="value_changed" from="Fields/Values/Fsierpinskioctahedron/FsierpinskioctahedronRotation" to="." method="_on_fsierpinski_octahedron_rotation_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fbairddelta/FbairddeltaAngle" to="." method="_on_fbairddelta_angle_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fbairddelta/FbairddeltaRotation" to="." method="_on_fbairddelta_rotation_value_changed"]
+[connection signal="value_changed" from="Fields/Values/Fbairddelta/FbairddeltaFolds" to="." method="_on_fbairddelta_folds_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fklenianschottky/FklenianschottkyBaseSphere" to="." method="_on_fklenianschottky_base_sphere_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fklenianschottky/FklenianschottkyS1" to="." method="_on_fklenianschottky_s_1_value_changed"]
 [connection signal="value_changed" from="Fields/Values/Fklenianschottky/FklenianschottkyS2" to="." method="_on_fklenianschottky_s_2_value_changed"]

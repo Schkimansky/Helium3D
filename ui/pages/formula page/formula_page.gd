@@ -30,6 +30,7 @@ const FORMULAS = [
 	'sierpinski dodecahedron',
 	'sierpinski icosahedron',
 	'sierpinski octahedron',
+	'klenian schottky'
 ]
 @export var page_number: int = 1
 
@@ -136,3 +137,4 @@ func _on_fklenianschottky_s_3_value_changed(to: Vector4) -> void: field_changed(
 func _on_fklenianschottky_s_4_value_changed(to: Vector4) -> void: field_changed('fklenianschottky_s_4', to)
 func _on_fklenianschottky_s_5_value_changed(to: Vector4) -> void: field_changed('fklenianschottky_s_5', to)
 func _on_fklenianschottky_s_6_value_changed(to: Vector4) -> void: field_changed('fklenianschottky_s_6', to)
+func _on_fbairddelta_folds_value_changed(to: Vector4) -> void: field_changed('fbairddelta_folds', to)

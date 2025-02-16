@@ -59,3 +59,11 @@ func _on_antialiasing_value_changed(option: String) -> void:
 		%SubViewport.set_antialiasing(%SubViewport.AntiAliasing.FXAA)
 	%SubViewport.refresh_taa()
 	%DummyFocusButton.grab_focus()
+
+func _on_quality_value_changed(option: String) -> void:
+	# Performance: (0.3, 0.77)
+	# Balanced: (0.65, 0.91)
+	# Quality: (1.0, 1.0)
+	%SubViewport.set_quality(option.to_lower())
+	%SubViewport.refresh_taa()
+	%DummyFocusButton.grab_focus()

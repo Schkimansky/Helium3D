@@ -3,10 +3,13 @@ extends HBoxContainer
 const BLOCK_SCENE = preload('res://ui/fields/palette field color block/palette_field_color_block.tscn')
 
 signal value_changed(to: Gradient)
+@export var offsets := PackedFloat32Array([0.0, 1.0])
+@export var colors := PackedColorArray([Color(0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0)])
 
 func _ready() -> void:
-	changed_gradient()
 	Global.value_nodes.append(self)
+	set_value(offsets, colors)
+	changed_gradient()
 
 func set_value(offsets: PackedFloat32Array, colors: PackedColorArray) -> void:
 	for block in %Blocks.get_children():
@@ -29,12 +32,14 @@ func changed_gradient() -> void:
 		offsets.append(block.offset)
 		colors.append(block.color)
 	
-	var gradient: Gradient = %TextureRect.texture.gradient
+	var gradient: Gradient = Gradient.new()
+	print('gradient colors: ', colors)
 	gradient.offsets = offsets
 	gradient.colors = colors
 	
 	var gradient_texture: GradientTexture1D = GradientTexture1D.new()
 	gradient_texture.gradient = gradient
+	%TextureRect.texture = gradient_texture
 	value_changed.emit(gradient)
 
 func _on_button_button_down() -> void:

@@ -7,6 +7,7 @@
 
 [node name="Vec4Field" instance=ExtResource("1_edy2i")]
 script = ExtResource("2_fw4gi")
+range_min = Vector4(-20, -20, -20, -20)
 
 [node name="ComponentLabels" type="VBoxContainer" parent="." index="0"]
 layout_mode = 2

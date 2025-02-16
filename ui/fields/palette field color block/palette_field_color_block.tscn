@@ -26,6 +26,17 @@ script = ExtResource("1_skj65")
 [node name="Circle" type="Control" parent="."]
 layout_mode = 2
 
+[node name="CircleOutline2" type="TextureRect" parent="Circle"]
+self_modulate = Color(0.454524, 0.454524, 0.454524, 1)
+layout_mode = 2
+offset_left = -1.0
+offset_top = -6.0
+offset_right = 11.0
+offset_bottom = 6.0
+scale = Vector2(1.72145, 1.72145)
+pivot_offset = Vector2(6, 6)
+texture = ExtResource("2_74ubm")
+
 [node name="CircleOutline" type="TextureRect" parent="Circle"]
 layout_mode = 2
 offset_left = -1.0

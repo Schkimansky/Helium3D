@@ -8,7 +8,7 @@ var prevent_opening_colorpicker: bool = false
 
 @export var offset: float = 1.0
 
-@export var color: Color = Color.SKY_BLUE:
+@export var color: Color = Color('#ef001e'):
 	set(value):
 		color = value
 		$Circle.self_modulate = color
@@ -16,6 +16,8 @@ var prevent_opening_colorpicker: bool = false
 
 func _ready() -> void:
 	$Circle.self_modulate = color
+	$Circle/ColorPickerButton.color = color
+	_on_color_picker_button_color_changed(color)
 
 func reload_position() -> void:
 	var length: float = $"../../..".size.x - 19

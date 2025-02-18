@@ -37,7 +37,8 @@ vec2 juliabulb4d_sdf(vec3 p, float power) {
         z = z_pow + c;
         m2 = dot(z, z);
 
-        orbit_trap = min(orbit_trap, m2);
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, m2);
+		else orbit_trap = min(orbit_trap, process_orbit_trap4d(z));
         if(m2 > escape_radius * escape_radius) break;
     }
 

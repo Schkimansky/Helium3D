@@ -38,7 +38,8 @@ vec2 bairddelta_sdf(vec3 p, float power) {
 		p.yz = vec2(cos(fbairddelta_rotation.w) * p.y - sin(fbairddelta_rotation.w) * p.z, sin(fbairddelta_rotation.w) * p.y + cos(fbairddelta_rotation.w) * p.z);
 
 		r2 = dot(p, p);
-		orbit_trap = min(orbit_trap, abs(r2));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, abs(r2));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(p));
 	}
 	return vec2((sqrt(r2) - 3.0) / dd, orbit_trap);
 }

@@ -21,9 +21,11 @@ vec2 amazingsurf_sdf(vec3 pos, float power) {
 
         p.xyz += famazingsurf_translation;
         float r2 = dot(p.xyz, p.xyz);
-        orbit_trap = min(orbit_trap, r2);
         p *= power / clamp(r2, famazingsurf_min_radius, 1.0);
         p.xyz = p.xyz * rot + d.xyz;
+
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, r2);
+		else orbit_trap = min(orbit_trap, process_orbit_trap4d(p));
     }
 
     float dist = (length(p.xyz) - precalc1) / p.w - precalc2;

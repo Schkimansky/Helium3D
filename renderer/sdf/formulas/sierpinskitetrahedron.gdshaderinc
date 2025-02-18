@@ -17,7 +17,8 @@ vec2 sierpinskitetrahedron_sdf(vec3 z, float power) {
 		z.xz = vec2(cos(alpha) * z.x - sin(alpha) * z.z, sin(alpha) * z.x + cos(alpha) * z.z); // Y-axis rotation
 		z.yz = vec2(cos(beta) * z.y - sin(beta) * z.z, sin(beta) * z.y + cos(beta) * z.z);     // X-axis rotation
 
-		orbit_trap = min(orbit_trap, abs(dot(z, z)));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, abs(dot(z, z)));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(z));
 	}
 
 	return vec2(length(z) * pow(Scale, -float(n)), orbit_trap);

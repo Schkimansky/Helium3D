@@ -1,4 +1,33 @@
 #include "res://renderer/math.gdshaderinc"
+
+float process_orbit_trap(vec3 z) {
+	if (coloring_mode == 1) { return length(z); }
+	if (coloring_mode == 2) { return dot(z, z); }
+	if (coloring_mode == 3) { return sqrt(length(z)); }
+	if (coloring_mode == 4) { return sqrt(dot(z, z)); }
+	if (coloring_mode == 5) { return abs(length(z)); }
+	if (coloring_mode == 6) { return abs(dot(z, z)); }
+	if (coloring_mode == 7) { return log(length(z)); }
+	if (coloring_mode == 8) { return log(dot(z, z)); }
+	if (coloring_mode == 9) { return exp(length(z)); }
+	if (coloring_mode == 10) { return exp(dot(z, z)); }
+	return 0.0;
+}
+
+float process_orbit_trap4d(vec4 z) {
+	if (coloring_mode == 1) { return length(z); }
+	if (coloring_mode == 2) { return dot(z, z); }
+	if (coloring_mode == 3) { return sqrt(length(z)); }
+	if (coloring_mode == 4) { return sqrt(dot(z, z)); }
+	if (coloring_mode == 5) { return abs(length(z)); }
+	if (coloring_mode == 6) { return abs(dot(z, z)); }
+	if (coloring_mode == 7) { return log(length(z)); }
+	if (coloring_mode == 8) { return log(dot(z, z)); }
+	if (coloring_mode == 9) { return exp(length(z)); }
+	if (coloring_mode == 10) { return exp(dot(z, z)); }
+	return 0.0;
+}
+
 #include "formulas/mandelfractal.gdshaderinc"
 #include "formulas/mandelbox.gdshaderinc"
 #include "formulas/sierpinskitetrahedron.gdshaderinc"
@@ -32,7 +61,7 @@ vec2 single_fractal_sdf(int formula, vec3 p, float power) {
 	if (formula == 18) return pseudoklenian_sdf(p, power);
 	if (formula == 17) return mengersponge_sdf(p, power);
 	if (formula == 16) return mandelbox_sdf(p, power);
-	//if (formula <= 15) return mandelfractal(formula, p, power);
+	if (formula <= 15) return mandelfractal(formula, p, power);
 
 	return vec2(0.0, 0.0);
 }

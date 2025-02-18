@@ -48,7 +48,8 @@ vec2 pseudoklenian_sdf(vec3 pos, float power) {
 			else if (r2 > fpseudoklenian_max.w) q *= (fpseudoklenian_max.w / r2);
 			fractal_scale *= k1;
 		}
-		orbit_trap = min(orbit_trap, dot(q, q));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, dot(q, q));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(q));
 	}
 
 	float lxy = length(q.xy);

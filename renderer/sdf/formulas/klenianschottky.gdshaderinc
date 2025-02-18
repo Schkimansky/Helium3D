@@ -35,9 +35,12 @@ vec2 klenianschottky_sdf(vec3 pos, float power){
 	float s6r2 = s6.w * s6.w;
 	float dr = 1.0;
 	float scalingFactor = 0.04;
-	float orbit_trap = 0.0;
+	float orbit_trap = 10000.0;
 
 	for(int i = 0; i < iterations; i++){
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, dot(pos, pos));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(pos));
+
 		if (fastdist_sq(pos, s1.xyz) < s1r2){
 			vec3 diff = (pos - s1.xyz);
 			float diff_length_squared = dot(diff, diff);

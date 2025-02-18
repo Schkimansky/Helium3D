@@ -22,6 +22,7 @@ uniform float max_distance = 30.0;
 uniform float surface_distance = 0.000003;
 uniform float raystep_multiplier = 1.0;
 uniform sampler2D palette;
+uniform int coloring_mode = 0;
 
 group_uniforms fractal;
 uniform sampler2D bg_color;
@@ -206,6 +207,7 @@ uniform float vignette_radius = 0.8;
 // Glow
 uniform float glow_intensity: hint_range(0.0, 5.0) = 1.0;
 uniform vec3 glow_color: source_color = vec3(1.0, 0.5, 0.2);
+uniform sampler2D glow_palette;
 uniform float glow_threshold: hint_range(0.0, 100.0) = 30.0;
 uniform float glow_falloff: hint_range(1.0, 10.0) = 2.0;
 uniform bool super_glow = false;
@@ -262,15 +264,16 @@ vec3 calculate_normal(vec3 p) {
 
 vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 	vec3 data = ray_marcher(ray_origin, ray_dir);
-	float iterations_to_escape = data.x;
+	float orbit_trap_distance = data.x;
 	float dfo = data.y;
 	float total_marches = data.z;
-	vec3 palette_color = texture(palette, vec2((iterations_to_escape) * 3.0, 0.0)).xyz * 3.0;
+	vec3 palette_color = texture(palette, vec2((orbit_trap_distance) * 3.0, 0.0)).xyz * 3.0;
 	vec3 final_color;
 
 	if (dfo >= max_distance) {
 		float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
-		final_color = texture(bg_color, vec2(screen_uv.y, 0.0)).xyz * vignette;
+		float normalized_y = (normalize(ray_dir).y + 1.0) * 0.5;
+		final_color = texture(bg_color, vec2(clamp(normalized_y, 0.0, 1.0), 0)).xyz * vignette;
 	} else {
 		vec3 p = ray_origin + ray_dir * dfo;
 		vec3 normal = calculate_normal(p);
@@ -282,12 +285,19 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 		final_color = palette_color * ao * (light1 + light2);
 	}
 
+	//if (glow && float(total_marches) * raystep_multiplier > glow_threshold) {
+		//float final_glow_intensity = (glow_intensity - 0.2) * smoothstep(glow_threshold, 100.0, float(total_marches) * raystep_multiplier);
+		//vec3 final_glow_color = glow_color * 3.0;
+		//final_color += final_glow_color * pow(final_glow_intensity, glow_falloff);
+	//}
 	if (glow && float(total_marches) * raystep_multiplier > glow_threshold) {
-		float final_glow_intensity = (glow_intensity - 0.2) * smoothstep(glow_threshold, 100.0, float(total_marches) * raystep_multiplier);
-		vec3 final_glow_color = glow_color * 3.0;
+		vec3 palette_glow_color = texture(glow_palette, vec2(orbit_trap_distance * 3.0, 0.0)).xyz;
+		float glow_factor = smoothstep(glow_threshold, 100.0, float(total_marches) * raystep_multiplier);
+		float final_glow_intensity = (glow_intensity - 0.2) * glow_factor;
+		vec3 final_glow_color = palette_glow_color * 3.0;
 		final_color += final_glow_color * pow(final_glow_intensity, glow_falloff);
 	}
-
+	
 	float fog_distance = dfo < max_distance ? dfo : max_distance;
 	float fog_amount = 1.0 - exp(-fog_density * fog_distance);
 	final_color = mix(final_color, fog_color, pow(fog_amount, fog_falloff));
@@ -299,7 +309,7 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv) {
 
 	float vignette = smoothstep(vignette_radius, vignette_radius - vignette_strength, length(screen_uv - vec2(0.5)));
 	final_color *= vignette;
-
+	
 	return final_color;
 }
 

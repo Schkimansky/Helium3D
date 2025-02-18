@@ -133,3 +133,7 @@ func _on_fog_color_value_changed(to: Color) -> void: field_changed('fog_color', 
 func _on_fog_density_value_changed(to: float) -> void: field_changed('fog_density', to)
 func _on_fog_falloff_value_changed(to: float) -> void: field_changed('fog_falloff', to)
 func _on_palette_value_changed(to: Gradient) -> void: field_changed('palette', to)
+func _on_coloring_mode_value_changed(option: String) -> void: field_changed('coloring_mode', $PBR/Fields/Values/ColoringMode.index)
+func _on_refraction_intensity_value_changed(to: float) -> void: field_changed('refraction_intensity', to)
+func _on_refraction_sharpness_value_changed(to: float) -> void: field_changed('refraction_sharpness', to)
+func _on_glow_palette_value_changed(to: Gradient) -> void: field_changed('glow_palette', to)

@@ -62,8 +62,6 @@ func _process(delta: float) -> void:
 		scaling_3d_scale = high_scaling
 		render_target_update_mode = UPDATE_WHEN_VISIBLE
 	
-	print(render_target_update_mode, ' | Enum: ', UPDATE_ALWAYS)
-	
 	since_last_dynamic_update += delta
 	previous_update_mode = render_target_update_mode
 

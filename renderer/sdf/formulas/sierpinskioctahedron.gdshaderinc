@@ -21,7 +21,8 @@ vec2 sierpinskioctahedron_sdf(vec3 z, float scale) {
 		z.yz = vec2(cos(fsierpinskioctahedron_rotation.w) * z.y - sin(fsierpinskioctahedron_rotation.w) * z.z, sin(fsierpinskioctahedron_rotation.w) * z.y + cos(fsierpinskioctahedron_rotation.w) * z.z);
 
 		r = dot(z, z);
-		orbit_trap = min(orbit_trap, abs(r));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, abs(r));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(z));
 		n++;
 	}
 

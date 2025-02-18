@@ -34,7 +34,8 @@ vec2 sierpinskidodecahedron_sdf(vec3 z, float scale) {
 		z.yz = vec2(cos(fsierpinskidodecahedron_rotation.w) * z.y - sin(fsierpinskidodecahedron_rotation.w) * z.z, sin(fsierpinskidodecahedron_rotation.w) * z.y + cos(fsierpinskidodecahedron_rotation.w) * z.z);
 
 		r = dot(z, z);
-		orbit_trap = min(orbit_trap, abs(r));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, abs(r));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(z));
 		if (r > 1e6) break;
 	}
 

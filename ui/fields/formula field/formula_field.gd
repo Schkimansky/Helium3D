@@ -15,6 +15,11 @@ func _ready() -> void:
 	
 	Global.value_nodes.append(self)
 	for option in options:
+		if options.find(option) <= 15 and options.find(option) >= 4:
+			continue
+		if option.capitalize() == 'Klenian Schottky':
+			continue
+		
 		var fractal_preview := FRACTAL_PREVIEW_SCENE.instantiate()
 		fractal_preview.formula_id = options.find(option)
 		fractal_preview.formula_name = option.capitalize()

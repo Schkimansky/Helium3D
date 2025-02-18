@@ -5,7 +5,7 @@ float de_box(vec4 p, vec3 s) { vec3 a = abs(p.xyz) - s; return (min(max(max(a.x,
 vec2 mandelbox_sdf(vec3 pos, float power) {
 	vec4 p = vec4(pos, 1.0) * 4.0;
 	vec4 o = p;
-	float min_dist = 100000000.0;
+	float orbit_trap = 100000000.0;
 
 	for (int i = 0; i < iterations; i++) {
 		p = boxFold(p, fmandelbox_box_size);
@@ -15,8 +15,9 @@ vec2 mandelbox_sdf(vec3 pos, float power) {
 		p += sin(o - p) * fmandelbox_divisions;
 		p += vec4(sphereInversion(p.xyz, fmandelbox_sphere_reflection_position, fmandelbox_sphere_reflection), 0.0);
 
-		min_dist = min(min_dist, sphere_sdf4d(p, vec4(0.0, 0.0, 0.0, 0.0), 0.0));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, length(p));
+		else orbit_trap = min(orbit_trap, process_orbit_trap4d(p));
 	}
 
-	return vec2(de_box(p, vec3(10, 10, 10)), min_dist);
+	return vec2(de_box(p, vec3(10, 10, 10)), orbit_trap);
 }

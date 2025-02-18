@@ -37,14 +37,15 @@ vec2 mengersponge_sdf(vec3 p, float power) {
         if (p.y > p.x) p.yx = p.xy;
         if (p.z > p.y) p.zy = p.yz;
 
-		orbit_trap = min(orbit_trap, abs(dot(p, p)));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, abs(dot(p, p)));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(p));
 
         p *= scale;
         if (p.z > 0.5 * (scale - 1.0)) {
             //p -= (vec3(1) * (1.0 / power)) * (scale - 1.0);
             p -= vec3(1) * (scale - 1.0);
         } else {
-            //p -= (vec3(1.0, 1.0, 0.0) * (1.0 / power)) * (scale - 1.0);
+             //p -= (vec3(1.0, 1.0, 0.0) * (1.0 / power)) * (scale - 1.0);
             //p -= vec3(1, 1, 1) * (scale - 1.0);
             p -= vec3(1, 1, 0) * (scale - 1.0);
         }

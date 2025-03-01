@@ -4,52 +4,61 @@
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="2_788kb"]
 [ext_resource type="Script" path="res://ui/fields/formula field/formula_field.gd" id="2_t45rt"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_to7w2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7y4ma"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vo1nm"]
-bg_color = Color(0.355314, 0.355314, 0.355314, 0.0313726)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.356863, 0.356863, 0.356863, 0.0313726)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_20hyn"]
+bg_color = Color(0.0807833, 0.0807834, 0.0807832, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b7qpq"]
-bg_color = Color(0, 0, 0, 0.207843)
-border_width_left = 5
-border_width_top = 6
-border_width_right = 5
-border_width_bottom = 6
-border_color = Color(0, 0, 0, 0.207843)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e2s0f"]
 
 [node name="FormulaField" instance=ExtResource("1_idpb3")]
-anchor_right = 0.097
-anchor_bottom = 0.051
-offset_right = -0.150009
-offset_bottom = -0.0800018
+anchor_right = 0.2
+anchor_bottom = 0.054
+offset_right = 0.0
+offset_bottom = -3.32
 theme_override_constants/separation = 10
 script = ExtResource("2_t45rt")
 options = Array[String](["None", "Mandelbulb", "Juliabulb", "Burning Ship", "Hedgebulb", "Boxbloat", "Trenchbloat", "Basebox", "Starbloat", "Wingtail", "Tribulb", "Juliaswirl", "Trijulia", "Tangentjulia", "Juliabloat", "Juliaisland", "Mandelbox", "Mengersponge", "Pseudoklenian", "Amazingsurf", "Juliabulb4D", "Tetraglad", "Sierpinski Tetrahedron", "Sierpinski Tetrahedron 4D", "Mengerflake", "Frenselcube", "Frenselcube4D", "Sierpinski Dodecahedron", "Sierpinski Icosahedron", "Sierpinski Octahedron", "Baird Delta"])
 
-[node name="Button" type="Button" parent="." index="1"]
+[node name="HBoxContainer" type="HBoxContainer" parent="." index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Left" type="Button" parent="HBoxContainer" index="0"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_788kb")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxEmpty_to7w2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_vo1nm")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_b7qpq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_b7qpq")
-text = " Mandelbulb "
+text = " < "
 
-[node name="Popup" type="Popup" parent="." index="2"]
-title = "Select Fractal Formula"
+[node name="Label" type="Button" parent="HBoxContainer" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_788kb")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7y4ma")
+theme_override_styles/normal = SubResource("StyleBoxFlat_20hyn")
+text = "Selection field"
+
+[node name="Right" type="Button" parent="HBoxContainer" index="2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_788kb")
+theme_override_font_sizes/font_size = 20
+text = " > "
+
+[node name="Popup" type="Window" parent="." index="2"]
+title = "Select Formula"
 initial_position = 1
-size = Vector2i(1660, 770)
-borderless = false
-content_scale_factor = 1.4
+size = Vector2i(1000, 600)
+visible = false
+theme_override_constants/title_outline_size = 0
+theme_override_fonts/title_font = ExtResource("2_788kb")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Popup" index="0"]
+[node name="TabContainer" type="TabContainer" parent="Popup" index="0"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -57,14 +66,21 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/side_margin = 0
+theme_override_fonts/font = ExtResource("2_788kb")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_e2s0f")
+current_tab = 0
 
-[node name="GridContainer" type="GridContainer" parent="Popup/ScrollContainer" index="0"]
+[node name="Mandelbulb Variants" type="VBoxContainer" parent="Popup/TabContainer" index="1"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 1
-columns = 4
+metadata/_tab_index = 0
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="Label" type="Label" parent="." index="3"]
+visible = false
+layout_mode = 2
+text = "idea formula field, use selection field. but if we the button it opens a tree like structure to pick the formula, just like godots node adding menu."
+
+[connection signal="pressed" from="HBoxContainer/Left" to="." method="_on_left_pressed"]
+[connection signal="pressed" from="HBoxContainer/Label" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Right" to="." method="_on_right_pressed"]

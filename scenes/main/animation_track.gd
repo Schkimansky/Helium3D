@@ -7,14 +7,17 @@ var is_playing: bool = false
 var animation_frames_data: Array[Dictionary] = []
 var currently_at_frame: float = 0
 
+#func _ready() -> void:
+	#update_timeline()
+
 func _on_playing_toggle_button_pressed() -> void:
 	is_playing = not is_playing
 	
 	if is_playing:
 		update_animation_frames_data()
-		%PlayingToggleButton.text = 'Playing'
+		%PlayingToggleButton.icon = preload('res://resources/icons/pause-solid.svg')
 	else:
-		%PlayingToggleButton.text = 'Stopped'
+		%PlayingToggleButton.text = preload('res://resources/icons/play-solid.svg')
 		currently_at_frame = 0
 
 func update_animation_frames_data() -> void:
@@ -45,11 +48,8 @@ func update_animation_frames_data() -> void:
 				if field_name in end_data:
 					var start_val: Variant = start_data[field_name]
 					var end_val: Variant = end_data[field_name]
-					if end_val != start_val:
-						var interpolated_values: Array = interpolate_value(start_val, end_val, fps)
-						interpolated_data[field_name] = interpolated_values[j] if j < interpolated_values.size() else end_val
-					else:
-						interpolated_data[field_name] = start_val
+					var interpolated_values: Array = interpolate_value(start_val, end_val, fps)
+					interpolated_data[field_name] = interpolated_values[j] if j < interpolated_values.size() else end_val
 			
 			animation_frames_data.append(interpolated_data)
 	
@@ -71,8 +71,8 @@ func remove_keyframe(target_keyframe_data: Dictionary) -> void:
 	reload_keyframes()
 
 func reload_keyframes() -> void:
-	for child in $HBoxContainer.get_children():
-		$HBoxContainer.remove_child(child)
+	for child in %Keyframes.get_children():
+		%Keyframes.remove_child(child)
 	
 	for at_second in (keyframes.keys() as Array[float]):
 		var keyframe_data: Dictionary = keyframes[at_second]
@@ -82,7 +82,18 @@ func reload_keyframes() -> void:
 		
 		keyframe.data = keyframe_data
 		#keyframe.position.x = at_pixel
-		$HBoxContainer.add_child(keyframe)
+		%Keyframes.add_child(keyframe)
+
+func update_timeline() -> void:
+	for child in %Timeline.get_children():
+		%Timeline.remove_child(child)
+	
+	for i in 100 + 1:
+		var label: Label = Label.new()
+		label.add_theme_font_override('font', preload('res://resources/font/Rubik-SemiBold.ttf'))
+		label.add_theme_font_size_override('font_side', 15)
+		label.text = str(float(i))
+		%Timeline.add_child(label)
 
 func _process(delta: float) -> void:
 	if is_mouse_hovering and Input.is_action_just_pressed('mouse click') and has_focus():
@@ -91,13 +102,21 @@ func _process(delta: float) -> void:
 	if is_playing and currently_at_frame >= len(animation_frames_data):
 		is_playing = false
 		currently_at_frame = 0
-		%PlayingToggleButton.text = 'Stopped'
+		%PlayingToggleButton.icon = preload('res://resources/icons/play-solid.svg')
 		
 	if is_playing:
 		#print(currently_at_frame, ' | ', len(animation_frames_data))
 		# data, update_app_fields, use_lerp, update_keyframes, delta_multiplier
-		get_tree().current_scene.update_app_state(animation_frames_data[round(currently_at_frame)], true, false, false, 0.51, true) # true if currently_at_frame != 0 else false
+		get_tree().current_scene.update_app_state(animation_frames_data[round(currently_at_frame)], true, false, false, 0.51, true if currently_at_frame != 0 else false)
+		
+		# Save keyframe
+		var image: Image = %SubViewport.get_texture().get_image()
+		#if image:
+			#image.save_png('kf_' + str(currently_at_frame) + str('.png'))
+		
 		currently_at_frame += 1
+		%SubViewport.refresh_no_taa()
+
 
 func _on_mouse_entered() -> void: is_mouse_hovering = true
 func _on_mouse_exited() -> void: is_mouse_hovering = false
@@ -156,6 +175,14 @@ func interpolate_value(start: Variant, end: Variant, fps: int = 60, mode: Interp
 		else:
 			for i in range(fps):
 				result.append(start if i < fps - 1 else end)
+	elif start is Array and start.size() == end.size() and start.all(func(x: Variant) -> bool: return x is float) and end.all(func(x: Variant) -> bool: return x is float):
+		for i in range(fps):
+			var t: float = float(i) / (fps - 1.0)
+			var interpolated_t: float = apply_interpolation_mode(t, mode, bezier_control)
+			var interpolated_array: Array = []
+			for j in range(start.size()):
+				interpolated_array.append(lerp(start[j], end[j], interpolated_t))
+			result.append(interpolated_array)
 	
 	return result
 

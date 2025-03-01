@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=48 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
@@ -20,20 +20,15 @@
 [ext_resource type="PackedScene" uid="uid://4bx65d7nnvmf" path="res://ui/pages/formula page/formula_page.tscn" id="16_hfvnl"]
 [ext_resource type="Script" path="res://scenes/main/bottom_bar.gd" id="18_wb8t8"]
 [ext_resource type="Script" path="res://scenes/main/animation_track.gd" id="19_fsmeo"]
+[ext_resource type="Texture2D" uid="uid://bxxblx70rjx10" path="res://resources/icons/film.svg" id="20_grqpr"]
+[ext_resource type="Texture2D" uid="uid://dhq5jlac5844f" path="res://resources/icons/play-solid.svg" id="20_k1hov"]
 
-[sub_resource type="Gradient" id="Gradient_va8jq"]
+[sub_resource type="Gradient" id="Gradient_cgtrs"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_juagn"]
-gradient = SubResource("Gradient_va8jq")
-
-[sub_resource type="Gradient" id="Gradient_pgt4m"]
-offsets = PackedFloat32Array(0.222997, 0.820557)
-colors = PackedColorArray(0.370364, 0.370365, 0.370364, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_6av28"]
-gradient = SubResource("Gradient_pgt4m")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_aewml"]
+gradient = SubResource("Gradient_cgtrs")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
 render_priority = 0
@@ -54,11 +49,10 @@ shader_parameter/max_distance = 100.0
 shader_parameter/surface_distance = 0.0046
 shader_parameter/raystep_multiplier = 1.0
 shader_parameter/coloring_mode = 0
-shader_parameter/palette = SubResource("GradientTexture1D_6av28")
-shader_parameter/formulas = PackedInt32Array(27, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/formulas = PackedInt32Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/powers = PackedFloat32Array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
 shader_parameter/escape_radius = 2.0
-shader_parameter/bg_color = SubResource("GradientTexture1D_juagn")
+shader_parameter/bg_color = SubResource("GradientTexture1D_aewml")
 shader_parameter/fklenianschottky_base_sphere = Vector4(1.45519e-11, 1.45519e-11, 1.45519e-11, 5)
 shader_parameter/fklenianschottky_s_1 = Vector4(300, 300, 0, 300)
 shader_parameter/fklenianschottky_s_2 = Vector4(300, -300, 0, 300)
@@ -66,15 +60,6 @@ shader_parameter/fklenianschottky_s_3 = Vector4(-300, 300, 0, 300)
 shader_parameter/fklenianschottky_s_4 = Vector4(-300, -300, 0, 300)
 shader_parameter/fklenianschottky_s_5 = Vector4(0, 0, 424.26, 300)
 shader_parameter/fklenianschottky_s_6 = Vector4(0, 0, -424.26, 300)
-shader_parameter/fbairddelta_angle = 45.0
-shader_parameter/fbairddelta_rotation = Vector4(0, 0, 0, 0)
-shader_parameter/fbairddelta_folds = Vector4(1, 1, 0, 0)
-shader_parameter/fsierpinskioctahedron_rotation = Vector4(0, 0, 0, 0)
-shader_parameter/fsierpinskioctahedron_offset = Vector3(0, 0, 0)
-shader_parameter/fsierpinskidodecahedron_rotation = Vector4(0, 0, 0, 0)
-shader_parameter/fsierpinskidodecahedron_offset = Vector3(1, 1, 1)
-shader_parameter/fsierpinskiicosahedron_rotation = Vector4(0, 0, 0, 0)
-shader_parameter/fsierpinskiicosahedron_offset = Vector3(0, 0, 0)
 shader_parameter/ffrenselcube_rotation_x = 1.45519e-11
 shader_parameter/ffrenselcube_rotation_y = 1.45519e-11
 shader_parameter/ffrenselcube_thickness = 0.05
@@ -93,59 +78,13 @@ shader_parameter/fmengerflake_rotation_yi = 0.26
 shader_parameter/fmengerflake_offset = 0.5
 shader_parameter/fmengerflake_fold4_multiplier = 1.0
 shader_parameter/fmengerflake_fold5_multiplier = 1.0
-shader_parameter/fsierpinski_rotation_x = 0.0
-shader_parameter/fsierpinski_rotation_y = 0.0
 shader_parameter/fsierpinski4d_rotation_x = 0.0
 shader_parameter/fsierpinski4d_rotation_y = 0.0
 shader_parameter/fsierpinski4d_rotation_z = 0.0
-shader_parameter/fmengersponge_rotation_x = 0.0
-shader_parameter/fmengersponge_rotation_y = 0.0
-shader_parameter/ftetraglad_rotation_x = 0.0
-shader_parameter/ftetraglad_rotation_y = 0.0
-shader_parameter/fquaternion_c = Vector4(0.5, 0.5, 0.5, 0.5)
-shader_parameter/fpseudoklenian_min = Vector4(-0.8323, -0.694, -0.5045, 0.7777)
-shader_parameter/fpseudoklenian_max = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
-shader_parameter/fpseudoklenian_inversion_sphere = Vector4(1, 1, 1, 1)
-shader_parameter/fpseudoklenian_invert = false
-shader_parameter/fpseudoklenian_scaling_mode = 1
-shader_parameter/fpseudoklenian_fold_mode = 1
-shader_parameter/fpseudoklenian_rotation_x = 1.0
-shader_parameter/fpseudoklenian_rotation_y = 1.0
-shader_parameter/fpseudoklenian_symmetry = 6.0
-shader_parameter/famazingsurf_c = Vector3(-1, -1, -1)
-shader_parameter/famazingsurf_mode = 1
-shader_parameter/famazingsurf_fold_x = 1.0
-shader_parameter/famazingsurf_fold_y = 1.0
-shader_parameter/famazingsurf_rotation_angle = 0.0
-shader_parameter/famazingsurf_rotation_vector = Vector3(1, 1, 1)
-shader_parameter/famazingsurf_min_radius = 0.25
-shader_parameter/famazingsurf_translation = Vector3(0, 0, 0)
 shader_parameter/fjuliabulb_c = Vector3(0.919, 1.805, -0.846)
-shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
-shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
-shader_parameter/fmandelbox_sphere_reflection = 0.0
-shader_parameter/fmandelbox_spread = 1.0
-shader_parameter/fmandelbox_stoneness = 0.0
-shader_parameter/fmandelbox_divisions = 0.0
-shader_parameter/fmandelbox_sphere_reflection_position = Vector3(0, 0, 0)
 shader_parameter/fhedgebulb_cosine_offset = 0.0
 shader_parameter/fhedgebulb_cosine_multiplier = 1.0
 shader_parameter/fhedgebulb_sine_multiplier = 0.0
-shader_parameter/fboxbloat_cosine_multiplier = 1.0
-shader_parameter/fboxbloat_abs_multiplier = 1.0
-shader_parameter/ftrenchbloat_cosine_multiplier1 = 1.0
-shader_parameter/ftrenchbloat_cosine_multiplier2in = 1.0
-shader_parameter/ftrenchbloat_cosine_multiplier2out = 1.0
-shader_parameter/fbasebox_tan_multiplier = 1.0
-shader_parameter/fbasebox_abs_multiplier = 1.0
-shader_parameter/fbasebox_cosine_multiplier1 = 1.0
-shader_parameter/fbasebox_cosine_multiplier2 = 1.0
-shader_parameter/fstarbulb_adder = Vector3(1, 1, 1)
-shader_parameter/fstarbulb_multiplier = Vector3(1, 1, 1)
-shader_parameter/fwingtail_adder = Vector3(0, 0, 1)
-shader_parameter/fwingtail_multiplier = Vector3(1.5, 1, 1)
-shader_parameter/ftribulb_multiplier1 = Vector3(1, 1, 1)
-shader_parameter/ftribulb_multiplier2 = Vector3(1, 1, 1)
 shader_parameter/fjuliaswirl_c = Vector3(1, 1, 1)
 shader_parameter/fjuliaswirl_csqrt_multiplier = Vector3(1, 1, 1)
 shader_parameter/ftrijulia_c = Vector3(1, 1, 1)
@@ -181,11 +120,89 @@ shader_parameter/fog_density = 1.45519e-11
 shader_parameter/fog_falloff = 2.139
 shader_parameter/refraction_intensity = 4.0
 shader_parameter/refraction_sharpness = 4.54
+shader_parameter/metallicness = -0.118
+shader_parameter/min_step_size = 0.0
+shader_parameter/fresnel_color = Vector3(0, 0.7, 1)
+shader_parameter/fresnel_falloff = 5.0
+shader_parameter/fresnel_intensity = 4.5
+shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
+shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
+shader_parameter/fmandelbox_sphere_reflection = 0.0
+shader_parameter/fmandelbox_spread = 1.0
+shader_parameter/fmandelbox_stoneness = 0.0
+shader_parameter/fmandelbox_divisions = 0.0
+shader_parameter/fmandelbox_sphere_reflection_position = Vector3(0, 0, 0)
+shader_parameter/fsierpinski_rotation_x = 0.0
+shader_parameter/fsierpinski_rotation_y = 0.0
+shader_parameter/ftetraglad_rotation_x = 0.0
+shader_parameter/ftetraglad_rotation_y = 0.0
+shader_parameter/fmengersponge_rotation1 = null
+shader_parameter/fmengersponge_rotation2 = null
+shader_parameter/fmengersponge_offset = null
+shader_parameter/fpseudoklenian_min = Vector4(-0.8323, -0.694, -0.5045, 0.7777)
+shader_parameter/fpseudoklenian_max = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
+shader_parameter/fpseudoklenian_inversion_sphere = Vector4(1, 1, 1, 1)
+shader_parameter/fpseudoklenian_invert = false
+shader_parameter/fpseudoklenian_sign = null
+shader_parameter/famazingsurf_mode = 1
+shader_parameter/famazingsurf_fold_x = 1.0
+shader_parameter/famazingsurf_fold_y = 1.0
+shader_parameter/famazingsurf_rotation_angle = 0.0
+shader_parameter/famazingsurf_rotation_vector = Vector3(1, 1, 1)
+shader_parameter/famazingsurf_c = Vector3(-1, -1, -1)
+shader_parameter/famazingsurf_min_radius = 0.25
+shader_parameter/famazingsurf_translation = Vector3(0, 0, 0)
+shader_parameter/fjuliabulb4d_c = Vector4(0.5, 0.5, 0.5, 0.5)
+shader_parameter/fsierpinskidodecahedron_rotation = Vector4(0, 0, 0, 0)
+shader_parameter/fsierpinskidodecahedron_offset = Vector3(1, 1, 1)
+shader_parameter/fsierpinskidodecahedron_cscale = Vector3(1, 1.5, 1)
+shader_parameter/fsierpinskiicosahedron_rotation = Vector4(0, 0, 0, 0)
+shader_parameter/fsierpinskiicosahedron_offset = Vector3(0, 0, 0)
+shader_parameter/fsierpinskiicosahedron_cscale = Vector3(1, 1, 1)
+shader_parameter/fsierpinskioctahedron_rotation = Vector4(0, 0, 0, 0)
+shader_parameter/fsierpinskioctahedron_offset = Vector3(0, 0, 0)
+shader_parameter/fsierpinskioctahedron_fold_mode = 0
+shader_parameter/fbairddelta_angle = 45.0
+shader_parameter/fbairddelta_rotation = Vector4(0, 0, 0, 0)
+shader_parameter/fbairddelta_folds = Vector4(1, 1, 0, 0)
+shader_parameter/fklenian_x = 1.8
+shader_parameter/fklenian_y = 1.8
+shader_parameter/fklenian_box_size_x = 1.0
+shader_parameter/fklenian_box_size_z = 1.0
+shader_parameter/fklenian_slice_start = -1.0
+shader_parameter/fklenian_slice_end = 1.0
+shader_parameter/fklenian_fractal_size = 1.1
+shader_parameter/fklenian_sphere_inversion = true
+shader_parameter/fklenian_inversion_sphere = Vector4(1, 0.96, 0, 0.8)
+shader_parameter/fspheretree_symmetry = 1.0
+shader_parameter/fspheretree_spikeness = 0.0
+shader_parameter/fspheretree_twist = null
+shader_parameter/fkaliredux_folds = null
+shader_parameter/fkaliredux_minus = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
 size = Vector3(4000, 4000, -4000)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_suufn"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_aai6c"]
+dof_blur_far_distance = 115.51
+dof_blur_far_transition = 66.15
+
+[sub_resource type="Environment" id="Environment_4uuy8"]
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_levels/6 = 1.0
+glow_levels/7 = 1.0
+glow_intensity = 0.36
+glow_strength = 0.82
+glow_bloom = 1.0
+glow_blend_mode = 0
+glow_hdr_threshold = 4.0
+glow_hdr_scale = 0.94
+glow_map_strength = 1.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p0jhq"]
 
@@ -235,7 +252,10 @@ spacing_top = 1
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i63gn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bo68"]
-bg_color = Color(0.10748, 0.10748, 0.10748, 1)
+bg_color = Color(0, 0, 0, 0.231373)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_21pjj"]
+bg_color = Color(0, 0, 0, 0.160784)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rt3fx"]
 content_margin_left = 8.0
@@ -297,7 +317,11 @@ shape = SubResource("SphereShape3D_suufn")
 [node name="Head" type="Node3D" parent="SubViewport/Player"]
 
 [node name="Camera" type="Camera3D" parent="SubViewport/Player/Head"]
+attributes = SubResource("CameraAttributesPractical_aai6c")
 current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
+environment = SubResource("Environment_4uuy8")
 
 [node name="DummyFocusButton" type="Button" parent="."]
 unique_name_in_owner = true
@@ -449,7 +473,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
-text = " Quality:  "
+text = " Rendering Mode:  "
 
 [node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Quality"]
 custom_minimum_size = Vector2(220, 1.45519e-11)
@@ -494,7 +518,7 @@ size_flags_stretch_ratio = 2.1
 theme_override_constants/side_margin = 0
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
-current_tab = 2
+current_tab = 3
 drag_to_rearrange_enabled = true
 script = ExtResource("9_7154d")
 
@@ -636,7 +660,6 @@ theme_override_fonts/font = SubResource("FontVariation_sjns5")
 text = "
 Glow Palette: 
 
-
 "
 vertical_alignment = 1
 
@@ -647,6 +670,36 @@ theme_override_constants/line_spacing = -15
 theme_override_fonts/font = ExtResource("8_rhsly")
 text = "
 Super Glow:
+
+"
+
+[node name="BloomIntensity" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Bloom Intensity:
+
+"
+
+[node name="BloomFalloff" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Bloom Falloff:
+
+"
+
+[node name="BloomMode" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -15
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Bloom Mode:
 
 "
 
@@ -684,7 +737,7 @@ value = 0.165
 [node name="VignetteStrength" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
 range = Vector2(0, 1)
-value = 0.7
+value = 0.292
 
 [node name="VignetteRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
 layout_mode = 2
@@ -716,6 +769,18 @@ colors = PackedColorArray(1, 1, 1, 1)
 
 [node name="SuperGlow" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("14_twvqf")]
 layout_mode = 2
+
+[node name="BloomIntensity" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(1.45519e-11, 4)
+
+[node name="BloomFalloff" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(1.45519e-11, 4)
+
+[node name="BloomMode" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("6_50v3j")]
+layout_mode = 2
+options = Array[String](["Additive", "Screen", "Softlight", "Replace", "Mix"])
 
 [node name="Formula" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
 visible = false
@@ -789,6 +854,7 @@ disabled = true
 text = " Remove "
 
 [node name="Rendering" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -946,7 +1012,6 @@ layout_mode = 2
 value = Vector3(-10, -10, 10)
 
 [node name="PBR" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -959,7 +1024,7 @@ layout_mode = 2
 
 [node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/PBR/Fields"]
 layout_mode = 2
-theme_override_constants/separation = -15
+theme_override_constants/separation = -13
 
 [node name="Palette" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
 layout_mode = 2
@@ -1009,6 +1074,39 @@ Refraction Sharpness:
 "
 vertical_alignment = 1
 
+[node name="FresnelColor" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -12
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Fresnel Color:
+
+
+"
+
+[node name="FresnelFalloff" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -12
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Fresnel Falloff:
+
+
+"
+
+[node name="FresnelIntensity" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/line_spacing = -12
+theme_override_fonts/font = ExtResource("8_rhsly")
+text = "
+Fresnel Intensity:
+
+
+"
+
 [node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/PBR/Fields"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1032,8 +1130,21 @@ layout_mode = 2
 range = Vector2(1.45519e-11, 200)
 value = 40.0
 
+[node name="FresnelColor" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("10_to5n1")]
+layout_mode = 2
+value = Color(1, 1, 1, 1)
+
+[node name="FresnelFalloff" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(1.45519e-11, 5)
+value = 5.0
+
+[node name="FresnelIntensity" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("9_d1f4f")]
+layout_mode = 2
+range = Vector2(1.45519e-11, 2)
+value = 0.017
+
 [node name="BottomBar" type="TabContainer" parent="UI"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
@@ -1041,6 +1152,7 @@ theme_override_constants/side_margin = 0
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_i63gn")
 theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_8bo68")
+theme_override_styles/panel = SubResource("StyleBoxFlat_21pjj")
 theme_override_styles/tab_selected = SubResource("StyleBoxFlat_rt3fx")
 theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_vljsl")
 theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_vljsl")
@@ -1058,6 +1170,7 @@ metadata/_tab_index = 0
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/BottomBar/Animation/ControlButtons"]
@@ -1066,16 +1179,18 @@ layout_mode = 2
 [node name="PlayingToggleButton" type="Button" parent="UI/BottomBar/Animation/ControlButtons/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/icon_max_width = 12
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_gubch")
-text = "Stopped"
+icon = ExtResource("20_k1hov")
 
 [node name="AddKeyframeButton" type="Button" parent="UI/BottomBar/Animation/ControlButtons/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/icon_max_width = 16
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_gubch")
-text = "Add Keyframe"
+icon = ExtResource("20_grqpr")
 
 [node name="AnimationTrack" type="MarginContainer" parent="UI/BottomBar/Animation"]
 unique_name_in_owner = true
@@ -1087,8 +1202,24 @@ theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 6
 script = ExtResource("19_fsmeo")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/BottomBar/Animation/AnimationTrack"]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/BottomBar/Animation/AnimationTrack"]
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/BottomBar/Animation/AnimationTrack/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Timeline" type="HBoxContainer" parent="UI/BottomBar/Animation/AnimationTrack/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 93
+
+[node name="Keyframes" type="HBoxContainer" parent="UI/BottomBar/Animation/AnimationTrack/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
 
 [connection signal="confirmed" from="FileDialog" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_file_dialog_confirmed"]
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Save" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_pressed"]
@@ -1115,6 +1246,9 @@ layout_mode = 2
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowFalloff" to="UI/HBoxContainer/TabContainer" method="_on_glow_falloff_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowPalette" to="UI/HBoxContainer/TabContainer" method="_on_glow_palette_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/SuperGlow" to="UI/HBoxContainer/TabContainer" method="_on_super_glow_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/BloomIntensity" to="UI/HBoxContainer/TabContainer" method="_on_bloom_intensity_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/BloomFalloff" to="UI/HBoxContainer/TabContainer" method="_on_bloom_falloff_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/BloomMode" to="UI/HBoxContainer/TabContainer" method="_on_bloom_mode_value_changed"]
 [connection signal="pressed" from="UI/HBoxContainer/TabContainer/Formula/Buttons/AddFormula" to="UI/HBoxContainer/TabContainer" method="_on_add_formula_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/TabContainer/Formula/Buttons/RemoveFormula" to="UI/HBoxContainer/TabContainer" method="_on_remove_formula_pressed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
@@ -1131,6 +1265,9 @@ layout_mode = 2
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/ColoringMode" to="UI/HBoxContainer/TabContainer" method="_on_coloring_mode_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/RefractionIntensity" to="UI/HBoxContainer/TabContainer" method="_on_refraction_intensity_value_changed"]
 [connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/RefractionSharpness" to="UI/HBoxContainer/TabContainer" method="_on_refraction_sharpness_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/FresnelColor" to="UI/HBoxContainer/TabContainer" method="_on_fresnel_color_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/FresnelFalloff" to="UI/HBoxContainer/TabContainer" method="_on_fresnel_falloff_value_changed"]
+[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/FresnelIntensity" to="UI/HBoxContainer/TabContainer" method="_on_fresnel_intensity_value_changed"]
 [connection signal="tab_changed" from="UI/BottomBar" to="UI/BottomBar" method="_on_tab_changed"]
 [connection signal="pressed" from="UI/BottomBar/Animation/ControlButtons/HBoxContainer/PlayingToggleButton" to="UI/BottomBar/Animation/AnimationTrack" method="_on_playing_toggle_button_pressed"]
 [connection signal="pressed" from="UI/BottomBar/Animation/ControlButtons/HBoxContainer/AddKeyframeButton" to="UI/BottomBar/Animation/AnimationTrack" method="_on_add_keyframe_button_pressed"]

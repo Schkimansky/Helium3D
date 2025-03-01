@@ -1,4 +1,4 @@
-#include "res://renderer/sdf/fractalsdf.gdshaderinc"
+//#include "res://renderer/sdf/fractalsdf.gdshaderinc"
 
 float calculate_ambient_occlusion(vec3 p, vec3 normal) {
 	float occlusion = 0.0;

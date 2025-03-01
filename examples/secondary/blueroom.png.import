@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2m0dggqu4w8e"
-path="res://.godot/imported/sliders.svg-3d88e34fe95b06978b70c8f3c0238c16.ctex"
+uid="uid://brihdsuo33d8x"
+path="res://.godot/imported/blueroom.png-53f2261a133e3d5d1dd4c1506f11a2b7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/icons/sliders.svg"
-dest_files=["res://.godot/imported/sliders.svg-3d88e34fe95b06978b70c8f3c0238c16.ctex"]
+source_file="res://examples/secondary/blueroom.png"
+dest_files=["res://.godot/imported/blueroom.png-53f2261a133e3d5d1dd4c1506f11a2b7.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.07
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

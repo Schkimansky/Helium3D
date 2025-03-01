@@ -12,7 +12,7 @@ signal value_changed(to: float)
 @export var value: float = 0.0:
 	set(v):
 		value = v
-		$HSlider.value = (value)
+		$HSlider.value = value
 		$LineEdit.text = format_float(v)
 
 func format_float(float_value: float) -> String:

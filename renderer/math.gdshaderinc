@@ -1,12 +1,56 @@
 const float golden_ratio = (1.0 + sqrt(5.0)) * 0.5;
 
-vec3 rotate3d_point(vec3 z, vec4 rotation, bool is_before) {
-	float rotation_x = is_before ? rotation.x : rotation.z;
-	float rotation_y = is_before ? rotation.y : rotation.w;
-	z.xz = vec2(cos(rotation_x) * z.x - sin(rotation_x) * z.z, sin(rotation_x) * z.x + cos(rotation_x) * z.z);
-	z.yz = vec2(cos(rotation_y) * z.y - sin(rotation_y) * z.z, sin(rotation_y) * z.y + cos(rotation_y) * z.z);
+vec3 repeat(vec3 p, vec3 spacing) {
+	return mod(p + 0.5 * spacing, spacing) - 0.5 * spacing;
+}
 
-	return z;
+float process_orbit_trap(vec3 z) {
+	if (coloring_mode == 1) { return length(z); }
+	if (coloring_mode == 2) { return dot(z, z); }
+	if (coloring_mode == 3) { return sqrt(length(z)); }
+	if (coloring_mode == 4) { return sqrt(dot(z, z)); }
+	if (coloring_mode == 5) { return abs(length(z)); }
+	if (coloring_mode == 6) { return abs(dot(z, z)); }
+	if (coloring_mode == 7) { return log(length(z)); }
+	if (coloring_mode == 8) { return log(dot(z, z)); }
+	if (coloring_mode == 9) { return exp(length(z)); }
+	if (coloring_mode == 10) { return exp(dot(z, z)); }
+	return 0.0;
+}
+
+float process_orbit_trap4d(vec4 z) {
+	if (coloring_mode == 1) { return length(z); }
+	if (coloring_mode == 2) { return dot(z, z); }
+	if (coloring_mode == 3) { return sqrt(length(z)); }
+	if (coloring_mode == 4) { return sqrt(dot(z, z)); }
+	if (coloring_mode == 5) { return abs(length(z)); }
+	if (coloring_mode == 6) { return abs(dot(z, z)); }
+	if (coloring_mode == 7) { return log(length(z)); }
+	if (coloring_mode == 8) { return log(dot(z, z)); }
+	if (coloring_mode == 9) { return exp(length(z)); }
+	if (coloring_mode == 10) { return exp(dot(z, z)); }
+	return 0.0;
+}
+
+vec3 rotate3d_point(vec3 p, vec3 rot) {
+	if (length(rot) <= 0.00001) return p;
+	
+	p.xz = vec2(cos(rot.x) * p.x - sin(rot.x) * p.z, sin(rot.x) * p.x + cos(rot.x) * p.z);
+	p.yz = vec2(cos(rot.y) * p.y - sin(rot.y) * p.z, sin(rot.y) * p.y + cos(rot.y) * p.z);
+	p.xy = vec2(cos(rot.z) * p.x - sin(rot.z) * p.y, sin(rot.z) * p.x + cos(rot.z) * p.y);
+	
+	return p;
+}
+
+vec4 rotate4d_point(vec4 p, vec4 rot) {
+	if (length(rot) <= 0.00001) return p;
+	
+	p.xw = vec2(cos(rot.x) * p.x - sin(rot.x) * p.w, sin(rot.x) * p.x + cos(rot.x) * p.w);
+	p.yw = vec2(cos(rot.y) * p.y - sin(rot.y) * p.w, sin(rot.y) * p.y + cos(rot.y) * p.w);
+	p.zw = vec2(cos(rot.z) * p.z - sin(rot.z) * p.w, sin(rot.z) * p.z + cos(rot.z) * p.w);
+	p.xy = vec2(cos(rot.w) * p.x - sin(rot.w) * p.y, sin(rot.w) * p.x + cos(rot.w) * p.y);
+	
+	return p;
 }
 
 float fast_acos(float x) {

@@ -33,6 +33,9 @@ func set_block_offset(new_offset: float) -> void:
 	$"../../..".changed_gradient()
 
 func _process(delta: float) -> void:
+	if not is_instance_valid(self):
+		return
+	
 	if Engine.get_frames_drawn() == 0:
 		reload_position()
 	

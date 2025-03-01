@@ -1,4 +1,8 @@
-#include "res://renderer/sdf/fractalsdf.gdshaderinc"
+// float z_mul[-1.0, 1.0] = 1.0
+// int z_mul[-1, 1] = 1
+// vec3 z_mul[(-1 -1 -1), (1 1 1)] = (1 1 1)
+// vec4 z_mul[(-1 -1 -1 -1), (1 1 1 1)] = (1 1 1 1)
+// selection fold_mode[Pinski Fold, Menger Fold, Dodeca Fold] = Pinski Fold
 
 float soft_shadow(vec3 p, vec3 light_pos, float k) {
 	vec3 rd = normalize(light_pos - p);

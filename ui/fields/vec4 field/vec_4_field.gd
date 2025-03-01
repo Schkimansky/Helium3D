@@ -25,6 +25,8 @@ func _ready() -> void:
 	%W.value = value.w
 	value_changed.emit(value)
 
+func i_am_a_vec4_field() -> void: pass
+
 func _on_x_value_changed(to: float) -> void: value.x = to
 func _on_y_value_changed(to: float) -> void: value.y = to
 func _on_z_value_changed(to: float) -> void: value.z = to

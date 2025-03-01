@@ -27,6 +27,10 @@ var total_visible_formulas: int = 1:
 			$Formula/Buttons/AddFormula.disabled = false
 			$Formula/Buttons/RemoveFormula.disabled = false
 
+func _ready() -> void:
+	await get_tree().process_frame
+	set_formula('mandelbulb', 1)
+
 func field_changed(field_name: String, value: Variant) -> void:
 	if value is EncodedObjectAsID:
 		value = instance_from_id(value.object_id)
@@ -104,10 +108,27 @@ func update_field_values(new_fields: Dictionary) -> void:
 				target_value_node.emit_signal('value_changed', target_value_node.options[target_value_node.index])
 			continue
 		
-		if not target_value_node.has_method('i_am_a_selection_field'):
+		if not target_value_node.has_method('i_am_a_selection_field') and not target_value_node.has_method('i_am_a_palette_field'):
 			target_value_node.value = field_val
+		elif target_value_node.has_method('i_am_a_palette_field'):
+			target_value_node.set_value(PackedFloat32Array(field_val.gradient.offsets), PackedColorArray(field_val.gradient.colors))
 		else:
 			target_value_node.index = field_val - 1
+
+func _on_bloom_intensity_value_changed(to: float) -> void: 
+	var env: Environment = %SubViewport.get_node('WorldEnvironment').environment
+	env.glow_bloom = to
+	%SubViewport.refresh_taa()
+
+func _on_bloom_falloff_value_changed(to: float) -> void: 
+	var env: Environment = %SubViewport.get_node('WorldEnvironment').environment
+	env.glow_strength = to
+	%SubViewport.refresh_taa()
+
+func _on_bloom_mode_value_changed(option: String) -> void:
+	var env: Environment = %SubViewport.get_node('WorldEnvironment').environment
+	env.glow_blend_mode = $"Post Processing/Fields/Values/BloomMode".index
+	%SubViewport.refresh_taa()
 
 func _on_ambient_occlusion_steps_value_changed(to: float) -> void: field_changed('ambient_occlusion_steps', to)
 func _on_ambient_occlusion_radius_value_changed(to: float) -> void: field_changed('ambient_occlusion_radius', to)
@@ -137,3 +158,6 @@ func _on_coloring_mode_value_changed(option: String) -> void: field_changed('col
 func _on_refraction_intensity_value_changed(to: float) -> void: field_changed('refraction_intensity', to)
 func _on_refraction_sharpness_value_changed(to: float) -> void: field_changed('refraction_sharpness', to)
 func _on_glow_palette_value_changed(to: Gradient) -> void: field_changed('glow_palette', to)
+func _on_fresnel_color_value_changed(to: Color) -> void: field_changed('fresnel_color', to)
+func _on_fresnel_falloff_value_changed(to: float) -> void: field_changed('fresnel_falloff', to)
+func _on_fresnel_intensity_value_changed(to: float) -> void: field_changed('fresnel_intensity', to)

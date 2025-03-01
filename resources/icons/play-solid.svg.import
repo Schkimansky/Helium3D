@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cq4f6ajjao3rj"
-path="res://.godot/imported/square-plus-regular.svg-7d7f158533a91928296ecf430dc13564.ctex"
+uid="uid://dhq5jlac5844f"
+path="res://.godot/imported/play-solid.svg-86fe1c162523d91f1093703c21ca60bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/icons/square-plus-regular.svg"
-dest_files=["res://.godot/imported/square-plus-regular.svg-7d7f158533a91928296ecf430dc13564.ctex"]
+source_file="res://resources/icons/play-solid.svg"
+dest_files=["res://.godot/imported/play-solid.svg-86fe1c162523d91f1093703c21ca60bf.ctex"]
 
 [params]
 
@@ -32,6 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.07
+svg/scale=1.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

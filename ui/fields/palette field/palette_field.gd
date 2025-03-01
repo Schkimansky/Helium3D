@@ -11,6 +11,8 @@ func _ready() -> void:
 	set_value(offsets, colors)
 	changed_gradient()
 
+func i_am_a_palette_field() -> void: pass
+
 func set_value(offsets: PackedFloat32Array, colors: PackedColorArray) -> void:
 	for block in %Blocks.get_children():
 		%Blocks.remove_child(block)
@@ -33,7 +35,6 @@ func changed_gradient() -> void:
 		colors.append(block.color)
 	
 	var gradient: Gradient = Gradient.new()
-	print('gradient colors: ', colors)
 	gradient.offsets = offsets
 	gradient.colors = colors
 	

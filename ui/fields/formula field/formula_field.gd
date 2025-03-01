@@ -2,34 +2,44 @@ extends HBoxContainer
 
 signal value_changed(option: String)
 
-const FRACTAL_PREVIEW_SCENE := preload('res://ui/fields/formula field fractal preview/fractal_preview.tscn')
-#@export var library 
-@export var options: Array[String]
+@export var options: Array[String] = []
 @export var index: int = 0:
 	set(value):
+		if value < 0: value = len(options) - 1
+		if value > len(options) - 1: value = 0
 		index = value
-		select_formula(index)
+		$HBoxContainer/Label.text = options[index]
 
 func _ready() -> void:
-	# options = get_parent().get_parent().get_parent().FORMULAS
-	
 	Global.value_nodes.append(self)
-	for option in options:
-		if options.find(option) <= 15 and options.find(option) >= 4:
-			continue
-		if option.capitalize() == 'Klenian Schottky':
-			continue
-		
-		var fractal_preview := FRACTAL_PREVIEW_SCENE.instantiate()
-		fractal_preview.formula_id = options.find(option)
-		fractal_preview.formula_name = option.capitalize()
-		%GridContainer.add_child(fractal_preview)
-
-func select_formula(formula_id: int) -> void:
-	$Button.text = options[index]
+	$HBoxContainer/Label.text = options[index]
 	value_changed.emit(options[index])
+	
+	for option in options:
+		const FRACTAL_PREVIEW_SCENE = preload('res://ui/fields/formula field fractal preview/fractal_preview.tscn')
+		var preview: Node = FRACTAL_PREVIEW_SCENE.instantiate()
+		preview.formula_name = option
+		preview.formula_id = options.find(option)
+		%"Mandelbulb Variants".add_child(preview)
 
 func i_am_a_selection_field() -> void: pass
+
+func _on_left_pressed() -> void:
+	index -= 1
+	if index < 0:
+		index = len(options) - 1
+	
+	$HBoxContainer/Label.text = options[index]
+	value_changed.emit(options[index])
+
+func _on_right_pressed() -> void:
+	index += 1
+	
+	if index > len(options) - 1:
+		index = 0
+	
+	$HBoxContainer/Label.text = options[index]
+	value_changed.emit(options[index])
 
 func _on_button_pressed() -> void:
 	$Popup.show()

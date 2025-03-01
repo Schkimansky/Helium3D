@@ -11,7 +11,7 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="Field" instance=ExtResource("1_dylg4")]
+[node name="SelectionField" instance=ExtResource("1_dylg4")]
 offset_right = 202.72
 offset_bottom = -66.16
 script = ExtResource("2_xel7h")

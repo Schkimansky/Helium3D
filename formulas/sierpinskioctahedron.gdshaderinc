@@ -1,3 +1,12 @@
+// [ID]
+// sierpinskioctahedron
+// [INDEX]
+// 8
+// [VARS]
+// [CODE]
+uniform vec4 fsierpinskioctahedron_rotation = vec4(0.0, 0.0, 0.0, 0.0);
+uniform vec3 fsierpinskioctahedron_offset = vec3(0.0, 0.0, 0.0);
+uniform int fsierpinskioctahedron_fold_mode = 0;
 
 vec2 sierpinskioctahedron_sdf(vec3 z, float scale) {
 	vec3 offset = fsierpinskioctahedron_offset;

@@ -12,6 +12,11 @@ signal value_changed(option: String)
 		
 		#value_changed.emit(options[index])
 
+func set_options(new_options: Variant) -> void:
+	options = []
+	for item in (new_options as Array[String]):
+		options.append(str(item))
+
 func _ready() -> void:
 	Global.value_nodes.append(self)
 	$HBoxContainer/Label.text = options[index]

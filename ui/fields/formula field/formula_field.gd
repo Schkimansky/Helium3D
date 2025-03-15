@@ -42,4 +42,5 @@ func _on_right_pressed() -> void:
 	value_changed.emit(options[index])
 
 func _on_button_pressed() -> void:
-	$Popup.show()
+	#$Popup.show()
+	pass

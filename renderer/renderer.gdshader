@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded;
+//render_mode unshaded;
 
 group_uniforms shadows;
 uniform float self_shadow_bias = 0.01;
@@ -15,126 +15,21 @@ uniform vec3 light1_color: source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light2_color: source_color = vec3(1.0, 1.0, 1.0);
 
 group_uniforms coloring;
+uniform sampler2D palette;
+uniform int coloring_mode = 0;
 uniform int iterations = 8;
 uniform int max_steps = 120;
 uniform float ambient_light = 0.08;
 uniform float max_distance = 30.0;
-uniform float surface_distance = 0.000003;
 uniform float raystep_multiplier = 1.0;
-uniform sampler2D palette;
-uniform int coloring_mode = 0;
+uniform float surface_distance = 0.000003;
+uniform bool relative_epsilon = false;
 
 group_uniforms fractal;
 uniform sampler2D bg_color;
 uniform int formulas[10];
-//uniform float formula_weights[10];
 uniform float powers[10];
 uniform float escape_radius = 8.0;
-
-//group_uniforms mandelbulb;
-//uniform int fmandelbulb_variantaaaaaaaaaaaaaaaaa
-// Klenian schottky
-group_uniforms klenianschottky;
-uniform vec4 fklenianschottky_base_sphere = vec4(0, 0, 0, 125);
-uniform vec4 fklenianschottky_s_1 = vec4(300, 300, 0, 300);
-uniform vec4 fklenianschottky_s_2 = vec4(300, -300, 0, 300);
-uniform vec4 fklenianschottky_s_3 = vec4(-300, 300, 0, 300);
-uniform vec4 fklenianschottky_s_4 = vec4(-300, -300, 0, 300);
-uniform vec4 fklenianschottky_s_5 = vec4(0, 0, 424.26, 300);
-uniform vec4 fklenianschottky_s_6 = vec4(0, 0, -424.26, 300);
-// Frenselcube
-group_uniforms fresnelcube;
-uniform float ffrenselcube_rotation_x = 1.3;
-uniform float ffrenselcube_rotation_y = 0.0;
-uniform float ffrenselcube_thickness = 0.05;
-uniform float ffrenselcube_falloff = 0.5;
-// Frenselcube4D
-group_uniforms fresnelcube4d;
-uniform float ffrenselcube4d_rotation_x = 1.3;
-uniform float ffrenselcube4d_rotation_y = 0.0;
-uniform float ffrenselcube4d_rotation_z = 0.0;
-uniform float ffrenselcube4d_rotation_w = 0.0;
-uniform float ffrenselcube4d_thickness = 0.05;
-uniform float ffrenselcube4d_falloff = 0.5;
-// Mengerflake
-group_uniforms mengerflake;
-uniform int fmengerflake_mode = 1;
-uniform float fmengerflake_rotation_x = 0.0;
-uniform float fmengerflake_rotation_y = 0.0;
-uniform float fmengerflake_rotation_xi = 0.52; // PI / 6.0
-uniform float fmengerflake_rotation_yi = 0.26; // PI / 12.0
-uniform float fmengerflake_offset = 0.5;
-uniform float fmengerflake_fold4_multiplier = 1.0;
-uniform float fmengerflake_fold5_multiplier = 1.0;
-// Sierpinski4D
-group_uniforms sierpinski4d;
-uniform float fsierpinski4d_rotation_x = 0.0;
-uniform float fsierpinski4d_rotation_y = 0.0;
-uniform float fsierpinski4d_rotation_z = 0.0;
-// Juliabulb
-group_uniforms juliabulb;
-uniform vec3 fjuliabulb_c = vec3(0.35, 0.35, 0.35);
-// Hedgebulb
-group_uniforms hedgebulb;
-uniform float fhedgebulb_cosine_offset = 0.0;
-uniform float fhedgebulb_cosine_multiplier = 1.0;
-uniform float fhedgebulb_sine_multiplier = 0.0;
-// Boxbloat
-group_uniforms boxbloat;
-const float fboxbloat_cosine_multiplier = 1.0;
-const float fboxbloat_abs_multiplier = 1.0;
-// Trenchbloat
-group_uniforms trenchbloat;
-const float ftrenchbloat_cosine_multiplier1 = 1.0;
-const float ftrenchbloat_cosine_multiplier2in = 1.0;
-const float ftrenchbloat_cosine_multiplier2out = 1.0;
-//// Basebox
-group_uniforms basebox;
-const float fbasebox_tan_multiplier = 1.0;
-const float fbasebox_abs_multiplier = 1.0;
-const float fbasebox_cosine_multiplier1 = 1.0;
-const float fbasebox_cosine_multiplier2 = 1.0;
-// Starbloat
-group_uniforms starbloat;
-const vec3 fstarbulb_adder = vec3(1.0, 1.0, 1.0);
-const vec3 fstarbulb_multiplier = vec3(1.0, 1.0, 1.0);
-// Wingtail
-group_uniforms wingtail;
-const vec3 fwingtail_adder = vec3(0.0, 0.0, 1.0);
-const vec3 fwingtail_multiplier = vec3(1.5, 1.0, 1.0);
-// Tribulb
-group_uniforms tribulb;
-const vec3 ftribulb_multiplier1 = vec3(1.0, 1.0, 1.0);
-const vec3 ftribulb_multiplier2 = vec3(1.0, 1.0, 1.0);
-// Juliaswirl
-group_uniforms juliaswirl;
-uniform vec3 fjuliaswirl_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliaswirl_csqrt_multiplier = vec3(1.0, 1.0, 1.0);
-// Trijulia
-group_uniforms trijulia;
-uniform vec3 ftrijulia_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftrijulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftrijulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftrijulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
-// Tangentjulia
-group_uniforms tangentjulia;
-uniform vec3 ftangentjulia_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftangentjulia_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftangentjulia_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
-uniform vec3 ftangentjulia_cosine_multiplier = vec3(1.0, 1.0, 1.0);
-// Juliaisland
-group_uniforms juliaisland;
-uniform vec3 fjuliaisland_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliaisland_abs_multiplier = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliaisland_cosine_multiplier = vec3(1.0, 1.0, 1.0);
-// Juliabloat
-group_uniforms juliabloat;
-uniform vec3 fjuliabloat_c = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_abs_multiplier = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_cosine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_cosine_multiplier2 = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_sine_multiplier1 = vec3(1.0, 1.0, 1.0);
-uniform vec3 fjuliabloat_sine_multiplier2 = vec3(1.0, 1.0, 1.0);
 
 group_uniforms post_processing;
 // Ambient Occlusion
@@ -185,8 +80,10 @@ uniform float fresnel_intensity = 0.0045;
 #include "res://formulas/klenian.gdshaderinc"
 #include "res://formulas/spheretree.gdshaderinc"
 #include "res://formulas/kaliredux.gdshaderinc"
+#include "res://formulas/kaliliving.gdshaderinc"
 
 vec2 single_fractal_sdf(int formula, vec3 p, float power) {
+	if (formula == 16) return kaliliving_sdf(p, power);
 	if (formula == 15) return kaliredux_sdf(p, power);
 	if (formula == 14) return spheretree_sdf(p, power);
 	if (formula == 13) return klenian_sdf(p, power);
@@ -224,7 +121,8 @@ vec3 ray_marcher(vec3 ro, vec3 rd) {
 		dfo += point_distance * raystep_multiplier;
 		total_marches += 1.0;
 
-		if (abs(point_distance) < surface_distance || dfo > max_distance) {
+		float epsilon = relative_epsilon ? surface_distance / 3.4 * dfo : surface_distance;
+		if (abs(point_distance) < epsilon || dfo > max_distance) {
 			orbit_trap_distance = data.x;
 			break;
 		};
@@ -262,11 +160,11 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv, out float d
 		float normalized_y = (normalize(ray_dir).y + 1.0) * 0.5;
 		final_color = texture(bg_color, vec2(clamp(normalized_y, 0.0, 1.0), 0)).xyz * vignette;
 	} else {
-		float ao = max(calculate_ambient_occlusion(p, normal), ambient_occlusion_darkness);
+		float ao = calcAO(p, normal);
 		vec3 light1 = get_light(p, ray_dir, ray_origin, light1_position, light1_color, normal);
 		vec3 light2 = get_light(p, ray_dir, ray_origin, light2_position, light2_color, normal);
 
-		final_color = mix(3.0 * palette_color * ao * (light1 + light2), vec3(0.0), metallicness);
+		final_color = mix(2.0 * 3.0 * palette_color * ao * (light1 + light2 + ambient_light), vec3(0.0), metallicness);
 	}
 
 	if (glow && float(total_marches) * raystep_multiplier > glow_threshold) {
@@ -274,7 +172,7 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv, out float d
 		float glow_factor = smoothstep(glow_threshold, 100.0, float(total_marches) * raystep_multiplier);
 		float final_glow_intensity = (glow_intensity - 0.2) * glow_factor;
 		vec3 final_glow_color = palette_glow_color * 3.0;
-		final_color += final_glow_color * pow(final_glow_intensity, glow_falloff);
+		final_color += 2.0 * final_glow_color * pow(final_glow_intensity, glow_falloff);
 	}
 
 	float fog_distance = dfo < max_distance ? dfo : max_distance;
@@ -305,9 +203,6 @@ void fragment() {
 	vec3 ro = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION_WORLD, 1.0)).xyz;
 	vec3 rd = normalize(vertex_ls - ro);
 	float dfo;
-	vec3 color = calculate_albedo(ro, rd, SCREEN_UV, dfo);
-	ALBEDO = color;
-
-	//int combined = concatenate_ints(int(color.x * 100.0), int(color.y * 100.0));
-	//ALBEDO = vec3(float(combined), color.b, dfo * 0.001);
+	
+	EMISSION = calculate_albedo(ro, rd, SCREEN_UV, dfo);
 }

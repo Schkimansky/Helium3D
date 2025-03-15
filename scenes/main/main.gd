@@ -118,6 +118,9 @@ func update_fields(new_fields: Dictionary) -> void:
 	%TabContainer.update_field_values(fields)
 
 func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp: bool = false, update_keyframes: bool = true, delta_multiplier: float = 1.0, use_fast_diff: bool = false) -> void:
+	var old_data: Dictionary = data.duplicate(true)
+	data = data.duplicate(true)
+	
 	if 'other' not in data:
 		data['other'] = {"keyframes": data.get("keyframes", {}), 'total_visible_formula_pages': data['total_visible_formula_pages'], 'player_position': data['player_position'], 'head_rotation': data['head_rotation'], 'camera_rotation': data['camera_rotation'], 'bgcoloroffsets': data['bgcoloroffsets'], 'bgcolorcolors': data['bgcolorcolors']}
 		for other_field_name in (data['other'].keys() as Array[String]):
@@ -131,9 +134,9 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	data.erase('other')
 	
 	if update_app_fields:
-		print(fields)
+		#print(fields)
 		var diff: Dictionary = get_dictionary_difference(fields, data) if use_fast_diff else data
-		print('[INFO] Calc diff: ', diff)
+		#print('[INFO] Calc diff: ', diff)
 		update_fields(diff)
 	
 	if not use_lerp:
@@ -146,9 +149,13 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 		camera.global_rotation_degrees = camera.global_rotation_degrees.lerp(other_data['camera_rotation'], delta)
 	
 	%TabContainer.total_visible_formulas = other_data.get('total_visible_formulas', count_non_zero(data.get('formulas', [1])))
-	%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
-	if 'paletteoffsets' in data:
-		%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Palette').set_value(other_data['paletteoffsets'], other_data['palettecolors'])
+	
+	%BloomFalloff.value = other_data.get("bloom_falloff", 0)
+	%BloomIntensity.value = other_data.get("bloom_intensity", 0)
+	
+	#%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
+	#if 'paletteoffsets' in data:
+		#%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Palette').set_value(other_data['paletteoffsets'], other_data['palettecolors'])
 	
 	if update_keyframes:
 		%AnimationTrack.keyframes = other_data.get('keyframes', {})
@@ -159,7 +166,7 @@ func get_dictionary_difference(d1: Dictionary, d2: Dictionary) -> Dictionary:
 
 	for key in (d2.keys() as Array[String]):
 		if d1.has(key) and d1[key] != d2[key]:
-			print("[ALERT] d1 key != d2 key, vals: ", d1[key], ' | ', d2[key])
+			#print("[ALERT] d1 key != d2 key, vals: ", d1[key], ' | ', d2[key])
 			difference[key] = d2[key]
 	
 	return difference

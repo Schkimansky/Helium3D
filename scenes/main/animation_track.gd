@@ -5,10 +5,23 @@ var is_mouse_hovering: bool = false
 var keyframes: Dictionary = {}
 var is_playing: bool = false
 var animation_frames_data: Array[Dictionary] = []
-var currently_at_frame: float = 0
+var currently_at_frame: float = 0:
+	set(value):
+		currently_at_frame = value
+		%Time.position.x = value * 4.5
 
 #func _ready() -> void:
 	#update_timeline()
+
+func _input(event: InputEvent) -> void:
+	# Animation button shortcuts
+	if %TextureRect.is_holding:
+		return
+	
+	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_Q):
+		%PlayingToggleButton.emit_signal("pressed")
+	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_W):
+		%AddKeyframeButton.emit_signal("pressed")
 
 func _on_playing_toggle_button_pressed() -> void:
 	is_playing = not is_playing
@@ -17,7 +30,7 @@ func _on_playing_toggle_button_pressed() -> void:
 		update_animation_frames_data()
 		%PlayingToggleButton.icon = preload('res://resources/icons/pause-solid.svg')
 	else:
-		%PlayingToggleButton.text = preload('res://resources/icons/play-solid.svg')
+		%PlayingToggleButton.icon = preload('res://resources/icons/play-solid.svg')
 		currently_at_frame = 0
 
 func update_animation_frames_data() -> void:
@@ -62,7 +75,17 @@ func insert_keyframe(at_second: float) -> void:
 	keyframes[at_second] = data.duplicate(true)
 	reload_keyframes()
 
+func stop() -> void:
+	if is_playing:
+		_on_playing_toggle_button_pressed()
+
+func start() -> void:
+	if not is_playing:
+		_on_playing_toggle_button_pressed()
+
 func remove_keyframe(target_keyframe_data: Dictionary) -> void:
+	stop()
+	
 	for at_second in (keyframes.keys() as Array[float]):
 		var keyframe_data: Dictionary = keyframes[at_second]
 		if target_keyframe_data == keyframe_data:
@@ -101,12 +124,16 @@ func _process(delta: float) -> void:
 	
 	if is_playing and currently_at_frame >= len(animation_frames_data):
 		is_playing = false
-		currently_at_frame = 0
-		%PlayingToggleButton.icon = preload('res://resources/icons/play-solid.svg')
 		
+		if not %Time.get_parent().dragging:
+			currently_at_frame = 0
+		
+		%PlayingToggleButton.icon = preload('res://resources/icons/play-solid.svg')
+
 	if is_playing:
 		#print(currently_at_frame, ' | ', len(animation_frames_data))
 		# data, update_app_fields, use_lerp, update_keyframes, delta_multiplier
+		print('at: ', currently_at_frame)#, ' | ', animation_frames_data[round(currently_at_frame)])
 		get_tree().current_scene.update_app_state(animation_frames_data[round(currently_at_frame)], true, false, false, 0.51, true if currently_at_frame != 0 else false)
 		
 		# Save keyframe
@@ -117,7 +144,6 @@ func _process(delta: float) -> void:
 		currently_at_frame += 1
 		%SubViewport.refresh_no_taa()
 
-
 func _on_mouse_entered() -> void: is_mouse_hovering = true
 func _on_mouse_exited() -> void: is_mouse_hovering = false
 
@@ -125,6 +151,7 @@ func _on_add_keyframe_button_pressed() -> void:
 	var seconds: Array = keyframes.keys()
 	seconds.append(0)
 	insert_keyframe(seconds.max() + 1.0)
+	stop()
 
 ###################
 ## Interpolation ##
@@ -206,3 +233,6 @@ func bezier_interpolation(t: float, control: Vector2) -> float:
 	
 func ease_in_out(t: float) -> float:
 	return -0.5 * (cos(PI * t) - 1.0)
+
+func _on_set_time_start_button_pressed() -> void: currently_at_frame = 0
+func _on_set_time_end_button_pressed() -> void: currently_at_frame = (len(keyframes) - 1) * 60.0

@@ -1,8 +1,3 @@
-// float z_mul[-1.0, 1.0] = 1.0
-// int z_mul[-1, 1] = 1
-// vec3 z_mul[(-1 -1 -1), (1 1 1)] = (1 1 1)
-// vec4 z_mul[(-1 -1 -1 -1), (1 1 1 1)] = (1 1 1 1)
-// selection fold_mode[Pinski Fold, Menger Fold, Dodeca Fold] = Pinski Fold
 
 float soft_shadow(vec3 p, vec3 light_pos, float k) {
 	vec3 rd = normalize(light_pos - p);
@@ -42,5 +37,5 @@ vec3 get_light(vec3 p, vec3 rd, vec3 ro, vec3 light_pos, vec3 light_color, vec3 
 	float specular = pow(max(dot(reflection, rd), 0.0), refraction_sharpness);
 	light *= max(specular * refraction_intensity, 1.0);// + (1.0 - metallicness), metallic_darkness);
 
-	return max(light_color * light, ambient_light);
+	return light_color * light;
 }

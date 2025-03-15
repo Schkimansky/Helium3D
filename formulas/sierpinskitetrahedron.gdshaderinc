@@ -3,35 +3,52 @@
 // [INDEX]
 // 6
 // [VARS]
+// vec3 offset[(-1, -1, -1), (1, 1, 1)] = (1, 1, 1)
+// vec3 rotation1[(-3.14159, -3.14159, -3.14159), (3.14159, 3.14159, 3.14159)] = (0, 0, 0)
+// vec3 rotation2[(-3.14159, -3.14159, -3.14159), (3.14159, 3.14159, 3.14159)] = (0, 0, 0)
 // [CODE]
-uniform float fsierpinski_rotation_x = 0.0;
-uniform float fsierpinski_rotation_y = 0.0;
+uniform vec3 fsierpinskitetrahedron_rotation1;
+uniform vec3 fsierpinskitetrahedron_rotation2;
+uniform vec3 fsierpinskitetrahedron_offset;
 
 vec2 sierpinskitetrahedron_sdf(vec3 z, float power) {
-	float Scale = power;
-	float Offset = 1.0;
-	float alpha = fsierpinski_rotation_x;
-	float beta = fsierpinski_rotation_y;
+	float scale = power;
+	vec3 offset = fsierpinskitetrahedron_offset;
 	float orbit_trap = 1000000.0;
 	float r;
+	float s = 1.0;
 	int n = 0;
 
 	for (; n < iterations; n++) {
+		z = rotate3d_point(z, fsierpinskitetrahedron_rotation1);
+
 		if (z.x + z.y < 0.0) z.xy = -z.yx;
 		if (z.x + z.z < 0.0) z.xz = -z.zx;
 		if (z.y + z.z < 0.0) z.zy = -z.yz;
 
-		z = z * Scale - Offset * (Scale - 1.0);
+		z = z * scale - offset * (scale - 1.0);
+		s /= scale;
+		
+		//z.z -=  .5*offset.z*(scale-1.)/scale;
+		//z.z  = -abs(z.z);
+		//z.z +=  .5*offset.z*(scale-1.)/scale;
 
-		z.xz = vec2(cos(alpha) * z.x - sin(alpha) * z.z, sin(alpha) * z.x + cos(alpha) * z.z); // Y-axis rotation
-		z.yz = vec2(cos(beta) * z.y - sin(beta) * z.z, sin(beta) * z.y + cos(beta) * z.z);     // X-axis rotation
+		//z *= scale;
+
+		//z.x -= offset.x*(scale-1.);
+		//z.y -= offset.y*(scale-1.);  
 
 		if (coloring_mode == 0) orbit_trap = min(orbit_trap, abs(dot(z, z)));
 		else orbit_trap = min(orbit_trap, process_orbit_trap(z));
+		
+		z = rotate3d_point(z, fsierpinskitetrahedron_rotation2);
 	}
-
-	return vec2(length(z) * pow(Scale, -float(n)), orbit_trap);
+	
+	//float d = length(z) * pow(scale, -float(n));
+	float d = triangle_sdf3d(z) * s;
+	return vec2(d, orbit_trap);
 }
+
 //vec2 sierpinskitetrahedron4d_sdf(vec3 z3d, float power) {
 	//vec4 z = vec4(z3d, 0.0);
     //float Scale = power;

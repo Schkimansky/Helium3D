@@ -66,7 +66,7 @@ func _process(delta: float) -> void:
 		if antialiasing != AntiAliasing.TAA:
 			scaling_3d_scale = low_scaling
 		else:
-			scaling_3d_scale = low_scaling if low_scaling_time <= 0.1 else high_scaling
+			scaling_3d_scale = low_scaling if since_last_dynamic_update <= low_scaling_time else high_scaling
 		render_target_update_mode = UPDATE_WHEN_VISIBLE
 	elif previous_update_mode == UPDATE_WHEN_VISIBLE and (render_target_update_mode == UPDATE_DISABLED or antialiasing == AntiAliasing.TAA):#scaling_3d_scale - high_scaling >= 0.001:
 		scaling_3d_scale = high_scaling

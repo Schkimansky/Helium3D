@@ -111,7 +111,7 @@ func update_field_values(new_fields: Dictionary) -> void:
 		if not target_value_node.has_method('i_am_a_selection_field') and not target_value_node.has_method('i_am_a_palette_field'):
 			target_value_node.value = field_val
 		elif target_value_node.has_method('i_am_a_palette_field'):
-			target_value_node.set_value(PackedFloat32Array(field_val.gradient.offsets), PackedColorArray(field_val.gradient.colors))
+			target_value_node.set_value(PackedFloat32Array(field_val.offsets), PackedColorArray(field_val.colors))
 		else:
 			target_value_node.index = field_val - 1
 
@@ -123,11 +123,6 @@ func _on_bloom_intensity_value_changed(to: float) -> void:
 func _on_bloom_falloff_value_changed(to: float) -> void: 
 	var env: Environment = %SubViewport.get_node('WorldEnvironment').environment
 	env.glow_strength = to
-	%SubViewport.refresh_taa()
-
-func _on_bloom_mode_value_changed(option: String) -> void:
-	var env: Environment = %SubViewport.get_node('WorldEnvironment').environment
-	env.glow_blend_mode = $"Post Processing/Fields/Values/BloomMode".index
 	%SubViewport.refresh_taa()
 
 func _on_ambient_occlusion_steps_value_changed(to: float) -> void: field_changed('ambient_occlusion_steps', to)
@@ -161,3 +156,6 @@ func _on_glow_palette_value_changed(to: Gradient) -> void: field_changed('glow_p
 func _on_fresnel_color_value_changed(to: Color) -> void: field_changed('fresnel_color', to)
 func _on_fresnel_falloff_value_changed(to: float) -> void: field_changed('fresnel_falloff', to)
 func _on_fresnel_intensity_value_changed(to: float) -> void: field_changed('fresnel_intensity', to)
+func _on_relative_epsilon_value_changed(to: bool) -> void: field_changed('relative_epsilon', to)
+func _on_relative_epsilon_strength_value_changed(to: float) -> void: field_changed('relative_epsilon_strength', to)
+func _on_escape_radius_value_changed(to: float) -> void: field_changed('escape_radius', to)

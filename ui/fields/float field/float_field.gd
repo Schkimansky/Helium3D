@@ -12,7 +12,7 @@ signal value_changed(to: float)
 @export var value: float = 0.0:
 	set(v):
 		value = v
-		$HSlider.value = value
+		$HSlider.set_value_no_signal(value)
 		$LineEdit.text = format_float(v)
 
 func format_float(float_value: float) -> String:
@@ -31,8 +31,10 @@ func _ready() -> void:
 func _on_h_slider_value_changed(v: float) -> void:
 	$LineEdit.text = format_float(v)
 	value_changed.emit(v)
+	value = v
 
 func _on_line_edit_text_changed(new_text: String) -> void:
 	if new_text.is_valid_float():
 		$HSlider.set_value_no_signal(float(new_text))
 		value_changed.emit(float(new_text))
+		value = float(new_text)

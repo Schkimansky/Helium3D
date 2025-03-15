@@ -1,15 +1,15 @@
 // [ID]
-// baird delta
+// bairddelta
 // [INDEX]
 // 4
 // [VARS]
 // float angle[60.01, 90.0] = 84.0
-// vec4 rotation[(-1, -1, -1, -1), (1, 1, 1, 1)] = (0.0, 0.0, 0.0, 0.0)
-// vec4 folds[(-1, -1, -1, -1), (1, 1, 1, 1)] = (1.0, 1.0, 0.0, 0.0)
+// vec3 rotation1[(-2, -2, -2), (2, 2, 2)] = (0, 0, 0)
+// vec3 rotation2[(-2, -2, -2), (2, 2, 2)] = (0, 0, 0)
 // [CODE]
 uniform float fbairddelta_angle;
-uniform vec4 fbairddelta_rotation;
-uniform vec4 fbairddelta_folds;
+uniform vec3 fbairddelta_rotation1;
+uniform vec3 fbairddelta_rotation2;
 
 vec2 bairddelta_sdf(vec3 p, float power) {
 	float angle = clamp(fbairddelta_angle, 60.0001, 90.0);
@@ -21,33 +21,31 @@ vec2 bairddelta_sdf(vec3 p, float power) {
 	t = cos(beta);
 	float scale = power * 2.0 * t * t;
 	float orbit_trap = 10000.0;
-
 	float r2 = dot(p, p);
 	float dd = 1.0;
+	
 	for (int i = 0; i < iterations; i++) {
-		p.xz = vec2(cos(fbairddelta_rotation.x) * p.x - sin(fbairddelta_rotation.x) * p.z, sin(fbairddelta_rotation.x) * p.x + cos(fbairddelta_rotation.x) * p.z);
-		p.yz = vec2(cos(fbairddelta_rotation.y) * p.y - sin(fbairddelta_rotation.y) * p.z, sin(fbairddelta_rotation.y) * p.y + cos(fbairddelta_rotation.y) * p.z);
+		p = rotate3d_point(p, fbairddelta_rotation1);
 
 		// Sierpinski triangle symmetry + fold about xy plane
 		p.yz = abs(p.yz);
-		float t = fbairddelta_folds.z * min(0.0, dot(p, n1));
+		float t = 2.0 * min(0.0, dot(p, n1));
 		p -= t * n1;
 		p.y = abs(p.y);
 
 		// Koch curve fold
 		p -= n2;
-		t = fbairddelta_folds.w * min(0.0, dot(p, n3));
+		t = 2.0 * min(0.0, dot(p, n3));
 		p -= t * n3;
 		p += n2;
 
 		// Scale and rotate
-		p.x -= fbairddelta_folds.x;
+		p.x -= 1.0;
 		p *= scale;
-		p.x += fbairddelta_folds.y;
+		p.x += 1.0;
 		dd *= scale;
 
-		p.xz = vec2(cos(fbairddelta_rotation.z) * p.x - sin(fbairddelta_rotation.z) * p.z, sin(fbairddelta_rotation.z) * p.x + cos(fbairddelta_rotation.z) * p.z);
-		p.yz = vec2(cos(fbairddelta_rotation.w) * p.y - sin(fbairddelta_rotation.w) * p.z, sin(fbairddelta_rotation.w) * p.y + cos(fbairddelta_rotation.w) * p.z);
+		p = rotate3d_point(p, fbairddelta_rotation2);
 
 		r2 = dot(p, p);
 		if (coloring_mode == 0) orbit_trap = min(orbit_trap, abs(r2));

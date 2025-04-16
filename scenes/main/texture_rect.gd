@@ -1,9 +1,8 @@
 extends TextureRect
 
-var speed := 1.0
-var target_size := Vector2(960, 540)
-const DELTA_MULTIPLIER = 7.0
-const FRICTION := 0.9
+var speed := 100.0
+var target_size := Vector2(960, 540) * 0.87
+const FRICTION := 0.0
 const JUMP_POWER := 6.0
 const SENSITIVITY := 0.004
 const BOB_FREQUENCY := 2.0
@@ -11,6 +10,7 @@ const BOB_AMPLITUDE := 0.08
 
 @onready var head := %Player.get_node('Head')
 @onready var camera := %Player.get_node('Head').get_node('Camera')
+var velocity := Vector3.ZERO
 var is_holding := false
 var is_hovering := false
 
@@ -23,7 +23,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.rotation.x = camera.rotation.x - adjusted_input.y * SENSITIVITY
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 		
-		%SubViewport.refresh_taa()
+		%SubViewport.refresh_no_taa()
 
 func _physics_process(delta: float) -> void:
 	custom_minimum_size = target_size
@@ -48,9 +48,20 @@ func _physics_process(delta: float) -> void:
 	if is_holding and Input.is_action_just_released('mouse wheel down'):
 		speed = clamp(speed / 1.2, 0.0, 100.0)
 	
+	if is_holding and Input.is_action_pressed('r'):
+		speed = clamp(speed * 1.025, 0.0, 100.0)
+	if is_holding and Input.is_action_pressed('f'):
+		speed = clamp(speed / 1.025, 0.0, 100.0)
+	
+	var speed_multipler := 1.0
+	if Input.is_action_pressed('control'):
+		speed_multipler = 4.0
+	elif Input.is_action_pressed('alt'):
+		speed_multipler = 0.25
+	
 	if is_holding:
 		var direction := Input.get_vector("a", "d", "s", "w")
-		var target_speed: float = speed
+		var target_speed: float = speed * speed_multipler
 		
 		if direction:
 			%SubViewport.refresh_taa()
@@ -60,14 +71,17 @@ func _physics_process(delta: float) -> void:
 		var up: Vector3 = camera.global_transform.basis.y.normalized()
 		var movement_direction := (right * direction.x + forward * direction.y).normalized()
 		
-		%Player.global_transform.origin += movement_direction * target_speed * delta
+		velocity += movement_direction * target_speed * delta
 		
 		if Input.is_action_pressed('up'):
-			%Player.global_transform.origin += up * speed * delta
+			velocity += up * speed * delta
 			%SubViewport.refresh_taa()
 		elif Input.is_action_pressed('down'):
-			%Player.global_transform.origin -= up * speed * delta
+			velocity -= up * speed * delta
 			%SubViewport.refresh_taa()
+	
+	%Player.global_transform.origin += velocity * delta
+	velocity *= FRICTION
 
 func _on_mouse_entered() -> void: is_hovering = true
 func _on_mouse_exited() -> void: is_hovering = false

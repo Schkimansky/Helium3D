@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://hjiutbf52d4r"]
+[gd_scene load_steps=9 format=3 uid="uid://hjiutbf52d4r"]
 
 [ext_resource type="PackedScene" uid="uid://xa6av42x8erd" path="res://ui/fields/base field/field.tscn" id="1_idpb3"]
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="2_788kb"]
 [ext_resource type="Script" path="res://ui/fields/formula field/formula_field.gd" id="2_t45rt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4o5ok"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7y4ma"]
 
@@ -12,6 +14,8 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wa5cg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e2s0f"]
 
@@ -32,6 +36,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_788kb")
 theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4o5ok")
 text = " < "
 
 [node name="Label" type="Button" parent="HBoxContainer" index="1"]
@@ -48,6 +53,7 @@ text = "Selection field"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_788kb")
 theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wa5cg")
 text = " > "
 
 [node name="Popup" type="Window" parent="." index="2"]

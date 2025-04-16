@@ -3,39 +3,54 @@
 // [INDEX]
 // 2
 // [VARS]
-// vec3 sphere_fold[(0, 0, 0), (2, 2, 2)] = (0.0, 1.0, 1.0)
-// vec3 box_size[(0, 0, 0), (2, 2, 2)] = (1.0, 1.0, 1.0)
-// float sphere_reflection[0.0, 1.5] = 0.0
-// float spread[0.0, 2.0] = 1.0
+// float scale[1.0, 3.0] = 2.5
+// float radius1[0.0, 3.0] = 1.0
+// float radius2[0.0, 3.0] = 0.0
+// vec3 box_folds[(-2, -2, -2), (2, 2, 2)] = (1, 0, 0)
 // [CODE]
-uniform vec3 fmandelbox_sphere_fold;
-uniform vec3 fmandelbox_box_size;
-uniform float fmandelbox_sphere_reflection;
-uniform float fmandelbox_spread;
+uniform float fmandelbox_scale;
+uniform float fmandelbox_radius1;
+uniform float fmandelbox_radius2;
+uniform vec3 fmandelbox_box_folds;
 
-float sphereFold(vec4 z, float minR, float maxR, float bloatFactor) {
-	float r2 = dot(z.xyz, z.xyz);
-	return max(maxR / max(minR, r2), bloatFactor);
+void boxFold(inout vec3 z, vec3 r) {
+	z = 2.0 * clamp(z, -r, r) - z;
 }
 
-float de_box(vec4 p, vec3 s) { vec3 a = abs(p.xyz) - s; return (min(max(max(a.x, a.y), a.z), 0.0) + length(max(a, 0.0))) / p.w; }
+void sphereFold(inout vec3 z, inout float dz) {
+	float r2 = dot(z,z);
+	if (r2 < fmandelbox_radius2) {
+		float temp = fmandelbox_radius1 / fmandelbox_radius2;
+		z *= temp;
+		dz *= temp;
+	}
+	else if (r2 < fmandelbox_radius1) {
+		float temp = fmandelbox_radius1 / r2;
+		z *= temp;
+		dz *= temp;
+	}
+}
 
-vec2 mandelbox_sdf(vec3 pos, float power) {
-	vec4 p = vec4(pos, 1.0) * 4.0;
-	vec4 o = p;
-	float orbit_trap = 100000000.0;
+vec2 mandelbox_sdf(vec3 p) {
+	vec3 z = p * 5.5;
+	vec3 c = z;
+	float dz = 1.0;
+	float orbit_trap = 10000.0;
 
 	for (int i = 0; i < iterations; i++) {
-		p.xyz = clamp(p.xyz, -fmandelbox_box_size, fmandelbox_box_size) * 2.0 - p.xyz;
-		p *= sphereFold(p, fmandelbox_sphere_fold.x, fmandelbox_sphere_fold.y, fmandelbox_sphere_fold.z) * (power + 0.181);
-		p += o * fmandelbox_spread;
-		//p += sin(o) * fmandelbox_stoneness;
-		//p += sin(o - p) * fmandelbox_divisions;
-		p.xyz += sphereInversion(p.xyz, vec3(0.0), fmandelbox_sphere_reflection);
+		//if (z.x - z.z < 0.0) z.xz = z.zx;
+		if (length(fmandelbox_box_folds.x) >= 0.0001) boxFold(z, vec3(fmandelbox_box_folds.x));
+		if (length(fmandelbox_box_folds.y) >= 0.0001) boxFold(z, vec3(fmandelbox_box_folds.y));
+		if (length(fmandelbox_box_folds.z) >= 0.0001) boxFold(z, vec3(fmandelbox_box_folds.z));
+		z.xz = abs(z.xz + 0.3) - abs(z.xz - 1.0) - z.xz;
+		sphereFold(z, dz);
+		z *= fmandelbox_scale;
+		z += c;
+		dz = dz * abs(fmandelbox_scale) + 1.0;
 
-		if (coloring_mode == 0) orbit_trap = min(orbit_trap, length(p));
-		else orbit_trap = min(orbit_trap, process_orbit_trap4d(p));
+		if (coloring_mode == 0) orbit_trap = min(orbit_trap, length(z));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(z));
 	}
 
-	return vec2(de_box(p, vec3(10, 10, 10)), orbit_trap);
+	return vec2(length(z) / abs(dz) / 5.5, orbit_trap);
 }

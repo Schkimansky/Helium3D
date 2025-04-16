@@ -1,7 +1,7 @@
 // [ID]
 // spheretree
 // [INDEX]
-// 14
+// 12
 // [VARS]
 // float symmetry[1, 100] = 1
 // float spikeness[0, 1.3] = 0
@@ -11,7 +11,7 @@ uniform float fspheretree_symmetry;
 uniform float fspheretree_spikeness;
 uniform float fspheretree_twist;
 
-vec2 spheretree_sdf(vec3 p, float power) {
+vec2 spheretree_sdf(vec3 p) {
 	p /= 3.0;
 	p.z += 0.5;
 	float rad = 0.2;

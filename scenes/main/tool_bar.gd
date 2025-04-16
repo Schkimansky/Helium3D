@@ -8,8 +8,8 @@ func save_project_data(path: String) -> void:
 		var other_data: Dictionary = {}
 		
 		# Add basic parameters to other data
-		other_data["bloom_falloff"] = %BloomFalloff.value
-		other_data["bloom_intensity"] = %BloomIntensity.value
+		#other_data["bloom_falloff"] = %BloomFalloff.value
+		#other_data["bloom_intensity"] = %BloomIntensity.value
 		other_data["total_visible_formula_pages"] = %TabContainer.total_visible_formulas
 		other_data["player_position"] = %Player.global_position
 		other_data["head_rotation"] = %Player.get_node("Head").global_rotation_degrees

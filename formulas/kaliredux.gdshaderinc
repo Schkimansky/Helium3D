@@ -1,15 +1,17 @@
 // [ID]
 // kaliredux
 // [INDEX]
-// 15
+// 13
 // [VARS]
 // vec4 folds[(-2, -2, -2, -2), (2, 2, 2, 2)] = (0, 0, 0.3, 1.0)
 // vec3 minus[(-2, -2, -2), (2, 2, 2)] = (0, 2, 0)
+// float scale[1.0, 3.0] = 2.0
 // [CODE]
 uniform vec4 fkaliredux_folds;
 uniform vec3 fkaliredux_minus;
+uniform float fkaliredux_scale;
 
-vec2 kaliredux_sdf(vec3 pos, float power) {
+vec2 kaliredux_sdf(vec3 pos) {
 	vec4 p = vec4(pos, 1.0);
 	float orbit_trap = 100000.0;
 	//p.y = abs(3.0 - mod(p.y - 1.0, 6.0));
@@ -18,7 +20,7 @@ vec2 kaliredux_sdf(vec3 pos, float power) {
 		p = rotate4d_point(p, vec4(0.0, 0.0, 0.0, fkaliredux_folds.x));
 
 		p = abs(p) - vec4(0.5, 1.5, 0.5, 0);
-		p = p * power / clamp(dot(p.xyz, p.xyz), fkaliredux_folds.z, fkaliredux_folds.w) - vec4(fkaliredux_minus, 0.0);
+		p = p * fkaliredux_scale / clamp(dot(p.xyz, p.xyz), fkaliredux_folds.z, fkaliredux_folds.w) - vec4(fkaliredux_minus, 0.0);
 
 		p = rotate4d_point(p, vec4(0.0, 0.0, 0.0, fkaliredux_folds.y));
 

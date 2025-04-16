@@ -21,13 +21,18 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 script = ExtResource("1_px87o")
 
-[node name="Fields" type="HBoxContainer" parent="."]
+[node name="Fields" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Fields"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Names" type="VBoxContainer" parent="Fields/HBoxContainer"]
 layout_mode = 2
 
-[node name="Names" type="VBoxContainer" parent="Fields"]
-layout_mode = 2
-
-[node name="Formula" type="Label" parent="Fields/Names"]
+[node name="Formula" type="Label" parent="Fields/HBoxContainer/Names"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/line_spacing = -15
@@ -38,12 +43,12 @@ Formula:
 "
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Fields"]
+[node name="Values" type="VBoxContainer" parent="Fields/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Formulas" parent="Fields/Values" instance=ExtResource("9_kw4c4")]
+[node name="Formulas" parent="Fields/HBoxContainer/Values" instance=ExtResource("9_kw4c4")]
 layout_mode = 2
 options = Array[String](["None"])
 
-[connection signal="value_changed" from="Fields/Values/Formulas" to="." method="_on_formula_value_changed"]
+[connection signal="value_changed" from="Fields/HBoxContainer/Values/Formulas" to="." method="set_formula"]

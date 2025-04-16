@@ -1,25 +1,20 @@
-[gd_scene load_steps=53 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=50 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
+[ext_resource type="Shader" path="res://scenes/main/main.gdshader" id="3_1xdvd"]
 [ext_resource type="Shader" path="res://renderer/renderer.gdshader" id="3_4yvvm"]
 [ext_resource type="Script" path="res://scenes/main/tool_bar.gd" id="5_og0rs"]
 [ext_resource type="PackedScene" uid="uid://c6ykqwdde41of" path="res://ui/fields/selection field/selection_field.tscn" id="6_50v3j"]
 [ext_resource type="Script" path="res://scenes/main/texture_rect.gd" id="6_dbdf5"]
 [ext_resource type="Script" path="res://scenes/main/texture_rect_holder.gd" id="7_20ti0"]
 [ext_resource type="FontFile" uid="uid://ca7pc7ur0hd10" path="res://resources/font/Rubik-SemiBold.ttf" id="8_rhsly"]
-[ext_resource type="PackedScene" uid="uid://cm48vjc7rstpn" path="res://ui/fields/int field/int_field.tscn" id="9_0ej1w"]
 [ext_resource type="Script" path="res://scenes/main/menus_tab_container.gd" id="9_7154d"]
-[ext_resource type="PackedScene" uid="uid://btv7ewx22x217" path="res://ui/fields/float field/float_field.tscn" id="9_d1f4f"]
-[ext_resource type="PackedScene" uid="uid://ntd4vcyn7t6s" path="res://ui/labels/vec3 label/vec_3_label.tscn" id="10_3cnnu"]
-[ext_resource type="PackedScene" uid="uid://3bm0lhhd8bm0" path="res://ui/fields/color field/color_field.tscn" id="10_to5n1"]
-[ext_resource type="PackedScene" uid="uid://btjotc720lyxd" path="res://ui/fields/palette field/palette_field.tscn" id="11_ynfe2"]
-[ext_resource type="PackedScene" uid="uid://dxdliar5ijtun" path="res://ui/fields/boolean field/boolean_field.tscn" id="14_twvqf"]
-[ext_resource type="PackedScene" uid="uid://blr2moe2ukfi4" path="res://ui/fields/vec3 field/vec3_field.tscn" id="15_0onbf"]
 [ext_resource type="Script" path="res://scenes/main/formula_tab_container.gd" id="16_dmyle"]
 [ext_resource type="PackedScene" uid="uid://4bx65d7nnvmf" path="res://ui/pages/formula page/formula_page.tscn" id="16_hfvnl"]
 [ext_resource type="Script" path="res://scenes/main/bottom_bar.gd" id="18_wb8t8"]
 [ext_resource type="Script" path="res://scenes/main/animation_track.gd" id="19_fsmeo"]
+[ext_resource type="PackedScene" uid="uid://owbf3siulolw" path="res://ui/field container/field_container.tscn" id="19_l42h1"]
 [ext_resource type="Texture2D" uid="uid://bxxblx70rjx10" path="res://resources/icons/film.svg" id="20_grqpr"]
 [ext_resource type="Texture2D" uid="uid://dhq5jlac5844f" path="res://resources/icons/play-solid.svg" id="20_k1hov"]
 [ext_resource type="Texture2D" uid="uid://bhl7ghqs734tv" path="res://resources/icons/backward-solid.svg" id="20_y77tv"]
@@ -27,87 +22,133 @@
 [ext_resource type="Texture2D" uid="uid://em4me5v5s48x" path="res://resources/icons/circle.svg" id="22_an3xl"]
 [ext_resource type="Script" path="res://scenes/main/current_time.gd" id="22_s3o3g"]
 
+[sub_resource type="Gradient" id="Gradient_ygv5l"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8fh27"]
+gradient = SubResource("Gradient_ygv5l")
+
+[sub_resource type="Gradient" id="Gradient_6ktut"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c67t3"]
+gradient = SubResource("Gradient_6ktut")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
 render_priority = 0
 shader = ExtResource("3_4yvvm")
-shader_parameter/self_shadow_bias = 0.01
-shader_parameter/shadow_darkness = 0.07285
-shader_parameter/shadow_steps = 32
-shader_parameter/shadow_softness = 8.0
-shader_parameter/light_intensity = 1.0
-shader_parameter/light1_position = Vector3(10, 10, 10)
-shader_parameter/light2_position = Vector3(-10, -10, -10)
+shader_parameter/dof_enabled = false
+shader_parameter/dof_samples = 3
+shader_parameter/dof_focal_distance = 7.0
+shader_parameter/dof_lens_distance = 10.3
+shader_parameter/dof_aperture = 0.0
+shader_parameter/light_intensity = 0.6
+shader_parameter/light1_position = Vector3(10, 10, -10)
+shader_parameter/light2_position = Vector3(-10, -10, 10)
 shader_parameter/light1_color = Color(1, 1, 1, 1)
 shader_parameter/light2_color = Color(1, 1, 1, 1)
+shader_parameter/ambient_light = 0.08
+shader_parameter/specular_intensity = 2.611
+shader_parameter/specular_sharpness = 8.0
+shader_parameter/shadow_steps = 32
+shader_parameter/shadow_raystep_multiplier = 1.0
+shader_parameter/shadow_epsilon = 0.01
 shader_parameter/coloring_mode = 0
-shader_parameter/iterations = 10
+shader_parameter/iterations = 8
 shader_parameter/max_steps = 120
-shader_parameter/ambient_light = 0.0034
-shader_parameter/max_distance = 100.0
+shader_parameter/max_distance = 30.0
 shader_parameter/raystep_multiplier = 1.0
-shader_parameter/surface_distance = 0.0033
-shader_parameter/relative_epsilon = true
-shader_parameter/formulas = PackedInt32Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/powers = PackedFloat32Array(8, 2, 2, 2, 2, 2, 2, 2, 2, 2)
-shader_parameter/escape_radius = 2.0
+shader_parameter/epsilon = 3e-06
+shader_parameter/relative_epsilon = false
+shader_parameter/escape_radius = null
+shader_parameter/formulas = PackedInt32Array()
 shader_parameter/ambient_occlusion_steps = 6
-shader_parameter/ambient_occlusion_radius = 0.1
-shader_parameter/ambient_occlusion_darkness = 0.0019
+shader_parameter/ambient_occlusion_radius = 0.5
+shader_parameter/ambient_occlusion_brightness = 0.0
 shader_parameter/vignette_strength = 0.7
 shader_parameter/vignette_radius = 0.8
-shader_parameter/glow_intensity = 5.0
-shader_parameter/glow_color = Color(1, 1, 1, 1)
-shader_parameter/glow_threshold = 0.0
-shader_parameter/glow_falloff = 1.0
-shader_parameter/super_glow = false
-shader_parameter/glow = false
-shader_parameter/fog_color = Color(0.0804785, 0.115246, 0.149669, 1)
-shader_parameter/fog_density = 1.45519e-11
-shader_parameter/fog_falloff = 2.139
-shader_parameter/refraction_intensity = 4.0
-shader_parameter/refraction_sharpness = 4.54
-shader_parameter/metallicness = -0.118
-shader_parameter/min_step_size = 0.0
-shader_parameter/fresnel_color = Vector3(0, 0.7, 1)
+shader_parameter/is_exponential = true
+shader_parameter/fog_color = Color(0.5, 0.6, 0.7, 1)
+shader_parameter/fog_density = 0.01
+shader_parameter/fog_falloff = 1.64
+shader_parameter/fresnel_color = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
 shader_parameter/fresnel_falloff = 5.0
 shader_parameter/fresnel_intensity = 1.45519e-11
-shader_parameter/fmandelbox_sphere_fold = Vector3(0, 1, 1)
-shader_parameter/fmandelbox_box_size = Vector3(1, 1, 1)
-shader_parameter/fmandelbox_sphere_reflection = 0.0
-shader_parameter/fmandelbox_spread = 1.0
+shader_parameter/tone_mapping = 0
+shader_parameter/exposure = 1.0
+shader_parameter/gamma = 2.2
+shader_parameter/outline_color = Color(1, 0.5, 0.2, 1)
+shader_parameter/outline_intensity = 1.0
+shader_parameter/outline_threshold = 30.0
+shader_parameter/outline_falloff = 2.0
+shader_parameter/outline = false
+shader_parameter/repeat_gap = Vector3(2, 2, 2)
+shader_parameter/repeat = false
+shader_parameter/tiled = false
+shader_parameter/tiles_x = 4
+shader_parameter/tiles_y = 4
+shader_parameter/current_tile = 0
+shader_parameter/fmandelbulb_derivative_bias = null
+shader_parameter/fmandelbulb_power = null
+shader_parameter/fmandelbulb_variant = null
+shader_parameter/fmandelbulb_phase = null
+shader_parameter/fmandelbulb_pheonix = null
+shader_parameter/fmandelbulb_zmul = null
+shader_parameter/fmandelbulb_is_4d = null
+shader_parameter/fmandelbulb_is_julia = null
+shader_parameter/fmandelbulb_julia_c = null
+shader_parameter/fkochcube_variant = 0
+shader_parameter/fkochcube_first_zrev = true
+shader_parameter/fkochcube_pxyzminuss = false
+shader_parameter/fkochcube_psortsymmetry1 = false
+shader_parameter/fkochcube_psortsymmetry2 = false
+shader_parameter/fkochcube_foldzbefore = true
+shader_parameter/fkochcube_sphere_inversion = false
+shader_parameter/fkochcube_sphere_inversion_position = Vector3(1, 0, 0)
+shader_parameter/fkochcube_sphere_inversion_radius = 1.0
+shader_parameter/fmandelbox_scale = null
+shader_parameter/fmandelbox_radius1 = 1.6
+shader_parameter/fmandelbox_radius2 = 0.4
+shader_parameter/fmandelbox_box_folds = null
 shader_parameter/fsierpinskitetrahedron_rotation1 = null
 shader_parameter/fsierpinskitetrahedron_rotation2 = null
 shader_parameter/fsierpinskitetrahedron_offset = null
-shader_parameter/ftetraglad_rotation_x = 0.0
-shader_parameter/ftetraglad_rotation_y = 0.0
+shader_parameter/fsierpinskitetrahedron_scale = null
 shader_parameter/fmengersponge_rotation1 = null
 shader_parameter/fmengersponge_rotation2 = null
 shader_parameter/fmengersponge_offset = null
-shader_parameter/fpseudoklenian_min = Vector4(-0.8323, -0.694, -0.5045, 0.7777)
-shader_parameter/fpseudoklenian_max = Vector4(0.8579, 1.0883, 0.8937, 0.9411)
-shader_parameter/fpseudoklenian_inversion_sphere = Vector4(1, 1, 1, 1)
-shader_parameter/fpseudoklenian_invert = false
+shader_parameter/fmengersponge_scale = null
+shader_parameter/fpseudoklenian_min = null
+shader_parameter/fpseudoklenian_max = null
+shader_parameter/fpseudoklenian_inversion_sphere = null
+shader_parameter/fpseudoklenian_invert = null
 shader_parameter/fpseudoklenian_sign = null
-shader_parameter/famazingsurf_fold_x = 1.0
-shader_parameter/famazingsurf_fold_y = 1.0
+shader_parameter/fpseudoklenian_scale = null
+shader_parameter/famazingsurf_fold_x = null
+shader_parameter/famazingsurf_fold_y = null
 shader_parameter/famazingsurf_rotation = null
 shader_parameter/famazingsurf_offset = null
-shader_parameter/famazingsurf_c = Vector3(-1, -1, -1)
-shader_parameter/famazingsurf_min_radius = 0.25
-shader_parameter/fjuliabulb4d_c = Vector4(0.5, 0.5, 0.5, 0.5)
+shader_parameter/famazingsurf_c = null
+shader_parameter/famazingsurf_min_radius = null
+shader_parameter/famazingsurf_scale = null
 shader_parameter/fsierpinskidodecahedron_rotation1 = null
 shader_parameter/fsierpinskidodecahedron_rotation2 = null
-shader_parameter/fsierpinskidodecahedron_offset = Vector3(1, 1, 1)
+shader_parameter/fsierpinskidodecahedron_offset = null
+shader_parameter/fsierpinskidodecahedron_cube_de = null
+shader_parameter/fsierpinskidodecahedron_scale = null
+shader_parameter/fsierpinskiicosahedron_scale = null
 shader_parameter/fsierpinskiicosahedron_rotation1 = null
 shader_parameter/fsierpinskiicosahedron_rotation2 = null
-shader_parameter/fsierpinskiicosahedron_offset = Vector3(0, 0, 0)
+shader_parameter/fsierpinskiicosahedron_offset = null
 shader_parameter/fsierpinskiicosahedron_n1 = null
 shader_parameter/fsierpinskiicosahedron_n2 = null
 shader_parameter/fsierpinskiicosahedron_n3 = null
+shader_parameter/fsierpinskioctahedron_scale = null
 shader_parameter/fsierpinskioctahedron_rotation1 = null
 shader_parameter/fsierpinskioctahedron_rotation2 = null
-shader_parameter/fsierpinskioctahedron_offset = Vector3(0, 0, 0)
-shader_parameter/fbairddelta_angle = 45.0
+shader_parameter/fsierpinskioctahedron_offset = null
+shader_parameter/fbairddelta_angle = null
+shader_parameter/fbairddelta_scale = null
 shader_parameter/fbairddelta_rotation1 = null
 shader_parameter/fbairddelta_rotation2 = null
 shader_parameter/fklenian_x = 1.8
@@ -119,16 +160,38 @@ shader_parameter/fklenian_slice_end = 1.0
 shader_parameter/fklenian_fractal_size = 1.1
 shader_parameter/fklenian_sphere_inversion = true
 shader_parameter/fklenian_inversion_sphere = Vector4(1, 0.96, 0, 0.8)
-shader_parameter/fspheretree_symmetry = 1.0
-shader_parameter/fspheretree_spikeness = 0.0
+shader_parameter/fspheretree_symmetry = null
+shader_parameter/fspheretree_spikeness = null
 shader_parameter/fspheretree_twist = null
 shader_parameter/fkaliredux_folds = null
 shader_parameter/fkaliredux_minus = null
+shader_parameter/fkaliredux_scale = null
+shader_parameter/fquadratickoch_variant = null
 shader_parameter/fkaliliving_c = null
 shader_parameter/fkaliliving_rotation1 = null
 shader_parameter/fkaliliving_rotation2 = null
+shader_parameter/fkaliliving_scale = null
+shader_parameter/fnewtonbulb_power = null
+shader_parameter/fnewtonbulb_solution = null
+shader_parameter/fnewtonbulb_factor_phi = 1.0
+shader_parameter/fnewtonbulb_factor_theta = 1.0
+shader_parameter/fnewtonbulb_fake_bailout = 1.0
+shader_parameter/fnewtonbulb_de_scale1 = null
+shader_parameter/fnewtonbulb_de_offset1 = null
+shader_parameter/fnewtonbulb_offset = 0.0001
+shader_parameter/fnewtonbulb_bailout = 4.0
+shader_parameter/fnewtonbulb_julia = null
+shader_parameter/fnewtonbulb_julia_c = null
+shader_parameter/fnewtonbulb_enable_pre_folding = null
+shader_parameter/fnewtonbulb_pre_angle_xyz = null
+shader_parameter/fnewtonbulb_pre_folding = null
+shader_parameter/fnewtonbulb_enable_post_folding = null
+shader_parameter/fnewtonbulb_post_angle_xyz = null
+shader_parameter/fnewtonbulb_post_folding = null
+shader_parameter/palette = SubResource("GradientTexture1D_c67t3")
+shader_parameter/bg_color = SubResource("GradientTexture1D_8fh27")
 
-[sub_resource type="BoxMesh" id="BoxMesh_bajpv"]
+[sub_resource type="BoxMesh" id="BoxMesh_l4q0o"]
 size = Vector3(4000, 4000, -4000)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_suufn"]
@@ -148,42 +211,6 @@ glow_intensity = 0.36
 glow_strength = 2.0
 glow_bloom = 1.0
 glow_blend_mode = 0
-
-[sub_resource type="Animation" id="Animation_h0wk5"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimationPlayer:active")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_xtfrv"]
-resource_name = "new_animation"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimationPlayer:active")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0666667, 4.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, true]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_6xcxb"]
-_data = {
-"RESET": SubResource("Animation_h0wk5"),
-"new_animation": SubResource("Animation_xtfrv")
-}
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p0jhq"]
 
@@ -213,22 +240,22 @@ bg_color = Color(0, 0, 0, 0.207843)
 border_width_bottom = 3
 anti_aliasing = false
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qbxs5"]
+shader = ExtResource("3_1xdvd")
+shader_parameter/sharpness = 0.41
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_qn1xg"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0eucc"]
 
-[sub_resource type="FontVariation" id="FontVariation_sjns5"]
-base_font = ExtResource("8_rhsly")
-spacing_top = 1
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dmava"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gox76"]
 
-[sub_resource type="FontVariation" id="FontVariation_uuept"]
-base_font = ExtResource("8_rhsly")
-spacing_top = 1
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5by50"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2g4vb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i63gn"]
 
@@ -274,24 +301,23 @@ access = 2
 [node name="SubViewport" type="SubViewport" parent="."]
 unique_name_in_owner = true
 scaling_3d_mode = 2
-scaling_3d_scale = 0.65
-fsr_sharpness = 2.0
-size = Vector2i(600, 600)
+fsr_sharpness = 0.0
+size = Vector2i(450, 450)
 render_target_clear_mode = 1
-render_target_update_mode = 1
+render_target_update_mode = 4
 script = ExtResource("2_2kstx")
 
 [node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0.122, 0, -0.568)
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_pfrgc")
 cast_shadow = 0
-mesh = SubResource("BoxMesh_bajpv")
+mesh = SubResource("BoxMesh_l4q0o")
 skeleton = NodePath("../..")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(0.999998, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 2.6)
+transform = Transform3D(0.999998, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 2.3)
 
 [node name="Hitbox" type="CollisionShape3D" parent="SubViewport/Player"]
 shape = SubResource("SphereShape3D_suufn")
@@ -303,6 +329,7 @@ attributes = SubResource("CameraAttributesPractical_aai6c")
 current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
+unique_name_in_owner = true
 environment = SubResource("Environment_4uuy8")
 
 [node name="DummyFocusButton" type="Button" parent="."]
@@ -311,11 +338,6 @@ offset_left = -67.0
 offset_top = 136.0
 offset_right = -59.0
 offset_bottom = 144.0
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="DummyFocusButton"]
-libraries = {
-"": SubResource("AnimationLibrary_6xcxb")
-}
 
 [node name="UI" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -386,6 +408,7 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
 
 [node name="SettingsBar" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 0
@@ -406,7 +429,7 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fti0q")
 theme_override_styles/normal = SubResource("StyleBoxFlat_q0yfy")
-text = "600"
+text = "450"
 placeholder_text = " Width"
 alignment = 1
 expand_to_text_length = true
@@ -422,7 +445,7 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fti0q")
 theme_override_styles/normal = SubResource("StyleBoxFlat_q0yfy")
-text = "600"
+text = "450"
 placeholder_text = " Height"
 alignment = 1
 expand_to_text_length = true
@@ -448,6 +471,7 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
 
 [node name="Antialiasing" parent="UI/HBoxContainer/MarginContainer/SettingsBar/AntiAliasing/Panel" instance=ExtResource("6_50v3j")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -478,6 +502,7 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_w2tj6")
 
 [node name="Quality" parent="UI/HBoxContainer/MarginContainer/SettingsBar/Quality/Panel" instance=ExtResource("6_50v3j")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -499,6 +524,7 @@ script = ExtResource("7_20ti0")
 
 [node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_qbxs5")
 layout_mode = 2
 size_flags_horizontal = 4
 texture = SubResource("ViewportTexture_qn1xg")
@@ -514,256 +540,9 @@ size_flags_stretch_ratio = 2.1
 theme_override_constants/side_margin = 0
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_0eucc")
-current_tab = 0
+current_tab = 2
 drag_to_rearrange_enabled = true
 script = ExtResource("9_7154d")
-
-[node name="Post Processing" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-metadata/_tab_index = 0
-
-[node name="Fields" type="HBoxContainer" parent="UI/HBoxContainer/TabContainer/Post Processing"]
-layout_mode = 2
-
-[node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields"]
-layout_mode = 2
-
-[node name="FogColor" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Fog Color: 
-
-"
-vertical_alignment = 1
-
-[node name="FogDensity" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Fog Density: 
-
-"
-vertical_alignment = 1
-
-[node name="FogFalloff" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Fog Falloff: 
-
-"
-vertical_alignment = 1
-
-[node name="AmbientOcclusionSteps" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Ambient Occlusion Steps: 
-
-"
-vertical_alignment = 1
-
-[node name="AmbientOcclusionRadius" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Ambient Occlusion Radius:
-
-"
-vertical_alignment = 1
-
-[node name="VignetteStrength" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Vignette Strength:
-
-"
-
-[node name="VignetteRadius" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Vignette Radius:
-
-"
-
-[node name="Glow" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Glow:
-
-"
-
-[node name="GlowThreshold" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Glow Threshold:
-
-"
-
-[node name="GlowIntensity" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Glow Intensity:
-
-"
-
-[node name="GlowFalloff" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Glow Falloff:
-
-"
-
-[node name="GlowPalette" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = SubResource("FontVariation_sjns5")
-text = "
-Glow Palette: 
-
-"
-vertical_alignment = 1
-
-[node name="SuperGlow" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Super Glow:
-
-"
-
-[node name="BloomIntensity" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Bloom Intensity:
-
-"
-
-[node name="BloomFalloff" type="Label" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Bloom Falloff:
-
-"
-
-[node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="FogColor" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("10_to5n1")]
-layout_mode = 2
-value = Color(0.501961, 0.6, 0.701961, 1)
-
-[node name="FogDensity" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-precision = 4
-range = Vector2(1.45519e-11, 2)
-
-[node name="FogFalloff" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 5)
-value = 4.078
-
-[node name="AmbientOcclusionSteps" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_0ej1w")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-range = Vector2i(0, 12)
-value = 7
-
-[node name="AmbientOcclusionRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(0.001, 2)
-value = 0.165
-
-[node name="VignetteStrength" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(0, 1)
-value = 0.292
-
-[node name="VignetteRadius" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(0, 1)
-value = 0.91
-
-[node name="Glow" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("14_twvqf")]
-layout_mode = 2
-
-[node name="GlowThreshold" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 50)
-value = 19.34
-
-[node name="GlowIntensity" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 4)
-value = 0.74
-
-[node name="GlowFalloff" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 5)
-value = 1.225
-
-[node name="GlowPalette" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("11_ynfe2")]
-layout_mode = 2
-offsets = PackedFloat32Array(1.45519e-11)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[node name="SuperGlow" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("14_twvqf")]
-layout_mode = 2
-
-[node name="BloomIntensity" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-unique_name_in_owner = true
-layout_mode = 2
-range = Vector2(1.45519e-11, 4)
-
-[node name="BloomFalloff" parent="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values" instance=ExtResource("9_d1f4f")]
-unique_name_in_owner = true
-layout_mode = 2
-range = Vector2(1.45519e-11, 4)
 
 [node name="Formula" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
 visible = false
@@ -772,7 +551,7 @@ size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-metadata/_tab_index = 1
+metadata/_tab_index = 0
 
 [node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer/TabContainer/Formula"]
 layout_mode = 2
@@ -836,325 +615,133 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_gox76")
 disabled = true
 text = " Remove "
 
-[node name="Rendering" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+[node name="Rendering" parent="UI/HBoxContainer/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 3
+fields_list_id = 2
+metadata/_tab_index = 1
+
+[node name="Effects" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 metadata/_tab_index = 2
 
-[node name="Fields" type="HBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering"]
+[node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer/TabContainer/Effects"]
 layout_mode = 2
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_5by50")
+current_tab = 2
 
-[node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="Power" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -17
-theme_override_fonts/font = SubResource("FontVariation_sjns5")
-text = "
-Power: 
-
-"
-vertical_alignment = 1
-
-[node name="Background" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -14
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Background: 
-
-"
-vertical_alignment = 1
-
-[node name="Iterations" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -17
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Iterations: 
-
-"
-vertical_alignment = 1
-
-[node name="MaxSteps" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -17
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Max Steps: 
-
-"
-
-[node name="RaystepMultiplier" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Raystep Multiplier:
-
-"
-
-[node name="EscapeRadius" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -15
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Escape Radius:
-
-"
-
-[node name="Light1Color" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -19
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Light 1 Color:
-
-
-
-"
-
-[node name="Light2Color" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -17
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "Light 2 Color:
-
-
-
-"
-
-[node name="Light1Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names" instance=ExtResource("10_3cnnu")]
-layout_mode = 2
-text = "Light 1 Position: "
-
-[node name="Light2Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names" instance=ExtResource("10_3cnnu")]
-layout_mode = 2
-text = "Light 2 Position: "
-
-[node name="Epsilon" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-theme_override_constants/line_spacing = -17
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Epsilon: 
-
-"
-
-[node name="RelativeEpsilon" type="Label" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Names"]
-layout_mode = 2
-theme_override_constants/line_spacing = -17
-theme_override_fonts/font = SubResource("FontVariation_uuept")
-text = "
-Relative Epsilon: 
-
-"
-
-[node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/Rendering/Fields"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Power" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1, 8)
-value = 2.0
-
-[node name="Background" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("11_ynfe2")]
-layout_mode = 2
-
-[node name="Iterations" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_0ej1w")]
-layout_mode = 2
-range = Vector2i(1, 40)
-value = 14
-
-[node name="MaxSteps" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_0ej1w")]
-layout_mode = 2
-range = Vector2i(10, 1000)
-value = 350
-
-[node name="RaystepMultiplier" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(-3, 3)
-value = 1.0
-
-[node name="EscapeRadius" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 100)
-value = 8.0
-
-[node name="Light1Color" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("10_to5n1")]
-layout_mode = 2
-value = Color(1, 1, 1, 1)
-
-[node name="Light2Color" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("10_to5n1")]
-layout_mode = 2
-value = Color(1, 1, 1, 1)
-
-[node name="Light1Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("15_0onbf")]
-layout_mode = 2
-value = Vector3(10, 10, -10)
-
-[node name="Light2Position" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("15_0onbf")]
-layout_mode = 2
-value = Vector3(-10, -10, 10)
-
-[node name="SurfaceDistance" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-precision = 6
-range = Vector2(0, 0.001)
-value = 0.001
-
-[node name="RelativeEpsilon" parent="UI/HBoxContainer/TabContainer/Rendering/Fields/Values" instance=ExtResource("14_twvqf")]
-layout_mode = 2
-value = true
-
-[node name="PBR" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+[node name="AO" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 3
+fields_list_id = 6
+metadata/_tab_index = 0
+
+[node name="Bloom" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 3
+metadata/_tab_index = 1
+
+[node name="Outline" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Fresnel" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 11
+metadata/_tab_index = 3
+
+[node name="Vignette" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 8
+metadata/_tab_index = 4
+
+[node name="Fog" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 9
+metadata/_tab_index = 5
+
+[node name="Tone Mapping" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 4
+metadata/_tab_index = 6
+
+[node name="DOF" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 5
+metadata/_tab_index = 7
+
+[node name="Repeating" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 10
+metadata/_tab_index = 8
+
+[node name="Performance" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 metadata/_tab_index = 3
 
-[node name="Fields" type="HBoxContainer" parent="UI/HBoxContainer/TabContainer/PBR"]
+[node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer/TabContainer/Performance"]
 layout_mode = 2
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_5by50")
+current_tab = 0
 
-[node name="Names" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/PBR/Fields"]
+[node name="Upscaling" parent="UI/HBoxContainer/TabContainer/Performance/TabContainer" instance=ExtResource("19_l42h1")]
 layout_mode = 2
-theme_override_constants/separation = -13
+fields_list_id = 12
+metadata/_tab_index = 0
 
-[node name="Palette" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+[node name="Tiling" parent="UI/HBoxContainer/TabContainer/Performance/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = SubResource("FontVariation_sjns5")
-text = "
-Palette: 
+fields_list_id = 14
+metadata/_tab_index = 1
 
-
-"
-vertical_alignment = 1
-
-[node name="ColoringMode" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+[node name="Lighting" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = SubResource("FontVariation_sjns5")
-text = "
-Coloring Mode: 
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 4
 
-
-"
-vertical_alignment = 1
-
-[node name="RefractionIntensity" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+[node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer/TabContainer/Lighting"]
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = SubResource("FontVariation_sjns5")
-text = "
-Refraction Intensity: 
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_2g4vb")
+current_tab = 0
 
-
-"
-vertical_alignment = 1
-
-[node name="RefractionSharpness" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+[node name="Light 1" parent="UI/HBoxContainer/TabContainer/Lighting/TabContainer" instance=ExtResource("19_l42h1")]
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = SubResource("FontVariation_sjns5")
-text = "
-Refraction Sharpness: 
+fields_list_id = 7
+metadata/_tab_index = 0
 
-
-"
-vertical_alignment = 1
-
-[node name="FresnelColor" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+[node name="Light 2" parent="UI/HBoxContainer/TabContainer/Lighting/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Fresnel Color:
+fields_list_id = 7
+light_id = 2
+metadata/_tab_index = 1
 
-
-"
-
-[node name="FresnelFalloff" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
+[node name="General" parent="UI/HBoxContainer/TabContainer/Lighting/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Fresnel Falloff:
-
-
-"
-
-[node name="FresnelIntensity" type="Label" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Names"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/line_spacing = -12
-theme_override_fonts/font = ExtResource("8_rhsly")
-text = "
-Fresnel Intensity:
-
-
-"
-
-[node name="Values" type="VBoxContainer" parent="UI/HBoxContainer/TabContainer/PBR/Fields"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Palette" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("11_ynfe2")]
-layout_mode = 2
-offsets = PackedFloat32Array(0.291, 0.814)
-colors = PackedColorArray(0.60933, 0.60933, 0.60933, 1, 1, 1, 1, 1)
-
-[node name="ColoringMode" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("6_50v3j")]
-layout_mode = 2
-options = Array[String](["Default", "Length", "Length Squared", "Square Root of Length", "Square Root of Length Squared", "Absolute of Length", "Absolute of Length Squared", "Logarithm of Length", "Logarithm of Length Squared", "Exponential Length", "Exponential Length Squared"])
-
-[node name="RefractionIntensity" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 8)
-value = 4.191
-
-[node name="RefractionSharpness" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 200)
-value = 40.0
-
-[node name="FresnelColor" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("10_to5n1")]
-layout_mode = 2
-value = Color(1, 1, 1, 1)
-
-[node name="FresnelFalloff" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 5)
-value = 5.0
-
-[node name="FresnelIntensity" parent="UI/HBoxContainer/TabContainer/PBR/Fields/Values" instance=ExtResource("9_d1f4f")]
-layout_mode = 2
-range = Vector2(1.45519e-11, 2)
-value = 0.004
+fields_list_id = 13
+metadata/_tab_index = 2
 
 [node name="BottomBar" type="TabContainer" parent="UI"]
 layout_mode = 2
@@ -1275,7 +862,7 @@ theme_override_constants/separation = 93
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 5
+theme_override_constants/separation = 0
 
 [connection signal="confirmed" from="FileDialog" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_file_dialog_confirmed"]
 [connection signal="pressed" from="UI/HBoxContainer/MarginContainer/ToolBar/Save" to="UI/HBoxContainer/MarginContainer/ToolBar" method="_on_save_pressed"]
@@ -1290,42 +877,8 @@ theme_override_constants/separation = 5
 [connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/VBoxContainer" to="UI/HBoxContainer/MarginContainer/VBoxContainer" method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" to="UI/HBoxContainer/MarginContainer/VBoxContainer/TextureRect" method="_on_mouse_exited"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/FogColor" to="UI/HBoxContainer/TabContainer" method="_on_fog_color_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/FogDensity" to="UI/HBoxContainer/TabContainer" method="_on_fog_density_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/FogFalloff" to="UI/HBoxContainer/TabContainer" method="_on_fog_falloff_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionSteps" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_steps_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/AmbientOcclusionRadius" to="UI/HBoxContainer/TabContainer" method="_on_ambient_occlusion_radius_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteStrength" to="UI/HBoxContainer/TabContainer" method="_on_vignette_strength_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/VignetteRadius" to="UI/HBoxContainer/TabContainer" method="_on_vignette_radius_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/Glow" to="UI/HBoxContainer/TabContainer" method="_on_glow_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowThreshold" to="UI/HBoxContainer/TabContainer" method="_on_glow_threshold_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowIntensity" to="UI/HBoxContainer/TabContainer" method="_on_glow_intensity_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowFalloff" to="UI/HBoxContainer/TabContainer" method="_on_glow_falloff_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/GlowPalette" to="UI/HBoxContainer/TabContainer" method="_on_glow_palette_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/SuperGlow" to="UI/HBoxContainer/TabContainer" method="_on_super_glow_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/BloomIntensity" to="UI/HBoxContainer/TabContainer" method="_on_bloom_intensity_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Post Processing/Fields/Values/BloomFalloff" to="UI/HBoxContainer/TabContainer" method="_on_bloom_falloff_value_changed"]
 [connection signal="pressed" from="UI/HBoxContainer/TabContainer/Formula/Buttons/AddFormula" to="UI/HBoxContainer/TabContainer" method="_on_add_formula_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/TabContainer/Formula/Buttons/RemoveFormula" to="UI/HBoxContainer/TabContainer" method="_on_remove_formula_pressed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Power" to="UI/HBoxContainer/TabContainer" method="_on_power_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Background" to="UI/HBoxContainer/TabContainer" method="_on_bg_color_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Iterations" to="UI/HBoxContainer/TabContainer" method="_on_iterations_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/MaxSteps" to="UI/HBoxContainer/TabContainer" method="_on_max_steps_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/RaystepMultiplier" to="UI/HBoxContainer/TabContainer" method="_on_raystep_multiplier_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/EscapeRadius" to="UI/HBoxContainer/TabContainer" method="_on_escape_radius_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Color" to="UI/HBoxContainer/TabContainer" method="_on_light1_color_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Color" to="UI/HBoxContainer/TabContainer" method="_on_light2_color_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light1Position" to="UI/HBoxContainer/TabContainer" method="_on_light1_position_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/Light2Position" to="UI/HBoxContainer/TabContainer" method="_on_light2_position_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/SurfaceDistance" to="UI/HBoxContainer/TabContainer" method="_on_surface_distance_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/Rendering/Fields/Values/RelativeEpsilon" to="UI/HBoxContainer/TabContainer" method="_on_relative_epsilon_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/Palette" to="UI/HBoxContainer/TabContainer" method="_on_palette_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/ColoringMode" to="UI/HBoxContainer/TabContainer" method="_on_coloring_mode_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/RefractionIntensity" to="UI/HBoxContainer/TabContainer" method="_on_refraction_intensity_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/RefractionSharpness" to="UI/HBoxContainer/TabContainer" method="_on_refraction_sharpness_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/FresnelColor" to="UI/HBoxContainer/TabContainer" method="_on_fresnel_color_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/FresnelFalloff" to="UI/HBoxContainer/TabContainer" method="_on_fresnel_falloff_value_changed"]
-[connection signal="value_changed" from="UI/HBoxContainer/TabContainer/PBR/Fields/Values/FresnelIntensity" to="UI/HBoxContainer/TabContainer" method="_on_fresnel_intensity_value_changed"]
 [connection signal="tab_changed" from="UI/BottomBar" to="UI/BottomBar" method="_on_tab_changed"]
 [connection signal="pressed" from="UI/BottomBar/Animation/ControlButtons/HBoxContainer/SetTimeStartButton" to="UI/BottomBar/Animation/AnimationTrack" method="_on_set_time_start_button_pressed"]
 [connection signal="pressed" from="UI/BottomBar/Animation/ControlButtons/HBoxContainer/PlayingToggleButton" to="UI/BottomBar/Animation/AnimationTrack" method="_on_playing_toggle_button_pressed"]

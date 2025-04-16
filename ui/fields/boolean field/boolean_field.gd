@@ -12,4 +12,5 @@ func _ready() -> void:
 		$CheckBox.button_pressed = v
 
 func _on_check_box_toggled(toggled_on: bool) -> void:
+	value = toggled_on
 	value_changed.emit(toggled_on)

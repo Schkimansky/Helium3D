@@ -8,23 +8,36 @@ extends SubViewport
 enum AntiAliasing { TAA, FXAA, NONE }
 
 var antialiasing := AntiAliasing.TAA
-var low_scaling := 0.3
-var high_scaling := 0.77
+var low_scaling: float
+var high_scaling: float
 var since_last_dynamic_update := 0.0
 var previous_update_mode: int
+var upscaling: float = 1.0:
+	set(value):
+		upscaling = value
+		%SettingsBar._on_quality_value_changed(%Quality.options[%Quality.index])
+
+func set_upscaling_factor(factor: float) -> void:
+	upscaling = factor
+	if upscaling <= 0.9999:
+		# Make sure TAA is enabled.
+		set_antialiasing(AntiAliasing.TAA)
+	else:
+		%SettingsBar._on_antialiasing_value_changed(%Antialiasing.options[%Antialiasing.index])
 
 func _ready() -> void:
 	since_last_dynamic_update = 0.0
 	set_antialiasing(antialiasing)
-	var black_texture := ImageTexture.new()
-	var image := Image.new()
-	image.create(1, 1, false, Image.FORMAT_RGB8)
-	image.fill(Color(0, 0.001, 0))  # Fill with black color
-	black_texture.create_from_image(image)
-
-	%Fractal.material_override.set_shader_parameter('screen_texture', black_texture)
+	#var black_texture: ImageTexture
+	#var image := Image.new()
+	#image.create(1, 1, false, Image.FORMAT_RGB8)
+	#image.fill(Color(0, 0.0, 0))  # Fill with black color
+	#black_texture = ImageTexture.create_from_image(image)
+#
+	#%Fractal.material_override.set_shader_parameter('previous_frame', black_texture)
 
 func set_antialiasing(target_aa: AntiAliasing) -> void:
+	print('upscaling: ', upscaling)
 	antialiasing = target_aa
 	
 	if target_aa == AntiAliasing.TAA:
@@ -38,15 +51,22 @@ func set_antialiasing(target_aa: AntiAliasing) -> void:
 		screen_space_aa = SCREEN_SPACE_AA_DISABLED
 
 func set_quality(quality: String) -> void:
+	var iupscaling: float = (1.0 - upscaling)
 	if quality == 'performance':
-		low_scaling = 0.3
-		high_scaling = 0.77
+		low_scaling = 0.4
+		high_scaling = 1.0
 	elif quality == 'balanced':
-		low_scaling = 0.65
-		high_scaling = 0.91
+		low_scaling = 0.7
+		high_scaling = 1.0
 	elif quality == 'quality':
 		low_scaling = 1.0
 		high_scaling = 1.0
+	
+	low_scaling -= iupscaling
+	high_scaling -= iupscaling
+	
+	low_scaling = clamp(low_scaling, 0.25, 1.0)
+	high_scaling = clamp(high_scaling, 0.25, 1.0)
 
 func _process(delta: float) -> void:
 	var low_scaling_time: float = 0.75 / Engine.get_frames_per_second()
@@ -74,8 +94,6 @@ func _process(delta: float) -> void:
 	
 	since_last_dynamic_update += delta
 	previous_update_mode = render_target_update_mode
-	
-	%Fractal.material_override.set_shader_parameter('screen_texture', %SubViewport.get_texture())
 
 func refresh_taa() -> void:
 	since_last_dynamic_update = 0.0
@@ -86,7 +104,4 @@ func refresh_taa() -> void:
 		scaling_3d_scale = old_scaling_3d_scale
 
 func refresh_no_taa() -> void:
-	var old: int = render_target_update_mode
-	render_target_update_mode = UPDATE_ALWAYS
-	await get_tree().process_frame
-	render_target_update_mode = old
+	since_last_dynamic_update = 0.0

@@ -1,7 +1,7 @@
 extends Node3D
 
 var fields: Dictionary = {}
-var other_fields: Array = ['total_visible_formula_pages', 'player_position', 'head_rotation', 'camera_rotation', 'bgcoloroffsets', 'bgcolorcolors']
+var other_fields: Array = ['total_visible_formula_pages', 'player_position', 'head_rotation', 'camera_rotation']
 var formulas: Array[Dictionary] = []
 
 func initialize_formulas(path_to_formulas: String) -> void:
@@ -12,14 +12,13 @@ func initialize_formulas(path_to_formulas: String) -> void:
 	for formula_file_path in DirAccess.get_files_at(path_to_formulas):
 		var formula_file: FileAccess = FileAccess.open(path_to_formulas + formula_file_path, FileAccess.READ)
 		var formula_file_contents: String = formula_file.get_as_text()
-		formulas.append(parse_data(formula_file_contents))
+		var data: Dictionary = parse_data(formula_file_contents)
+		formulas.append(data)
 	
 	formulas.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["index"] < b["index"])
 	
 	#for formula in formulas:
-		#var variables: Dictionary = formula['variables']
-		#var id: String = formula['id']
-		#var code: String = formula['code']
+		#print(formula['id'], ' | ', formula['index'])
 
 func parse_data(data: String) -> Dictionary:
 	var result := {}
@@ -122,7 +121,7 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	data = data.duplicate(true)
 	
 	if 'other' not in data:
-		data['other'] = {"keyframes": data.get("keyframes", {}), 'total_visible_formula_pages': data['total_visible_formula_pages'], 'player_position': data['player_position'], 'head_rotation': data['head_rotation'], 'camera_rotation': data['camera_rotation'], 'bgcoloroffsets': data['bgcoloroffsets'], 'bgcolorcolors': data['bgcolorcolors']}
+		data['other'] = {"keyframes": data.get("keyframes", {}), 'total_visible_formula_pages': data['total_visible_formula_pages'], 'player_position': data['player_position'], 'head_rotation': data['head_rotation'], 'camera_rotation': data['camera_rotation']}
 		for other_field_name in (data['other'].keys() as Array[String]):
 			data.erase(other_field_name)
 	
@@ -135,9 +134,9 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	
 	if update_app_fields:
 		#print(fields)
-		var diff: Dictionary = get_dictionary_difference(fields, data) if use_fast_diff else data
+		#var diff: Dictionary = get_dictionary_difference(fields, data) if use_fast_diff else data
 		#print('[INFO] Calc diff: ', diff)
-		update_fields(diff)
+		update_fields(data)
 	
 	if not use_lerp:
 		player.global_position = other_data['player_position']
@@ -150,8 +149,11 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	
 	%TabContainer.total_visible_formulas = other_data.get('total_visible_formulas', count_non_zero(data.get('formulas', [1])))
 	
-	%BloomFalloff.value = other_data.get("bloom_falloff", 0)
-	%BloomIntensity.value = other_data.get("bloom_intensity", 0)
+	#print(other_data)
+	#for value_node in Global.value_nodes:
+		#if value_node.name == 'BloomFall'
+	#['BloomFalloff'].value = other_data.get("bloom_falloff", 0)
+	#%BloomIntensity.value = other_data.get("bloom_intensity", 0)
 	
 	#%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
 	#if 'paletteoffsets' in data:
@@ -191,3 +193,61 @@ func _on_viewport_height_text_changed(new_text: String) -> void:
 		var value: float = float(new_text)
 		%SubViewport.size.y = value
 		%SubViewport.refresh_taa()
+
+func update_fractal_code(current_formulas: Array[int]) -> void:
+	var shader := %Fractal.material_override.shader as Shader
+	var shader_code := shader.code
+	
+	var lines := shader_code.split("\n")
+	var modified_lines := []
+	
+	for i in range(lines.size()):
+		var line: String = lines[i]
+		var is_formula_line := false
+		var is_active_formula := false
+		
+		for formula in current_formulas:
+			if line.ends_with("-@" + str(formula)):
+				is_formula_line = true
+				is_active_formula = true
+				break
+		
+		if not is_active_formula:
+			var regex := RegEx.new()
+			regex.compile("-@\\d+$")
+			if regex.search(line):
+				is_formula_line = true
+		
+		if is_formula_line:
+			if is_active_formula:
+				if line.begins_with("//"):
+					modified_lines.append(line.substr(2))
+				else:
+					modified_lines.append(line)
+			else:
+				if not line.begins_with("//"):
+					modified_lines.append("//" + line)
+				else:
+					modified_lines.append(line)
+		else:
+			modified_lines.append(line)
+	
+	shader.code = "\n".join(modified_lines)
+	%Fractal.material_override.shader = shader
+
+func get_usable_formulas() -> Array[int]:
+	var list := []
+	var shader_code: String = %Fractal.material_override.shader.code
+	var lines: Array = shader_code.split("\n")
+	
+	for line in (lines as Array[String]):
+		# Regular expression to check if line ends with -@ followed by one or more digits
+		var regex := RegEx.new()
+		regex.compile("-@(\\d+)$")
+		var result := regex.search(line)
+		
+		if result:
+			var formula_id := result.get_string(1)  # Extract the digits after -@
+			list.append(int(formula_id))  # Convert to integer and add to list
+	
+	return list

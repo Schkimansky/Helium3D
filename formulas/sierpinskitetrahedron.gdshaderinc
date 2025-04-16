@@ -6,13 +6,15 @@
 // vec3 offset[(-1, -1, -1), (1, 1, 1)] = (1, 1, 1)
 // vec3 rotation1[(-3.14159, -3.14159, -3.14159), (3.14159, 3.14159, 3.14159)] = (0, 0, 0)
 // vec3 rotation2[(-3.14159, -3.14159, -3.14159), (3.14159, 3.14159, 3.14159)] = (0, 0, 0)
+// float scale[1.0, 3.0] = 2.0
 // [CODE]
 uniform vec3 fsierpinskitetrahedron_rotation1;
 uniform vec3 fsierpinskitetrahedron_rotation2;
 uniform vec3 fsierpinskitetrahedron_offset;
+uniform float fsierpinskitetrahedron_scale;
 
-vec2 sierpinskitetrahedron_sdf(vec3 z, float power) {
-	float scale = power;
+vec2 sierpinskitetrahedron_sdf(vec3 z) {
+	float scale = fsierpinskitetrahedron_scale;
 	vec3 offset = fsierpinskitetrahedron_offset;
 	float orbit_trap = 1000000.0;
 	float r;

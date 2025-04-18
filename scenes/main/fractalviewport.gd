@@ -37,7 +37,6 @@ func _ready() -> void:
 	#%Fractal.material_override.set_shader_parameter('previous_frame', black_texture)
 
 func set_antialiasing(target_aa: AntiAliasing) -> void:
-	print('upscaling: ', upscaling)
 	antialiasing = target_aa
 	
 	if target_aa == AntiAliasing.TAA:

@@ -7,9 +7,7 @@ func save_project_data(path: String) -> void:
 		var data: Dictionary = get_tree().current_scene.fields.duplicate(true)
 		var other_data: Dictionary = {}
 		
-		# Add basic parameters to other data
-		#other_data["bloom_falloff"] = %BloomFalloff.value
-		#other_data["bloom_intensity"] = %BloomIntensity.value
+		other_data["app_version"] = get_tree().current_scene.VERSION
 		other_data["total_visible_formula_pages"] = %TabContainer.total_visible_formulas
 		other_data["player_position"] = %Player.global_position
 		other_data["head_rotation"] = %Player.get_node("Head").global_rotation_degrees
@@ -49,6 +47,7 @@ func load_project_data(path: String) -> void:
 		print("loading: ", data)
 		
 		var other_data: Dictionary = data["other"]
+		print(other_data.get('app_version'))
 		
 		# Process gradient texture data - convert to Gradient objects, not GradientTexture1D
 		if other_data.has("gradienttexture1ds"):

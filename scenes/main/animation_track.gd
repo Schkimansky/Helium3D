@@ -11,16 +11,6 @@ var currently_at_frame: float = 0:
 		%Time.position.x = (value / 60 * 133.0) + 60.0
 		#print(%Time.position.x)
 
-func _input(event: InputEvent) -> void:
-	# Animation button shortcuts
-	if %TextureRect.is_holding:
-		return
-	
-	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_Q):
-		%PlayingToggleButton.emit_signal("pressed")
-	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_W):
-		%AddKeyframeButton.emit_signal("pressed")
-
 func _on_playing_toggle_button_pressed() -> void:
 	is_playing = not is_playing
 	

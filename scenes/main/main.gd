@@ -1,11 +1,19 @@
 extends Node3D
 
+# Pseudo-constant variables
+var VERSION := '0.7.3-beta'
+var PHASE := VERSION.split('-')[-1]
+var MAJOR := VERSION.split('.')[0]
+var MINOR := VERSION.split('.')[1]
+var PATCH := VERSION.split('.')[2].split('-')[0]
+
 var fields: Dictionary = {}
 var other_fields: Array = ['total_visible_formula_pages', 'player_position', 'head_rotation', 'camera_rotation']
 var formulas: Array[Dictionary] = []
+var using_dof: bool = false
+var using_tiling: bool = false
 
 func initialize_formulas(path_to_formulas: String) -> void:
-	# Called by formula pages
 	if formulas != []:
 		return
 	
@@ -16,9 +24,6 @@ func initialize_formulas(path_to_formulas: String) -> void:
 		formulas.append(data)
 	
 	formulas.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["index"] < b["index"])
-	
-	#for formula in formulas:
-		#print(formula['id'], ' | ', formula['index'])
 
 func parse_data(data: String) -> Dictionary:
 	var result := {}
@@ -133,45 +138,18 @@ func update_app_state(data: Dictionary, update_app_fields: bool = true, use_lerp
 	data.erase('other')
 	
 	if update_app_fields:
-		#print(fields)
-		#var diff: Dictionary = get_dictionary_difference(fields, data) if use_fast_diff else data
-		#print('[INFO] Calc diff: ', diff)
 		update_fields(data)
 	
-	if not use_lerp:
-		player.global_position = other_data['player_position']
-		head.global_rotation_degrees = other_data['head_rotation']
-		camera.global_rotation_degrees = other_data['camera_rotation']
-	else:
-		player.global_position = player.global_position.lerp(other_data['player_position'], delta)
-		head.global_rotation_degrees = head.global_rotation_degrees.lerp(other_data['head_rotation'], delta)
-		camera.global_rotation_degrees = camera.global_rotation_degrees.lerp(other_data['camera_rotation'], delta)
-	
+	player.global_position = other_data['player_position']
+	head.global_rotation_degrees = other_data['head_rotation']
+	camera.global_rotation_degrees = other_data['camera_rotation']
+
 	%TabContainer.total_visible_formulas = other_data.get('total_visible_formulas', count_non_zero(data.get('formulas', [1])))
-	
-	#print(other_data)
-	#for value_node in Global.value_nodes:
-		#if value_node.name == 'BloomFall'
-	#['BloomFalloff'].value = other_data.get("bloom_falloff", 0)
-	#%BloomIntensity.value = other_data.get("bloom_intensity", 0)
-	
-	#%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Background').set_value(other_data['bgcoloroffsets'], other_data['bgcolorcolors'])
-	#if 'paletteoffsets' in data:
-		#%UI.get_node('HBoxContainer/TabContainer/Rendering/Fields/Values/Palette').set_value(other_data['paletteoffsets'], other_data['palettecolors'])
+	%SubViewport.refresh_taa()
 	
 	if update_keyframes:
 		%AnimationTrack.keyframes = other_data.get('keyframes', {})
 		%AnimationTrack.reload_keyframes()
-
-func get_dictionary_difference(d1: Dictionary, d2: Dictionary) -> Dictionary:
-	var difference := {}
-
-	for key in (d2.keys() as Array[String]):
-		if d1.has(key) and d1[key] != d2[key]:
-			#print("[ALERT] d1 key != d2 key, vals: ", d1[key], ' | ', d2[key])
-			difference[key] = d2[key]
-	
-	return difference
 
 func count_non_zero(numbers: Array) -> int:
 	var count := 0
@@ -232,8 +210,19 @@ func update_fractal_code(current_formulas: Array[int]) -> void:
 		else:
 			modified_lines.append(line)
 	
+	if using_dof:
+		modified_lines[5] = (modified_lines[5] as String).lstrip('/')
+	else:
+		modified_lines[5] = '//' + (modified_lines[5] as String)
+	
+	if using_tiling:
+		modified_lines[6] = (modified_lines[6] as String).lstrip('/')
+	else:
+		modified_lines[6] = '//' + (modified_lines[6] as String)
+	
 	shader.code = "\n".join(modified_lines)
 	%Fractal.material_override.shader = shader
+	print('OUR boolean: ', using_dof)
 
 func get_usable_formulas() -> Array[int]:
 	var list := []
@@ -251,3 +240,19 @@ func get_usable_formulas() -> Array[int]:
 			list.append(int(formula_id))  # Convert to integer and add to list
 	
 	return list
+
+# Shortcuts.
+func _input(event: InputEvent) -> void:
+	# Animation button shortcuts
+	if %TextureRect.is_holding:
+		return
+	
+	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_Q):
+		%PlayingToggleButton.emit_signal("pressed")
+	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_W):
+		%AddKeyframeButton.emit_signal("pressed")
+
+	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_Q):
+		%PlayingToggleButton.emit_signal("pressed")
+	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_W):
+		%AddKeyframeButton.emit_signal("pressed")

@@ -65,8 +65,11 @@ func _ready() -> void:
 			{'name': 'fog_falloff', 'type': 'float', 'from': 0.0, 'to': 4.1, 'default_value': 1.64},
 			{'name': 'fog_color', 'type': 'color', 'default_value': Color(0.5, 0.6, 0.7)},
 		],
-		# Effects / Repeating
+		# Effects / Modifiers
 		10: [
+			{'name': 'cut', 'type': 'bool', 'default_value': false},
+			{'name': 'cut_normal', 'type': 'vec3', 'from': Vector3(0, 0, 0), 'to': Vector3(1, 1, 1), 'default_value': Vector3(0, 1, 0)},
+			{'name': 'cut_position', 'type': 'vec3', 'from': Vector3(-5, -5, -5), 'to': Vector3(5, 5, 5), 'default_value': Vector3(0, 0, 0)},
 			{'name': 'repeat', 'type': 'bool', 'default_value': false},
 			{'name': 'repeat_gap', 'type': 'vec3', 'from': Vector3(0, 0, 0), 'to': Vector3(20, 20, 20), 'default_value': Vector3(5, 5, 5)},
 		],
@@ -104,7 +107,12 @@ func _ready() -> void:
 		],
 		# Effects / DOF
 		5: [
-			{'name': 'dof_enabled', 'type': 'bool', 'default_value': false},
+			{'name': 'dof_enabled', 'type': 'bool', 'default_value': false, 'onchange_override': func(val: bool) -> void: 
+			%Fractal.material_override.set_shader_parameter('dof_enabled', val)
+			get_tree().current_scene.using_dof = val
+			get_tree().current_scene.update_fractal_code(%TabContainer.current_formulas)
+			%SubViewport.refresh_taa()
+			},
 			{'name': 'dof_samples', 'type': 'int', 'from': 1, 'to': 20, 'default_value': 3},
 			{'name': 'dof_focal_distance', 'type': 'float', 'from': 0.0, 'to': 4.0, 'default_value': 1.2},
 			{'name': 'dof_aperture', 'type': 'float', 'from': 0.0, 'to': 0.1, 'default_value': 0.03},
@@ -117,7 +125,7 @@ func _ready() -> void:
 			{'name': 'escape_radius', 'type': 'float', 'from': 0, 'to': 500, 'default_value': 16},
 			{'name': 'max_distance', 'type': 'float', 'from': 0.0, 'to': 100.0, 'default_value': 30.0},
 			{'name': 'raystep_multiplier', 'type': 'float', 'from': 0.01, 'to': 6.0, 'default_value': 1.0},
-			{'name': 'epsilon', 'type': 'float', 'from': 0.000001, 'to': 0.01, 'default_value': 0.001},
+			{'name': 'epsilon', 'type': 'float', 'from': 0.0000001, 'to': 0.01, 'default_value': 0.001},
 			{'name': 'relative_epsilon', 'type': 'bool', 'default_value': true},
 		],
 		# Performance / Upscaling
@@ -127,7 +135,12 @@ func _ready() -> void:
 		],
 		# Performance / Tiling
 		14: [
-			{'name': 'tiled', 'type': 'bool', 'default_value': false},
+			{'name': 'tiled', 'type': 'bool', 'default_value': false, 'onchange_override': func(val: bool) -> void: 
+			%Fractal.material_override.set_shader_parameter('tiled', val)
+			get_tree().current_scene.using_tiling = val
+			get_tree().current_scene.update_fractal_code(%TabContainer.current_formulas)
+			%SubViewport.refresh_taa()
+			},
 			{'name': 'tiles_x', 'type': 'int', 'from': 1, 'to': 32, 'default_value': 4},
 			{'name': 'tiles_y', 'type': 'int', 'from': 1, 'to': 32, 'default_value': 4},
 			{'name': 'current_tile', 'type': 'int', 'from': 0, 'to': 40, 'default_value': 0},

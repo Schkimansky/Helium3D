@@ -121,8 +121,30 @@ vec2 kochcube_sdf(vec3 p){
         s /= 2.0;
         p.xz = abs(p.xz) - s;
 
-        //if (coloring_mode == 0) orbit_trap = min(orbit_trap, s * power);
-		//else orbit_trap = min(orbit_trap, process_orbit_trap(p));
+		//s /= 2.0;
+//
+		//p = abs(p);
+		//p.yz *= sign(p.y + p.z);
+		//p.xz -= s;
+//
+		//if (p.x + p.z <= -s){
+			//p.z += s;
+			//p.xz = -p.zx;
+			//p.z -= s;
+		//}
+//
+		//if (p.y >= p.x + s) {
+			//p.xy = p.yx;
+			//p.x -= s;
+		//}
+//
+		//if (p.x < p.y) p.xy = -p.yx;
+//
+		//s /= 2.0;
+		//p.xz = abs(p.xz) - s;
+
+        if (coloring_mode == 0) orbit_trap = min(orbit_trap, length(s * p));
+		else orbit_trap = min(orbit_trap, process_orbit_trap(p));
     }
 
     float d = length(p);

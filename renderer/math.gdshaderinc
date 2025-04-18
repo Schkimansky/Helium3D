@@ -88,6 +88,36 @@ vec4 rotate4d_point(vec4 p, vec4 rot) {
 	return p;
 }
 
+mat3 rotateX(float angle) {
+    float s = sin(angle);
+    float c = cos(angle);
+    return mat3(
+        vec3(1.0, 0.0, 0.0),
+        vec3(0.0, c, -s),
+        vec3(0.0, s, c)
+    );
+}
+
+mat3 rotateY(float angle) {
+    float s = sin(angle);
+    float c = cos(angle);
+    return mat3(
+        vec3(c, 0.0, s),
+        vec3(0.0, 1.0, 0.0),
+        vec3(-s, 0.0, c)
+    );
+}
+
+mat3 rotateZ(float angle) {
+    float s = sin(angle);
+    float c = cos(angle);
+    return mat3(
+        vec3(c, -s, 0.0),
+        vec3(s, c, 0.0),
+        vec3(0.0, 0.0, 1.0)
+    );
+}
+
 /////////
 // Pow //
 /////////
@@ -103,7 +133,7 @@ vec3 triplex_pow(vec3 v, float n, float phase, float zmul) {
 	return pow(r, n) * vec3(cos(theta) * cos_phi, sin(theta) * cos_phi, sin(phi) * zmul);
 }
 
-vec4 quaternion_pow(vec4 q, float t) {
+vec4 quaternion_pow(vec4 q, float t, float phase, int negative_axis) {
     float qw = q.x;
     float qx = q.y;
     float qy = q.z;
@@ -111,45 +141,55 @@ vec4 quaternion_pow(vec4 q, float t) {
 
     float norm = sqrt(qw*qw + qx*qx + qy*qy + qz*qz);
 
-    if (norm < 1e-6) {
-        return vec4(0.0, 0.0, 0.0, 0.0);
-    }
-
-    if (abs(qw - norm) < 1e-6 && abs(qx) < 1e-6 && abs(qy) < 1e-6 && abs(qz) < 1e-6) {
-        return vec4(pow(norm, t), 0.0, 0.0, 0.0);
-    }
+    if (norm < 1e-6) return vec4(0.0, 0.0, 0.0, 0.0);
+    if (abs(qw - norm) < 1e-6 && abs(qx) < 1e-6 && abs(qy) < 1e-6 && abs(qz) < 1e-6) return vec4(pow(norm, t), 0.0, 0.0, 0.0);
 
     vec4 qNormalized = q / norm;
     float wNormalized = qNormalized.x;
 
-    float theta = acos(wNormalized);
+    float theta = acos(wNormalized) + phase;
     float vectorMagnitude = sqrt(1.0 - wNormalized*wNormalized);
-
     const float EPSILON = 1e-6;
 
     vec3 unitVector;
     if (vectorMagnitude < EPSILON) {
         unitVector = vec3(1.0, 0.0, 0.0);
     } else {
-        unitVector = vec3(qNormalized.y, qNormalized.z, qNormalized.w) / vectorMagnitude;
+		if (negative_axis == 3) unitVector = vec3(qNormalized.y, -qNormalized.z, qNormalized.w) / vectorMagnitude;
+		if (negative_axis == 2) unitVector = vec3(-qNormalized.y, qNormalized.z, qNormalized.w) / vectorMagnitude;
+		else unitVector = vec3(qNormalized.y, qNormalized.z, qNormalized.w) / vectorMagnitude;
     }
 
     float newW = pow(norm, t) * cos(t * theta);
+	if (negative_axis == 0) newW = -newW;
     vec3 newVector = pow(norm, t) * sin(t * theta) * unitVector;
 
     return vec4(newW, newVector.x, newVector.y, newVector.z);
 }
 
-vec3 sphereInversion(vec3 p, vec3 center, float radius) {
-    vec3 delta = p - center;
-    float distSq = dot(delta, delta);
-    return center + (radius * radius / distSq) * delta;
+vec4 bicomplex_mult(vec4 a, vec4 b) {
+	return vec4(
+		a.x * b.x - a.y * b.y - a.z * b.z + a.w * b.w,
+		a.x * b.y + a.y * b.x - a.z * b.w - a.w * b.z,
+		a.x * b.z + a.z * b.x - a.y * b.w - a.w * b.y,
+		a.x * b.w + a.w * b.x + a.y * b.z + a.z * b.y
+	);
+}
+
+vec4 bicomplex_pow(vec4 z, float p) {
+	vec4 res = z;
+	int int_power = int(p) - 1;
+
+	for (int i = 0; i < int_power; i++) res = bicomplex_mult(res, z);
+
+	return res;
 }
 
 ////////////////
 // Primitives //
 ////////////////
 
+float sphere_sdf2d(vec2 p, vec2 sphere_position, float radius) { return length(p - sphere_position) - radius; }
 float sphere_sdf3d(vec3 p, vec3 sphere_position, float radius) { return length(p - sphere_position) - radius; }
 float sphere_sdf4d(vec4 p, vec4 sphere_position, float radius) { return length(p - sphere_position) - radius; }
 float cube_sdf3d(vec3 p, vec3 s) { vec3 q = abs(p) - s; return length(max(q, 0.0)); }

@@ -1,6 +1,11 @@
 shader_type spatial;
 render_mode unshaded;
 
+// Disabled when possible to reduce shader compilation times.
+// Line numbers for these 2 lines must stay the same.
+//#define USING_DOF
+//#define USING_TILING
+
 // Effects / DOF
 uniform bool dof_enabled = false;
 uniform int dof_samples = 3;
@@ -62,9 +67,12 @@ uniform float outline_intensity: hint_range(0.0, 5.0) = 1.0;
 uniform float outline_threshold: hint_range(0.0, 100.0) = 30.0;
 uniform float outline_falloff: hint_range(1.0, 10.0) = 2.0;
 uniform bool outline = false;
-// Effects / Repeating
+// Effects / Modifiers
 uniform vec3 repeat_gap = vec3(2.0);
 uniform bool repeat = false;
+uniform bool cut = false;
+uniform vec3 cut_normal = vec3(0.0, 1.0, 0.0);
+uniform vec3 cut_position = vec3(0.0, 0.0, 0.0);
 // Performance
 uniform bool tiled = false;
 uniform int tiles_x = 4;
@@ -91,7 +99,7 @@ uniform int current_tile = 0; // first tile by default
 #include "res://formulas/kaliredux.gdshaderinc"
 #include "res://formulas/quadratickoch.gdshaderinc"
 #include "res://formulas/kaliliving.gdshaderinc"
-#include "res://formulas/newtonbulb.gdshaderinc"
+#include "res://formulas/newton.gdshaderinc"
 
 vec2 single_fractal_sdf(int formula, vec3 p) {
 	if (repeat && repeat_gap.x >= 0.000001) p.x = mod(p.x + 0.5 * repeat_gap.x, repeat_gap.x) - 0.5 * repeat_gap.x;
@@ -101,7 +109,7 @@ vec2 single_fractal_sdf(int formula, vec3 p) {
 	// Edited at runtime.
 //return kaliliving_sdf(p); //-@17
 //return quadratickoch_sdf(p); //-@16
-//return newtonbulb_sdf(p); //-@15
+//return newton_sdf(p); //-@15
 //return kochcube_sdf(p); //-@14
 //return kaliredux_sdf(p); //-@13
 //return spheretree_sdf(p); //-@12
@@ -121,7 +129,12 @@ vec2 single_fractal_sdf(int formula, vec3 p) {
 }
 
 vec2 scene_sdf(vec3 p) {
-	return single_fractal_sdf(formulas[0], p).yx;
+	vec2 data = single_fractal_sdf(formulas[0], p);
+	
+	// Slice the fractal if needed.
+	if (cut) data.x = max(data.x, dot(p + cut_position, normalize(cut_normal)));
+	
+	return data.yx;
 }
 
 #include "lighting/ambient_occlusion.gdshaderinc"
@@ -138,7 +151,10 @@ vec3 ray_marcher(vec3 ro, vec3 rd) {
 		total_marches += 1.0;
 
 		float calc_epsilon = relative_epsilon ? epsilon / 3.4 * dfo : epsilon;
-		if (point_distance < calc_epsilon || dfo > max_distance) {
+		if (point_distance < 0.0) {
+			// Refine DE
+			dfo += point_distance * 1.2;
+		} else if (point_distance < calc_epsilon || dfo > max_distance) {
 			orbit_trap_distance = data.x;
 			break;
 		};
@@ -233,6 +249,7 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv, vec2 fragCo
 
 	if (!dof_enabled) return render_single_ray(ray_origin, ray_dir, screen_uv, projection_matrix, view_matrix);
 
+#ifdef USING_DOF
 	vec3 cameraDir = ray_dir;
 	vec3 cameraX = normalize(cross(vec3(0.0, 1.0, 0.0), cameraDir));
 	vec3 cameraY = normalize(cross(cameraDir, cameraX));
@@ -242,7 +259,7 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv, vec2 fragCo
 	for (int i = 0; i < dof_samples; i++) {
 		float sampleSeed = baseSeed + float(i) / float(dof_samples);
 		vec2 pixelOffset = hash2(sampleSeed * 42.0) - 0.5;
-		pixelOffset *= 0.5 / resolution;
+		pixelOffset *= float(dof_samples) / resolution;
 
 		vec2 jitteredUV = screen_uv + pixelOffset;
 		vec3 baseRd = ray_dir;
@@ -258,12 +275,16 @@ vec3 calculate_albedo(vec3 ray_origin, vec3 ray_dir, vec2 screen_uv, vec2 fragCo
 
 	vec3 finalColor = colorTotal / float(dof_samples);
 	return finalColor;
+#else
+	return vec3(0.0);
+#endif
 }
 
 void fragment() {
 	vec3 ro = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION_WORLD, 1.0)).xyz;
 	vec3 rd = normalize(vertex_ls - ro);
 
+#ifdef USING_TILING
 	if (tiled) {
 		float total_tiles = float(tiles_x * tiles_y);
 		vec2 tile_size = 1.0 / vec2(float(tiles_x), float(tiles_y));
@@ -282,4 +303,7 @@ void fragment() {
 	} else {
 		ALBEDO = calculate_albedo(ro, rd, SCREEN_UV, FRAGCOORD.xy, VIEWPORT_SIZE, PROJECTION_MATRIX, VIEW_MATRIX);
 	}
+#else
+	ALBEDO = calculate_albedo(ro, rd, SCREEN_UV, FRAGCOORD.xy, VIEWPORT_SIZE, PROJECTION_MATRIX, VIEW_MATRIX);
+#endif
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://coqv5flg782mg"]
+[gd_scene load_steps=46 format=3 uid="uid://coqv5flg782mg"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_yss2u"]
 [ext_resource type="Script" path="res://scenes/main/fractalviewport.gd" id="2_2kstx"]
@@ -22,19 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://em4me5v5s48x" path="res://resources/icons/circle.svg" id="22_an3xl"]
 [ext_resource type="Script" path="res://scenes/main/current_time.gd" id="22_s3o3g"]
 
-[sub_resource type="Gradient" id="Gradient_ygv5l"]
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_8fh27"]
-gradient = SubResource("Gradient_ygv5l")
-
-[sub_resource type="Gradient" id="Gradient_6ktut"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_c67t3"]
-gradient = SubResource("Gradient_6ktut")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pfrgc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ul884"]
 render_priority = 0
 shader = ExtResource("3_4yvvm")
 shader_parameter/dof_enabled = false
@@ -61,7 +49,7 @@ shader_parameter/raystep_multiplier = 1.0
 shader_parameter/epsilon = 3e-06
 shader_parameter/relative_epsilon = false
 shader_parameter/escape_radius = null
-shader_parameter/formulas = PackedInt32Array()
+shader_parameter/formulas = null
 shader_parameter/ambient_occlusion_steps = 6
 shader_parameter/ambient_occlusion_radius = 0.5
 shader_parameter/ambient_occlusion_brightness = 0.0
@@ -71,9 +59,9 @@ shader_parameter/is_exponential = true
 shader_parameter/fog_color = Color(0.5, 0.6, 0.7, 1)
 shader_parameter/fog_density = 0.01
 shader_parameter/fog_falloff = 1.64
-shader_parameter/fresnel_color = Vector3(1.45519e-11, 1.45519e-11, 1.45519e-11)
+shader_parameter/fresnel_color = Vector3(0, 0.7, 1)
 shader_parameter/fresnel_falloff = 5.0
-shader_parameter/fresnel_intensity = 1.45519e-11
+shader_parameter/fresnel_intensity = 0.0045
 shader_parameter/tone_mapping = 0
 shader_parameter/exposure = 1.0
 shader_parameter/gamma = 2.2
@@ -84,19 +72,21 @@ shader_parameter/outline_falloff = 2.0
 shader_parameter/outline = false
 shader_parameter/repeat_gap = Vector3(2, 2, 2)
 shader_parameter/repeat = false
+shader_parameter/cut = false
+shader_parameter/cut_normal = Vector3(0, 1, 0)
+shader_parameter/cut_position = Vector3(0, 0, 0)
 shader_parameter/tiled = false
 shader_parameter/tiles_x = 4
 shader_parameter/tiles_y = 4
 shader_parameter/current_tile = 0
 shader_parameter/fmandelbulb_derivative_bias = null
+shader_parameter/fmandelbulb_triplex_mode = null
+shader_parameter/fmandelbulb_quaternion_mode = null
 shader_parameter/fmandelbulb_power = null
-shader_parameter/fmandelbulb_variant = null
 shader_parameter/fmandelbulb_phase = null
-shader_parameter/fmandelbulb_pheonix = null
-shader_parameter/fmandelbulb_zmul = null
-shader_parameter/fmandelbulb_is_4d = null
 shader_parameter/fmandelbulb_is_julia = null
 shader_parameter/fmandelbulb_julia_c = null
+shader_parameter/fmandelbulb_number_system = null
 shader_parameter/fkochcube_variant = 0
 shader_parameter/fkochcube_first_zrev = true
 shader_parameter/fkochcube_pxyzminuss = false
@@ -107,8 +97,8 @@ shader_parameter/fkochcube_sphere_inversion = false
 shader_parameter/fkochcube_sphere_inversion_position = Vector3(1, 0, 0)
 shader_parameter/fkochcube_sphere_inversion_radius = 1.0
 shader_parameter/fmandelbox_scale = null
-shader_parameter/fmandelbox_radius1 = 1.6
-shader_parameter/fmandelbox_radius2 = 0.4
+shader_parameter/fmandelbox_radius1 = null
+shader_parameter/fmandelbox_radius2 = null
 shader_parameter/fmandelbox_box_folds = null
 shader_parameter/fsierpinskitetrahedron_rotation1 = null
 shader_parameter/fsierpinskitetrahedron_rotation2 = null
@@ -171,27 +161,13 @@ shader_parameter/fkaliliving_c = null
 shader_parameter/fkaliliving_rotation1 = null
 shader_parameter/fkaliliving_rotation2 = null
 shader_parameter/fkaliliving_scale = null
-shader_parameter/fnewtonbulb_power = null
-shader_parameter/fnewtonbulb_solution = null
-shader_parameter/fnewtonbulb_factor_phi = 1.0
-shader_parameter/fnewtonbulb_factor_theta = 1.0
-shader_parameter/fnewtonbulb_fake_bailout = 1.0
-shader_parameter/fnewtonbulb_de_scale1 = null
-shader_parameter/fnewtonbulb_de_offset1 = null
-shader_parameter/fnewtonbulb_offset = 0.0001
-shader_parameter/fnewtonbulb_bailout = 4.0
-shader_parameter/fnewtonbulb_julia = null
-shader_parameter/fnewtonbulb_julia_c = null
-shader_parameter/fnewtonbulb_enable_pre_folding = null
-shader_parameter/fnewtonbulb_pre_angle_xyz = null
-shader_parameter/fnewtonbulb_pre_folding = null
-shader_parameter/fnewtonbulb_enable_post_folding = null
-shader_parameter/fnewtonbulb_post_angle_xyz = null
-shader_parameter/fnewtonbulb_post_folding = null
-shader_parameter/palette = SubResource("GradientTexture1D_c67t3")
-shader_parameter/bg_color = SubResource("GradientTexture1D_8fh27")
+shader_parameter/fnewton_pole1 = null
+shader_parameter/fnewton_pole2 = null
+shader_parameter/fnewton_pole3 = null
+shader_parameter/fnewton_invsphere = null
+shader_parameter/fnewton_invert = null
 
-[sub_resource type="BoxMesh" id="BoxMesh_l4q0o"]
+[sub_resource type="BoxMesh" id="BoxMesh_eu6rh"]
 size = Vector3(4000, 4000, -4000)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_suufn"]
@@ -301,7 +277,7 @@ access = 2
 [node name="SubViewport" type="SubViewport" parent="."]
 unique_name_in_owner = true
 scaling_3d_mode = 2
-fsr_sharpness = 0.0
+fsr_sharpness = 2.0
 size = Vector2i(450, 450)
 render_target_clear_mode = 1
 render_target_update_mode = 4
@@ -309,11 +285,8 @@ script = ExtResource("2_2kstx")
 
 [node name="Fractal" type="MeshInstance3D" parent="SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-material_override = SubResource("ShaderMaterial_pfrgc")
-cast_shadow = 0
-mesh = SubResource("BoxMesh_l4q0o")
-skeleton = NodePath("../..")
+material_override = SubResource("ShaderMaterial_ul884")
+mesh = SubResource("BoxMesh_eu6rh")
 
 [node name="Player" type="CharacterBody3D" parent="SubViewport"]
 unique_name_in_owner = true
@@ -632,59 +605,53 @@ metadata/_tab_index = 2
 [node name="TabContainer" type="TabContainer" parent="UI/HBoxContainer/TabContainer/Effects"]
 layout_mode = 2
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_5by50")
-current_tab = 2
-
-[node name="AO" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
-visible = false
-layout_mode = 2
-fields_list_id = 6
-metadata/_tab_index = 0
+current_tab = 1
 
 [node name="Bloom" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 3
-metadata/_tab_index = 1
+metadata/_tab_index = 0
 
 [node name="Outline" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 layout_mode = 2
-metadata/_tab_index = 2
+metadata/_tab_index = 1
 
 [node name="Fresnel" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 11
-metadata/_tab_index = 3
+metadata/_tab_index = 2
 
 [node name="Vignette" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 8
-metadata/_tab_index = 4
+metadata/_tab_index = 3
 
 [node name="Fog" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 9
-metadata/_tab_index = 5
+metadata/_tab_index = 4
 
 [node name="Tone Mapping" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 4
-metadata/_tab_index = 6
+metadata/_tab_index = 5
 
 [node name="DOF" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 5
-metadata/_tab_index = 7
+metadata/_tab_index = 6
 
-[node name="Repeating" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
+[node name="Modifiers" parent="UI/HBoxContainer/TabContainer/Effects/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 10
-metadata/_tab_index = 8
+metadata/_tab_index = 7
 
 [node name="Performance" type="MarginContainer" parent="UI/HBoxContainer/TabContainer"]
 visible = false
@@ -737,11 +704,17 @@ fields_list_id = 7
 light_id = 2
 metadata/_tab_index = 1
 
+[node name="AO" parent="UI/HBoxContainer/TabContainer/Lighting/TabContainer" instance=ExtResource("19_l42h1")]
+visible = false
+layout_mode = 2
+fields_list_id = 6
+metadata/_tab_index = 2
+
 [node name="General" parent="UI/HBoxContainer/TabContainer/Lighting/TabContainer" instance=ExtResource("19_l42h1")]
 visible = false
 layout_mode = 2
 fields_list_id = 13
-metadata/_tab_index = 2
+metadata/_tab_index = 3
 
 [node name="BottomBar" type="TabContainer" parent="UI"]
 layout_mode = 2

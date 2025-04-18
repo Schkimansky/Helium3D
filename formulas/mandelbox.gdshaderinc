@@ -42,7 +42,7 @@ vec2 mandelbox_sdf(vec3 p) {
 		if (length(fmandelbox_box_folds.x) >= 0.0001) boxFold(z, vec3(fmandelbox_box_folds.x));
 		if (length(fmandelbox_box_folds.y) >= 0.0001) boxFold(z, vec3(fmandelbox_box_folds.y));
 		if (length(fmandelbox_box_folds.z) >= 0.0001) boxFold(z, vec3(fmandelbox_box_folds.z));
-		z.xz = abs(z.xz + 0.3) - abs(z.xz - 1.0) - z.xz;
+		//z.xz = abs(z.xz + 0.3) - abs(z.xz - 1.0) - z.xz;
 		sphereFold(z, dz);
 		z *= fmandelbox_scale;
 		z += c;

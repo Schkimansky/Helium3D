@@ -222,7 +222,6 @@ func update_fractal_code(current_formulas: Array[int]) -> void:
 	
 	shader.code = "\n".join(modified_lines)
 	%Fractal.material_override.shader = shader
-	print('OUR boolean: ', using_dof)
 
 func get_usable_formulas() -> Array[int]:
 	var list := []
@@ -249,10 +248,15 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_Q):
 		%PlayingToggleButton.emit_signal("pressed")
-	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_W):
+	elif Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_W):
 		%AddKeyframeButton.emit_signal("pressed")
 
-	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_Q):
-		%PlayingToggleButton.emit_signal("pressed")
-	if Input.is_key_pressed(KEY_TAB) and Input.is_key_pressed(KEY_W):
-		%AddKeyframeButton.emit_signal("pressed")
+	if Input.is_action_just_pressed('shortcut save all'):
+		%SaveAll.pressed.emit()
+	elif Input.is_action_just_pressed('shortcut save image'):
+		%SavePicture.pressed.emit()
+	elif Input.is_action_just_pressed('shortcut save project'):
+		%Save.pressed.emit()
+	
+	if Input.is_action_just_pressed('shortcut load'):
+		%Load.pressed.emit()

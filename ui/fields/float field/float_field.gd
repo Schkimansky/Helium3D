@@ -13,7 +13,9 @@ signal value_changed(to: float)
 	set(v):
 		value = v
 		$HSlider.set_value_no_signal(value)
+		var old_text_column: int = $LineEdit.caret_column
 		$LineEdit.text = format_float(v)
+		$LineEdit.caret_column = old_text_column
 
 func format_float(float_value: float) -> String:
 	return ("%0." + str(precision) + "f") % float_value

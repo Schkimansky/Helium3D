@@ -25,7 +25,7 @@ vec2 bairddelta_sdf(vec3 p) {
 	float orbit_trap = 10000.0;
 	float r2 = dot(p, p);
 	float s = 1.0;
-	
+
 	for (int i = 0; i < iterations; i++) {
 		p = rotate3d_point(p, fbairddelta_rotation1);
 

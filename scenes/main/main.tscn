@@ -340,7 +340,11 @@ theme_override_constants/separation = 0
 script = ExtResource("5_og0rs")
 
 [node name="Save" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Shortcut: Ctrl + shift + s
+MacOS Shortcut: Cmd + shift + s
+"
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p0jhq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vjvc1")
@@ -349,7 +353,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
 text = " Save Project"
 
 [node name="SavePicture" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Shortcut: Ctrl + shift + x
+MacOS Shortcut: Cmd + shift + x
+"
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p0jhq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vjvc1")
@@ -358,7 +366,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
 text = " Save Picture "
 
 [node name="SaveAll" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Shortcut: Ctrl + s
+MacOS Shortcut: Cmd + s
+"
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p0jhq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vjvc1")
@@ -367,7 +379,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dw2n5")
 text = " Save All "
 
 [node name="Load" type="Button" parent="UI/HBoxContainer/MarginContainer/ToolBar"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Shortcut: Ctrl + o
+MacOS Shortcut: Cmd + o
+"
 theme_override_fonts/font = ExtResource("8_rhsly")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p0jhq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vjvc1")

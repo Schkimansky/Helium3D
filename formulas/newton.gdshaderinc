@@ -56,9 +56,9 @@ float newton_sdf2d(vec2 z0) {
 			float e = complex_abs(z - zeros[i]);
 			if (e < eps) {
 				float de = e * -log(e) / length(dz);
-				de = min(de, sphere_sdf2d(z0, fnewton_pole1.xy, 0.3));
-				de = min(de, sphere_sdf2d(z0, fnewton_pole2.xy, 0.3));
-				de = min(de, sphere_sdf2d(z0, fnewton_pole3.xy, 0.3));
+				//de = min(de, sphere_sdf2d(z0, fnewton_pole1.xy, 0.3));
+				//de = min(de, sphere_sdf2d(z0, fnewton_pole2.xy, 0.3));
+				//de = min(de, sphere_sdf2d(z0, fnewton_pole3.xy, 0.3));
 				return de;
 			}
 		}
@@ -103,7 +103,7 @@ vec2 newton_sdf(vec3 p) {
 		q = (fnewton_invsphere.w * fnewton_invsphere.w / d2) * q;
 		q += fnewton_invsphere.xyz;
 	}
-	
+
 	float de = sqrt(pow(newton_sdf2d(q.xy), 2.0) + pow(q.z, 3.0));
 
 	if (fnewton_invert) de = de * d2 / (fnewton_invsphere.w + d * de);

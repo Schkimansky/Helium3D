@@ -33,6 +33,74 @@ func set_bloom_falloff(to: float) -> void:
 	world.environment.glow_strength = to
 	%SubViewport.refresh_taa()
 
+func compute_tiled_render() -> void:
+	var current_tile_node: Node
+	var tiles_x_node: Node
+	var tiles_y_node: Node
+	for value_node in Global.value_nodes:
+		if value_node.name == 'CurrentTile': current_tile_node = value_node
+		if value_node.name == 'TilesX': tiles_x_node = value_node
+		if value_node.name == 'TilesY': tiles_y_node = value_node
+	
+	if not current_tile_node || not tiles_x_node || not tiles_y_node:
+		return
+	
+	var tiles_x: int = tiles_x_node.value
+	var tiles_y: int = tiles_y_node.value
+	var total_tiles: int = tiles_x * tiles_y
+	
+	current_tile_node.value = 0
+	await get_tree().process_frame
+	
+	var images: Array[Image] = []
+	var tile_paths: Array[String] = []
+	
+	for i in total_tiles:
+		current_tile_node.value = i
+		await get_tree().process_frame
+		var texture: Texture = %TextureRect.texture
+		var image: Image = texture.get_image()
+		var path: String = "res://tilerender/tile_" + str(i) + ".png"
+		image.save_png(path)
+		images.append(image)
+		tile_paths.append(path)
+	
+	var img_width: int = images[0].get_width()
+	var img_height: int = images[0].get_height()
+	
+	var final_image: Image = images[0]
+	
+	for y in tiles_y:
+		for x in tiles_x:
+			var idx: int = y * tiles_x + x
+			if idx < images.size():
+				var tile_width: int = img_width / tiles_x
+				var tile_height: int = img_height / tiles_y
+				
+				var src_rect: Rect2i = Rect2i(
+					x * tile_width, 
+					y * tile_height, 
+					tile_width, 
+					tile_height
+				)
+				
+				var dst_pos: Vector2i = Vector2i(
+					x * tile_width,
+					y * tile_height
+				)
+				
+				final_image.blend_rect(images[idx], src_rect, dst_pos)
+	
+	final_image.save_png("res://tilerender/combined.png")
+	
+	# Cleanup tile images
+	var dir := DirAccess.open("res://")
+	for path in tile_paths:
+		if dir.file_exists(path):
+			dir.remove(path)
+	
+	print("Tiled render complete. Individual tiles cleaned up.")
+
 func _ready() -> void:
 	var l: String = str(light_id)
 	var ALL_FIELD_CONTAINER_FIELDS := {
@@ -140,6 +208,8 @@ func _ready() -> void:
 			get_tree().current_scene.using_tiling = val
 			get_tree().current_scene.update_fractal_code(%TabContainer.current_formulas)
 			%SubViewport.refresh_taa()
+			if val:
+				compute_tiled_render()
 			},
 			{'name': 'tiles_x', 'type': 'int', 'from': 1, 'to': 32, 'default_value': 4},
 			{'name': 'tiles_y', 'type': 'int', 'from': 1, 'to': 32, 'default_value': 4},
